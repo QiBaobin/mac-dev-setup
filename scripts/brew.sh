@@ -6,7 +6,7 @@ mkdir homebrew && curl -L https://github.com/Homebrew/brew/tarball/master | tar 
 
 mkdir "$HOME/Applications"
 export HOMEBREW_CASK_OPTS="--appdir=$HOME/Applications"
-export PATH="$HOME/homebrew/bin:$JAVA_HOME/bin:$PATH"
+export PATH="$HOME/homebrew/bin:$PATH"
 brew install tmux ispell pandoc openssl git emacs
 
 brew cask install amethyst alacritty firefox android-studio
