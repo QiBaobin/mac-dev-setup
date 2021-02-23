@@ -9,4 +9,11 @@ export HOMEBREW_CASK_OPTS="--appdir=$HOME/Applications"
 export PATH="$HOME/homebrew/bin:$PATH"
 brew install tmux ispell pandoc openssl git emacs
 
-brew cask install amethyst alacritty firefox android-studio
+brew cask install alacritty firefox android-studio
+
+cp -v ../configs/.skhdrc ../configs/.yabairc ~/
+brew install koekeishiya/formulae/yabai
+brew services start yabai
+
+brew install koekeishiya/formulae/skhd
+brew services start skhd
