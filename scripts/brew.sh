@@ -7,7 +7,7 @@ mkdir homebrew && curl -L https://github.com/Homebrew/brew/tarball/master | tar 
 mkdir "$HOME/Applications"
 export HOMEBREW_CASK_OPTS="--appdir=$HOME/Applications"
 export PATH="$HOME/homebrew/bin:$PATH"
-brew install tmux ispell pandoc openssl git emacs
+brew install tmux ispell pandoc openssl git
 
 brew cask install alacritty firefox android-studio
 
@@ -17,3 +17,5 @@ brew services start yabai
 
 brew install koekeishiya/formulae/skhd
 brew services start skhd
+
+curl -L -O 'https://github.com/railwaycat/homebrew-emacsmacport/releases/download/emacs-27.1-mac-8.1/emacs-27.1-mac-8.1-10.14.6.zip' && unzip emacs*.zip && mkdir ~/Applications; mv Emacs.app ~/Applications/
