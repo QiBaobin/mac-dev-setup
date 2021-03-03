@@ -18,4 +18,4 @@ brew services start yabai
 brew install koekeishiya/formulae/skhd
 brew services start skhd
 
-curl -L -O 'https://github.com/railwaycat/homebrew-emacsmacport/releases/download/emacs-27.1-mac-8.1/emacs-27.1-mac-8.1-10.14.6.zip' && unzip emacs*.zip && mkdir ~/Applications; mv Emacs.app ~/Applications/
+brew tap railwaycat/emacsmacport && brew install emacs-mac --with-modules
