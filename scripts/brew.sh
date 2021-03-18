@@ -18,4 +18,5 @@ brew services start yabai
 brew install koekeishiya/formulae/skhd
 brew services start skhd
 
+brew install alt-tab
 brew tap railwaycat/emacsmacport && brew install emacs-mac --with-modules
