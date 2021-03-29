@@ -20,3 +20,7 @@ brew services start skhd
 
 brew install alt-tab
 brew tap railwaycat/emacsmacport && brew install emacs-mac --with-modules
+
+brew install neovim --HEAD
+bash <(curl -s https://raw.githubusercontent.com/ChristianChiarulli/nvim/master/utils/installer/install.sh)
+
