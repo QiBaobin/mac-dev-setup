@@ -7,7 +7,9 @@ mkdir homebrew && curl -L https://github.com/Homebrew/brew/tarball/master | tar 
 mkdir "$HOME/Applications"
 export HOMEBREW_CASK_OPTS="--appdir=$HOME/Applications"
 export PATH="$HOME/homebrew/bin:$PATH"
-brew install tmux ispell pandoc openssl git
+brew install tmux ispell pandoc openssl git ranger
+
+brew install neovim --HEAD
 
 brew cask install alacritty firefox android-studio
 
@@ -20,7 +22,3 @@ brew services start skhd
 
 brew install alt-tab
 brew tap railwaycat/emacsmacport && brew install emacs-mac --with-modules
-
-brew install neovim --HEAD
-bash <(curl -s https://raw.githubusercontent.com/ChristianChiarulli/nvim/master/utils/installer/install.sh)
-

@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-./brew.sh
-./zsh.sh
-./rust.sh
-./emacs.sh
+dir=$(dirname $0)
+for entry in "$dir"/*
+do
+    if [[ $entry != $0 ]]; then
+	bash "$entry"
+    fi
+done
+
