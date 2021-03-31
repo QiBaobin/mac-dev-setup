@@ -5,7 +5,7 @@ dir=$(dirname $0)
 for entry in "$dir"/*
 do
     if [[ $entry != $0 ]]; then
-	bash "$entry"
+	source "$entry"
     fi
 done
 
