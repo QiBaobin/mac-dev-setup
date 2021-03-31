@@ -1,5 +1,6 @@
 set shiftwidth=4
-set nu
+set relativenumber number
+set hidden
 let mapleader      = ' '
 let maplocalleader = ' '
 
@@ -7,11 +8,10 @@ if executable("rg")
   set grepprg=rg\ --vimgrep\ --smart-case\ --follow
 endif
 
-" Specify a directory for plugins
-" - For Neovim: stdpath('data') . '/plugged'
-" - Avoid using standard Vim directory names like 'plugin'
 call plug#begin('~/.vim/plugged')
 
+Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
+    nnoremap <silent> <Leader>r :Clap registers<CR>
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
     function! s:build_quickfix_list(lines)
@@ -28,7 +28,6 @@ Plug 'junegunn/fzf.vim'
     let $FZF_DEFAULT_OPTS = '-m --bind ctrl-a:select-all'
     nnoremap <silent> <Leader>b :Buffers<CR>
     nnoremap <silent> <Leader>f :Files<CR>
-    nnoremap <silent> <Leader>s :Rg<CR>
     nnoremap <silent> <Leader>/ :BLines<CR>
     nnoremap <silent> <Leader>' :Marks<CR>
     nnoremap <silent> <Leader>H :Helptags<CR>
@@ -37,27 +36,31 @@ Plug 'junegunn/fzf.vim'
     nnoremap <silent> <Leader>h/ :History/<CR>
 
 Plug 'tpope/vim-fugitive'
-    nmap     <Leader>g :Gstatus<CR>gg<c-n>
-    nnoremap <Leader>d :Gdiff<CR>
+    nmap     <Leader>g :Git<CR>gg<c-n>
+    nnoremap <Leader>d :Gdiffsplit<CR>
 Plug 'tpope/vim-commentary'
     map  gc  <Plug>Commentary
     nmap gcc <Plug>CommentaryLine
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-dispatch'
+    nnoremap <Leader>: :Dispatch<space>
+    nnoremap <Leader>& :Dispatch!<space>
 Plug 'jiangmiao/auto-pairs'
 
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
     let g:deoplete#enable_at_startup = 1
 
 Plug 'udalov/kotlin-vim'
-Plug 'rust-lang/rust.vim'
 
 Plug 'autozimu/LanguageClient-neovim', {
     \ 'branch': 'next',
     \ 'do': 'bash install.sh',
     \ }
-let g:LanguageClient_serverCommands = {
-    \ 'rust': ['rust-analyzer'],
-    \ }
+    let g:LanguageClient_serverCommands = {
+	\ 'rust': ['rust-analyzer'],
+	\ }
+    nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+    autocmd FileType rust nnoremap <buffer> gq :call LanguageClient#textDocument_formatting()<CR>
 
 Plug 'vim-airline/vim-airline'
     let g:airline#extensions#tabline#enabled = 1
