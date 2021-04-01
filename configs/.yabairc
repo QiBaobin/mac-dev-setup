@@ -12,6 +12,7 @@ yabai -m config active_window_opacity 1.0
 yabai -m config normal_window_opacity 0.8
 
 yabai -m rule --add app="^Emacs$" manage=on space=2
+yabai -m rule --add app="^WezTerm$" manage=on space=2
 yabai -m rule --add app="^Android Studio$"  space=2
 yabai -m rule --add app="^Alacritty$"  space=2
 yabai -m rule --add app="^Microsoft Outlook$" space=3
