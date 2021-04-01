@@ -1,5 +1,6 @@
 set shiftwidth=4
 set relativenumber number
+set spell spelllang=en_us
 set hidden
 let mapleader      = ' '
 let maplocalleader = ' '
