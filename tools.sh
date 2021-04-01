@@ -6,7 +6,7 @@ if [ -z "$tools_load" ];
 
     brew install tmux ispell pandoc openssl git
 
-    brew cask install alacritty firefox
+    brew cask install firefox
 
     cp -v ../configs/.skhdrc ../configs/.yabairc ~/
     brew install koekeishiya/formulae/yabai
