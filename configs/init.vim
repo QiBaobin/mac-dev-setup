@@ -1,9 +1,6 @@
-set shiftwidth=4
-set relativenumber number
-set spell spelllang=en_us
-set hidden
 let mapleader      = ' '
 let maplocalleader = ' '
+set background=dark
 
 if executable("rg")
   set grepprg=rg\ --vimgrep\ --smart-case\ --follow
@@ -52,6 +49,8 @@ Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
     let g:deoplete#enable_at_startup = 1
 
 Plug 'udalov/kotlin-vim'
+Plug 'QiBaobin/vim-gradle'
+    set makeprg=abt\ build
 
 Plug 'autozimu/LanguageClient-neovim', {
     \ 'branch': 'next',
@@ -65,7 +64,15 @@ Plug 'autozimu/LanguageClient-neovim', {
 
 Plug 'vim-airline/vim-airline'
     let g:airline#extensions#tabline#enabled = 1
+Plug 'morhetz/gruvbox'
 Plug 'airblade/vim-gitgutter'
 
 " Initialize plugin system
 call plug#end()
+
+set shiftwidth=4
+set relativenumber number
+set spell spelllang=en_us
+set hidden
+
+colorscheme gruvbox
