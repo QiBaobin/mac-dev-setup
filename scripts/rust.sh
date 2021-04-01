@@ -12,7 +12,9 @@ if [ -z "$rust_load" ]; then
     # useful tools
     cargo install bat cross du-dust fd-find lsd procs ripgrep skim starship zoxide
 
+    owd=$PWD
     mkdir ~/code; cd ~/code && git clone --depth 1 https://github.com/rust-analyzer/rust-analyzer.git && cd rust-analyzer && cargo xtask install --server
+    cd $owd
     rust_load=1
 fi
 
