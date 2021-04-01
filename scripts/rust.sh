@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-set -euo pipefail
 
-if [ -z "$rust_load" ];
+if [ -z "$rust_load" ]; then
+
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 
     export PATH="$HOME/.cargo/bin:$PATH"
@@ -15,3 +15,4 @@ if [ -z "$rust_load" ];
     mkdir ~/code; cd ~/code && git clone --depth 1 https://github.com/rust-analyzer/rust-analyzer.git && cd rust-analyzer && cargo xtask install --server
     rust_load=1
 fi
+

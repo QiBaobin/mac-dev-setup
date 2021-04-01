@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
-set -euo pipefail
 
-if [ -z "$android_load" ];
+if [ -z "$android_load" ]; then
     source ./brew.sh
 
     brew install kotlin

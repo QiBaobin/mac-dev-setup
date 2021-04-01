@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
-set -euo pipefail
 
-if [ -z "$emacs_load" ]
+if [ -z "$emacs_load" ]; then
     source ./brew.sh
 
     brew tap railwaycat/emacsmacport && brew install emacs-mac --with-modules

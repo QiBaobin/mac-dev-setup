@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-set -euo pipefail
 
-if [ -z "$term_load" ];
+if [ -z "$term_load" ]; then
+
     source ./brew.sh
 
     brew tap wez/wezterm && brew install wezterm
@@ -10,3 +10,4 @@ if [ -z "$term_load" ];
 
     term_load=1
 fi
+

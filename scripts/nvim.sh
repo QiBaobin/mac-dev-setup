@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-set -euo pipefail
 
-if [ -z "$nvim_load" ];
+if [ -z "$nvim_load" ]; then
+
     source ./brew.sh
 
     brew install neovim --HEAD
@@ -13,3 +13,4 @@ if [ -z "$nvim_load" ];
 
     nvim_load=1
 fi
+

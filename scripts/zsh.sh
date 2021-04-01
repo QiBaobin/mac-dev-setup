@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-set -euo pipefail
 
-if [ -z "$brew_load" ];
+if [ -z "$brew_load" ]; then
+
 
     source ./brew.sh
     brew insall zsh
@@ -16,3 +16,4 @@ if [ -z "$brew_load" ];
     brew_load=1
 
 fi
+

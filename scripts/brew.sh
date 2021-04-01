@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-set -euo pipefail
 
-if [ -z "$brew_laod" ];
+if [ -z "$brew_laod" ]; then
+
 
     cd
     mkdir homebrew && curl -L https://github.com/Homebrew/brew/tarball/master | tar xz --strip 1 -C homebrew
@@ -12,3 +12,4 @@ if [ -z "$brew_laod" ];
 
     brew_laod=1
 fi
+

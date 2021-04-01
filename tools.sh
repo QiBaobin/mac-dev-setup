@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-set -euo pipefail
 
-if [ -z "$tools_load" ];
+if [ -z "$tools_load" ]; then
+
     source ./brew.sh
 
     brew install tmux ispell pandoc openssl git
@@ -19,3 +19,4 @@ if [ -z "$tools_load" ];
 
     tools_load=1
 fi
+

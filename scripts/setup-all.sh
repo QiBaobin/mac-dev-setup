@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-set -euo pipefail
 
 dir=$(dirname $0)
 for entry in "$dir"/*
