@@ -45,22 +45,13 @@ Plug 'tpope/vim-dispatch'
     nnoremap <Leader>& :Dispatch!<space>
 Plug 'jiangmiao/auto-pairs'
 
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    let g:deoplete#enable_at_startup = 1
-
 Plug 'udalov/kotlin-vim'
 Plug 'QiBaobin/vim-gradle'
     set makeprg=abt\ build
 
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
-    let g:LanguageClient_serverCommands = {
-	\ 'rust': ['rust-analyzer'],
-	\ }
-    nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-    autocmd FileType rust nnoremap <buffer> gq :call LanguageClient#textDocument_formatting()<CR>
+Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-lua/completion-nvim'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 Plug 'vim-airline/vim-airline'
     let g:airline#extensions#tabline#enabled = 1
@@ -76,3 +67,6 @@ set spell spelllang=en_us
 set hidden
 
 colorscheme gruvbox
+set completeopt=menuone,noinsert,noselect
+
+lua require("lsp-setup")
