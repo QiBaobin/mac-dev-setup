@@ -32,6 +32,8 @@ Plug 'junegunn/fzf.vim'
     nnoremap <silent> <Leader>hh :History<CR>
     nnoremap <silent> <Leader>h: :History:<CR>
     nnoremap <silent> <Leader>h/ :History/<CR>
+Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
+    nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
 
 Plug 'tpope/vim-fugitive'
     nmap     <Leader>g :Git<CR>gg<c-n>
@@ -40,6 +42,8 @@ Plug 'tpope/vim-commentary'
     map  gc  <Plug>Commentary
     nmap gcc <Plug>CommentaryLine
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-sensible'
+Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-dispatch'
     nnoremap <Leader>: :Dispatch<space>
     nnoremap <Leader>& :Dispatch!<space>
@@ -52,6 +56,13 @@ Plug 'QiBaobin/vim-gradle'
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/completion-nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'liuchengxu/vista.vim'
+  let g:vista_default_executive = 'ctags'
+  let g:vista_executive_for = {
+    \ 'rust': 'nvim_lsp',
+    \ 'kotlin': 'nvim_lsp',
+    \ }
+    nnoremap <Leader>v :Vista<CR>
 
 Plug 'vim-airline/vim-airline'
     let g:airline#extensions#tabline#enabled = 1
@@ -61,12 +72,12 @@ Plug 'airblade/vim-gitgutter'
 " Initialize plugin system
 call plug#end()
 
-set shiftwidth=4
 set relativenumber number
 set spell spelllang=en_us
 set hidden
 
 colorscheme gruvbox
 set completeopt=menuone,noinsert,noselect
+set wildmode=longest,list,full
 
 lua require("lsp-setup")
