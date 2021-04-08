@@ -14,3 +14,12 @@ eval "$(zoxide init zsh)"
 source ~/.zsh/skim.zsh
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+SSH_AGENT_ENV="/tmp/ssh-agent.$USER" 
+if [ -f  "$SSH_AGENT_ENV" ]; then
+    source "$SSH_AGENT_ENV"
+fi
+function sa(){
+    ssh-agent > "$SSH_AGENT_ENV"
+    source "$SSH_AGENT_ENV"
+}
