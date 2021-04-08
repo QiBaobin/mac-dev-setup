@@ -1,5 +1,5 @@
 let mapleader      = ' '
-let maplocalleader = ' '
+let maplocalleader = ','
 set background=dark
 
 if executable("rg")
@@ -10,6 +10,7 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
     nnoremap <silent> <Leader>r :Clap registers<CR>
+    nnoremap <silent> <Leader>y :Clap yanks<CR>
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
     function! s:build_quickfix_list(lines)
@@ -26,14 +27,13 @@ Plug 'junegunn/fzf.vim'
     let $FZF_DEFAULT_OPTS = '-m --bind ctrl-a:select-all'
     nnoremap <silent> <Leader>b :Buffers<CR>
     nnoremap <silent> <Leader>f :Files<CR>
+    nnoremap <silent> <Leader>t :Tags<CR>
     nnoremap <silent> <Leader>/ :BLines<CR>
     nnoremap <silent> <Leader>' :Marks<CR>
     nnoremap <silent> <Leader>H :Helptags<CR>
     nnoremap <silent> <Leader>hh :History<CR>
     nnoremap <silent> <Leader>h: :History:<CR>
     nnoremap <silent> <Leader>h/ :History/<CR>
-Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
-    nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
 
 Plug 'tpope/vim-fugitive'
     nmap     <Leader>g :Git<CR>gg<c-n>
@@ -48,6 +48,8 @@ Plug 'tpope/vim-dispatch'
     nnoremap <Leader>: :Dispatch<space>
     nnoremap <Leader>& :Dispatch!<space>
 Plug 'jiangmiao/auto-pairs'
+Plug 'justinmk/vim-sneak'
+    let g:sneak#label = 1
 
 Plug 'udalov/kotlin-vim'
 Plug 'QiBaobin/vim-gradle'
@@ -60,7 +62,6 @@ Plug 'liuchengxu/vista.vim'
   let g:vista_default_executive = 'ctags'
   let g:vista_executive_for = {
     \ 'rust': 'nvim_lsp',
-    \ 'kotlin': 'nvim_lsp',
     \ }
     nnoremap <Leader>v :Vista<CR>
 
@@ -78,6 +79,9 @@ set hidden
 
 colorscheme gruvbox
 set completeopt=menuone,noinsert,noselect
-set wildmode=longest,list,full
+set wildmode=longest:list,full
+cnoremap <c-n>  <down>
+cnoremap <c-p>  <up>
+autocmd BufWritePost $MYVIMRC source $MYVIMRC
 
 lua require("lsp-setup")
