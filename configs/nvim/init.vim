@@ -50,7 +50,7 @@ Plug 'justinmk/vim-sneak'
 
 Plug 'udalov/kotlin-vim'
 Plug 'QiBaobin/vim-gradle'
-  set makeprg=abt\ build
+  let g:gradle_makeprg='abt\ build'
 
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/completion-nvim'
