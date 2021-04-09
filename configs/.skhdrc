@@ -97,6 +97,7 @@ shift + cmd - k : yabai -m window --warp north
 
 # make floating window fill screen
 cmd - up     : yabai -m window --grid 1:1:0:0:1:1
+cmd - down   : yabai -m space --balance
 
 # make floating window fill left-half of screen
 shift + alt - left   : yabai -m window --grid 1:2:0:0:1:1
