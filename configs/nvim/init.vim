@@ -32,15 +32,16 @@ Plug 'junegunn/fzf.vim'
   nnoremap <silent> <Leader>h: :History:<CR>
   nnoremap <silent> <Leader>h/ :History/<CR>
 
+Plug 'tpope/vim-sensible'
+Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-fugitive'
   nmap   <Leader>g :Git<CR>gg<c-n>
   nnoremap <Leader>d :Gdiffsplit<CR>
 Plug 'tpope/vim-commentary'
   map  gc  <Plug>Commentary
   nmap gcc <Plug>CommentaryLine
+Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-surround'
-Plug 'tpope/vim-sensible'
-Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-dispatch'
   nnoremap <Leader>: :Dispatch<space>
   nnoremap <Leader>& :Dispatch!<space>
@@ -77,10 +78,13 @@ set hidden
 colorscheme gruvbox
 cnoremap <c-n>  <down>
 cnoremap <c-p>  <up>
-autocmd BufWritePost $MYVIMRC source $MYVIMRC
-let s:rc_backup="~/code/mac-dev-setup/configs/nvim/init.vim"
-if findfile(s:rc_backup) =~# ''
-  autocmd BufWritePost $MYVIMRC execute '!cp -v ' . $MYVIMRC . ' ' . s:rc_backup
+if !exists("s:autocmd_loaded")
+  autocmd BufWritePost $MYVIMRC source $MYVIMRC
+  let s:rc_backup="~/code/mac-dev-setup/configs/nvim/init.vim"
+  if findfile(s:rc_backup) =~# ''
+    autocmd BufWritePost $MYVIMRC execute '!cp -v ' . $MYVIMRC . ' ' . s:rc_backup
+  endif
+  let s:autocmd_loaded = 1
 endif
 
 lua require("lsp-setup")
