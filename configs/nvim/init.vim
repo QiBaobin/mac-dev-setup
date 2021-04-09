@@ -5,32 +5,31 @@ set background=dark
 if executable("rg")
   set grepprg=rg\ --vimgrep\ --smart-case\ --follow
 endif
+command! -bar -bang -complete=file -nargs=+ Fd exe s:Grep(<q-bang>, <q-args>, 'fd -t f')
+function! s:Grep(bang, args, prg) abort
+  let grepprg = &l:grepprg
+  let grepformat = &l:grepformat
+  let shellpipe = &shellpipe
+  try
+    let &l:grepprg = a:prg
+    setlocal grepformat=%f
+    if &shellpipe ==# '2>&1| tee' || &shellpipe ==# '|& tee'
+      let &shellpipe = "| tee"
+    endif
+    execute 'grep! '.a:args
+    if empty(a:bang) && !empty(getqflist())
+      return 'cfirst'
+    else
+      return ''
+    endif
+  finally
+    let &l:grepprg = grepprg
+    let &l:grepformat = grepformat
+    let &shellpipe = shellpipe
+  endtry
+endfunction
 
 call plug#begin('~/.vim/plugged')
-
-Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
-  nnoremap <silent> <Leader>r :Clap registers<CR>
-  nnoremap <silent> <Leader>y :Clap yanks<CR>
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-  function! s:build_quickfix_list(lines)
-    call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
-    copen
-    cc
-  endfunction
-  let g:fzf_action = {
-    \ 'ctrl-q': function('s:build_quickfix_list'),
-    \ 'ctrl-t': 'tab split',
-    \ 'ctrl-x': 'split',
-    \ 'ctrl-v': 'vsplit' }
-  let $FZF_DEFAULT_COMMAND='rg --files'
-  let $FZF_DEFAULT_OPTS = '-m --bind ctrl-a:select-all'
-  nnoremap <silent> <Leader>b :Buffers<CR>
-  nnoremap <silent> <Leader>' :Marks<CR>
-  nnoremap <silent> <Leader>H :Helptags<CR>
-  nnoremap <silent> <Leader>hh :History<CR>
-  nnoremap <silent> <Leader>h: :History:<CR>
-  nnoremap <silent> <Leader>h/ :History/<CR>
 
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-sleuth'
