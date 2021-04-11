@@ -52,15 +52,29 @@ Plug 'udalov/kotlin-vim'
 Plug 'QiBaobin/vim-gradle'
   let g:gradle_makeprg='abt\ build'
 
-Plug 'neovim/nvim-lspconfig'
-Plug 'nvim-lua/completion-nvim'
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'liuchengxu/vista.vim'
-  let g:vista_default_executive = 'ctags'
-  let g:vista_executive_for = {
-    \ 'rust': 'nvim_lsp',
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
     \ }
-  nnoremap <Leader>v :Vista<CR>
+  let g:LanguageClient_serverCommands = {
+    \ 'rust': ['rust-analyzer'],
+    \ 'python': ['pyls'],
+    \ }
+
+  let g:LanguageClient_loggingLevel = 'INFO'
+  function LC_maps()
+    if has_key(g:LanguageClient_serverCommands, &filetype)
+      " note that if you are using Plug mapping you should not use `noremap` mappings.
+      nmap <LocalLeader>m <Plug>(lcn-menu)
+      nmap <silent> gd <Plug>(lcn-definition)
+      setlocal completefunc=LanguageClient#complete
+      setlocal formatexpr=LanguageClient#textDocument_rangeFormatting_sync()
+    endif
+  endfunction
+  autocmd FileType * call LC_maps()
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  let g:deoplete#enable_at_startup = 1
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 Plug 'vim-airline/vim-airline'
   let g:airline#extensions#tabline#enabled = 1
@@ -73,6 +87,7 @@ call plug#end()
 set relativenumber number
 set spell spelllang=en_us
 set hidden
+set completeopt=menuone,noinsert,noselect
 
 colorscheme gruvbox
 cnoremap <c-n>  <down>
@@ -80,10 +95,8 @@ cnoremap <c-p>  <up>
 if !exists("s:autocmd_loaded")
   autocmd BufWritePost $MYVIMRC source $MYVIMRC
   let s:rc_backup="~/code/mac-dev-setup/configs/nvim/init.vim"
-  if findfile(s:rc_backup) =~# ''
+  if findfile(s:rc_backup) != ''
     autocmd BufWritePost $MYVIMRC execute '!cp -v ' . $MYVIMRC . ' ' . s:rc_backup
   endif
   let s:autocmd_loaded = 1
 endif
-
-lua require("lsp-setup")
