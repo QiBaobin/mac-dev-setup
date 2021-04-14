@@ -72,8 +72,6 @@ Plug 'autozimu/LanguageClient-neovim', {
     endif
   endfunction
   autocmd FileType * call LC_maps()
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-  let g:deoplete#enable_at_startup = 1
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 Plug 'vim-airline/vim-airline'
@@ -90,6 +88,7 @@ set hidden
 set completeopt=menuone,noinsert,noselect
 
 colorscheme gruvbox
+set guifont=Fira\ Code:h18
 cnoremap <c-n>  <down>
 cnoremap <c-p>  <up>
 if !exists("s:autocmd_loaded")
@@ -99,4 +98,8 @@ if !exists("s:autocmd_loaded")
     autocmd BufWritePost $MYVIMRC execute '!cp -v ' . $MYVIMRC . ' ' . s:rc_backup
   endif
   let s:autocmd_loaded = 1
+endif
+let s:abbrev_file="~/.config/nvim/abbrev.vim"
+if findfile(s:abbrev_file) != ''
+  execute 'source ' . s:abbrev_file
 endif
