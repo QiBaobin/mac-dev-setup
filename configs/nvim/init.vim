@@ -16,7 +16,7 @@ function! s:Grep(bang, args, prg) abort
     if &shellpipe ==# '2>&1| tee' || &shellpipe ==# '|& tee'
       let &shellpipe = "| tee"
     endif
-    execute a::bang.'grep! '.a:args
+    execute 'grep '.a:args
     if empty(a:bang) && !empty(getqflist())
       return 'cfirst'
     else
