@@ -16,7 +16,7 @@ function! s:Grep(bang, args, prg) abort
     if &shellpipe ==# '2>&1| tee' || &shellpipe ==# '|& tee'
       let &shellpipe = "| tee"
     endif
-    execute 'grep! '.a:args
+    execute a::bang.'grep! '.a:args
     if empty(a:bang) && !empty(getqflist())
       return 'cfirst'
     else
@@ -61,12 +61,12 @@ Plug 'autozimu/LanguageClient-neovim', {
     \ 'python': ['pyls'],
     \ }
 
-  let g:LanguageClient_loggingLevel = 'INFO'
   function LC_maps()
     if has_key(g:LanguageClient_serverCommands, &filetype)
       " note that if you are using Plug mapping you should not use `noremap` mappings.
-      nmap <LocalLeader>m <Plug>(lcn-menu)
-      nmap <silent> gd <Plug>(lcn-definition)
+      nmap <buffer> <LocalLeader>m <Plug>(lcn-menu)
+      nmap <buffer> <LocalLeader>r <Plug>(lcn-code-lens-action)
+      nmap <buffer> <silent> gd <Plug>(lcn-definition)
       setlocal completefunc=LanguageClient#complete
       setlocal formatexpr=LanguageClient#textDocument_rangeFormatting_sync()
     endif
