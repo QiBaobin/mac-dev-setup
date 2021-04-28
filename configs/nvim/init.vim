@@ -1,6 +1,7 @@
 let mapleader = ' '
 let maplocalleader = ','
 set background=dark
+set termguicolors
 
 if executable("rg")
   set grepprg=rg\ --vimgrep\ --smart-case\ --follow
@@ -44,7 +45,6 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-dispatch'
   nnoremap <Leader>: :Dispatch<space>
   nnoremap <Leader>& :Dispatch!<space>
-Plug 'jiangmiao/auto-pairs'
 Plug 'justinmk/vim-sneak'
   let g:sneak#label = 1
 
@@ -88,7 +88,6 @@ set hidden
 set completeopt=menuone,noinsert,noselect
 
 colorscheme gruvbox
-set guifont=Fira\ Code:h18
 cnoremap <c-n>  <down>
 cnoremap <c-p>  <up>
 if !exists("s:autocmd_loaded")

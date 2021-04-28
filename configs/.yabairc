@@ -2,12 +2,4 @@ yabai -m config layout stack
 yabai -m config --space 4 layout bsp
 
 yabai -m config window_placement first_child
-yabai -m space 4 --padding abs:0:20:15:15
 
-yabai -m rule --add app="^WezTerm$" space=3
-yabai -m rule --add app="^Android Studio$"  space=2
-yabai -m rule --add app="^Alacritty$"  space=2
-yabai -m rule --add app="^Emacs$" manage=on space=2
-yabai -m rule --add app="^Microsoft Outlook$" space=3
-yabai -m rule --add app="^Microsoft Teams$"  space=3
-yabai -m rule --add app="^zoom.us$"  space=3
