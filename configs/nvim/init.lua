@@ -57,6 +57,7 @@ Plug 'vim-airline/vim-airline'
   let g:airline#extensions#tabline#enabled = 1
 Plug 'morhetz/gruvbox'
 Plug 'airblade/vim-gitgutter'
+Plug 'scrooloose/nerdtree'
 
 " Initialize plugin system
 call plug#end()
