@@ -1,4 +1,5 @@
-return require('packer').startup(function()
+return require('packer').startup({
+function()
 
   -- Packer can manage itself
   use 'wbthomason/packer.nvim'
@@ -20,8 +21,8 @@ return require('packer').startup(function()
     vim.api.nvim_set_keymap('n', '<Leader>&',  ':Dispatch!<space>', {})
   end}
 
-  use 'udalov/kotlin-vim'
   use 'QiBaobin/vim-gradle'
+  use 'sheerun/vim-polyglot'
 
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
   use { 'autozimu/LanguageClient-neovim',   branch = 'next',  run = 'bash install.sh' , config = function()
@@ -48,4 +49,10 @@ return require('packer').startup(function()
   use { 'morhetz/gruvbox', config = 'vim.cmd([[colorscheme gruvbox]])' }
   use 'scrooloose/nerdtree'
 
-end)
+end,
+config = {
+  git = {
+    depth = 1, -- Git clone depth
+    clone_timeout = 300, -- Timeout, in seconds, for git clones
+  }}
+})
