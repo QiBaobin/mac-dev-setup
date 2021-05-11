@@ -11,9 +11,12 @@ vim.o.spell = true
 vim.o.spelllang = 'en_us'
 vim.o.hidden = true
 vim.o.completeopt = 'menuone,noinsert,noselect'
+vim.o.wildmode = 'longest,full'
+vim.o.hlsearch = false
 
 api.nvim_set_keymap('c', '<c-n>',  '<down>', { noremap = true })
 api.nvim_set_keymap('c', '<c-p>',  '<up>', { noremap = true })
+api.nvim_set_keymap('t', '<Esc>',  '<c-\\><c-n>', { noremap = true })
 
 local abbrev_file="~/.config/nvim/abbrev.vim"
 if vim.fn.findfile(abbrev_file) ~= '' then
@@ -41,7 +44,7 @@ function Grep(bang, args, prg)
     vim.o.shellpipe = shellpipe
 
     if bang ~= '' and #vim.fn.getqflist() > 1 then
-	vim.cmd('copen')
+        vim.cmd('copen')
     end
 end
 
