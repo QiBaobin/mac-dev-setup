@@ -47,7 +47,7 @@ function()
 
   use { 'vim-airline/vim-airline', config = 'vim.cmd([[let g:airline#extensions#tabline#enabled = 1]])' }
   use { 'morhetz/gruvbox', config = 'vim.cmd([[colorscheme gruvbox]])' }
-  use 'scrooloose/nerdtree'
+  use { 'scrooloose/nerdtree', opt = ture, cmd = { 'NERDTree' } }
 
 end,
 config = {

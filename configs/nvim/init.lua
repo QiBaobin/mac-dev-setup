@@ -14,8 +14,18 @@ vim.o.completeopt = 'menuone,noinsert,noselect'
 vim.o.wildmode = 'longest,full'
 vim.o.hlsearch = false
 
-api.nvim_set_keymap('c', '<c-n>',  '<down>', { noremap = true })
-api.nvim_set_keymap('c', '<c-p>',  '<up>', { noremap = true })
+-- emacs key for commnad line
+vim.cmd([[
+  " recall newer command-line
+  :cnoremap <C-N>		<Down>
+  " recall previous (older) command-line
+  :cnoremap <C-P>		<Up>
+  " back one word
+  :cnoremap <M-b>	<S-Left>
+  " forward one word
+  :cnoremap <M-f>	<S-Right>
+]])
+
 api.nvim_set_keymap('t', '<Esc>',  '<c-\\><c-n>', { noremap = true })
 
 local abbrev_file="~/.config/nvim/abbrev.vim"
@@ -26,22 +36,19 @@ end
 if vim.fn.executable("rg") then
   vim.o.grepprg = 'rg --vimgrep --smart-case --follow'
 end
-vim.cmd("command! -bar -bang -complete=file -nargs=+ Fd lua Grep(<q-bang>, <q-args>, 'fd -t f')")
-vim.cmd("command! -bar -bang -complete=file -nargs=+ Rg lua Grep(<q-bang>, <q-args>, 'rg --vimgrep --smart-case --follow')")
-function Grep(bang, args, prg)
+vim.cmd("command! -bar -bang -complete=file -nargs=+ Fd lua Grep(<q-bang>, <q-args>, 'fd -t f', '%f')")
+vim.cmd("command! -bar -bang -complete=file -nargs=* Ls lua Grep(<q-bang>, <q-args>, 'ls', '%f')")
+vim.cmd("command! -bar -bang -complete=file -nargs=+ Rg lua Grep(<q-bang>, <q-args>, 'rg --vimgrep --smart-case --follow', vim.o.grepformat)")
+function Grep(bang, args, prg, fmt)
     local grepprg = vim.o.grepprg
     local grepformat = vim.o.grepformat
-    local shellpipe = vim.o.shellpipe
-
     vim.o.grepprg = prg
-    vim.o.grepformat = '%f'
-    if shellpipe == '2>&1| tee' or shellpipe == '|& tee' then
-      vim.o.shellpipe = "| tee"
-    end
+    vim.o.grepformat = fmt
+
     vim.cmd('grep' .. bang .. ' ' .. args)
+
     vim.o.grepprg = grepprg
     vim.o.grepformat = grepformat
-    vim.o.shellpipe = shellpipe
 
     if bang ~= '' and #vim.fn.getqflist() > 1 then
         vim.cmd('copen')
