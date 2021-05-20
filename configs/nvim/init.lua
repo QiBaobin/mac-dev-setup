@@ -7,12 +7,15 @@ vim.o.background = 'dark'
 vim.o.termguicolors = true
 vim.o.relativenumber = true
 vim.o.number = true
-vim.o.spell = true
+vim.o.spell = false
 vim.o.spelllang = 'en_us'
 vim.o.hidden = true
 vim.o.completeopt = 'menuone,noinsert,noselect'
 vim.o.wildmode = 'longest,full'
-vim.o.hlsearch = false
+vim.o.guifont = 'Fira_Code:h18'
+vim.cmd([[
+  set iskeyword+=-
+]])
 
 -- emacs key for commnad line
 vim.cmd([[
