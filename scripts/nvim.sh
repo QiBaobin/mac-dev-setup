@@ -12,6 +12,7 @@ if [ -z "$nvim_load" ]; then
     mkdir -p ~/.config; cp -Rv ../config/nvim ~/.config/
 
     brew install --HEAD universal-ctags/universal-ctags/universal-ctags
+    pip3 install neovim-remote
     nvim_load=1
 fi
 
