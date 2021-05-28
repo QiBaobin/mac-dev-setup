@@ -7,13 +7,13 @@ function()
   use 'tpope/vim-sensible'
   use 'tpope/vim-sleuth'
   use { 'tpope/vim-fugitive', config = function() 
-    vim.api.nvim_set_keymap('', '<Leader>g',  ':Git<CR>gg<c-n>', {})
-    vim.api.nvim_set_keymap('n', '<Leader>d',  ':Gdiffsplit<CR>', {})
-  end}
+    vim.api.nvim_set_keymap('', '<Leader>g',  ':Git<CR>gg<c-n>', { noremap = true })
+    vim.api.nvim_set_keymap('n', '<Leader>d',  ':Gdiffsplit<CR>', { noremap = true })
+  end }
   use { 'tpope/vim-commentary', config = function()
-    vim.api.nvim_set_keymap('', '<Leader>c',  '<Plug>Commentary', {})
-    vim.api.nvim_set_keymap('n', '<Leader>cc',  '<Plug>CommentaryLine', {})
-  end}
+    vim.api.nvim_set_keymap('', '<Leader>c',  '<Plug>Commentary', { noremap = true })
+    vim.api.nvim_set_keymap('n', '<Leader>cc',  '<Plug>CommentaryLine', { noremap = true })
+  end }
   use 'tpope/vim-unimpaired'
   use 'tpope/vim-surround'
 
@@ -30,7 +30,7 @@ function()
     let g:LanguageClient_loggingFile =  expand('~/.local/share/nvim/LanguageClient.log')
     let g:LanguageClient_serverStderr = expand('~/.local/share/nvim/LanguageServer.log')
 
-    function LC_maps()
+    function! LC_maps()
       if has_key(g:LanguageClient_serverCommands, &filetype)
         nmap <buffer> <LocalLeader>m <Plug>(lcn-menu)
         nmap <buffer> <LocalLeader>r <Plug>(lcn-code-lens-action)
@@ -42,16 +42,27 @@ function()
     endfunction
     autocmd FileType * call LC_maps()
     ]])
-  end}
+  end }
 
   use 'AndrewRadev/splitjoin.vim'
   use 'wellle/targets.vim'
   use 'airblade/vim-gitgutter'
 
-  use { 'vim-airline/vim-airline', config = 'vim.cmd([[let g:airline#extensions#tabline#enabled = 1]])' }
+  use { 'vim-airline/vim-airline', config = 'vim.cmd([[let g:airline#extensions#tabline#enabled = 0]])' }
+  use { 'akinsho/nvim-bufferline.lua', requires = 'kyazdani42/nvim-web-devicons', config = function()
+    vim.api.nvim_set_keymap('n', '<Leader>b',  ':BufferLinePick<CR>', { noremap = true })
+    require("bufferline").setup{
+      options = {
+        numbers = "both",
+        number_style = "superscript",
+        diagnostics = "nvim_lsp",
+      }
+    }
+  end }
   use { 'morhetz/gruvbox', config = 'vim.cmd([[colorscheme gruvbox]])' }
   use { 'scrooloose/nerdtree', opt = ture, cmd = { 'NERDTree' } }
 
+  use "tversteeg/registers.nvim"
 end,
 config = {
   git = {
