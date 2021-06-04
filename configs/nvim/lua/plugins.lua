@@ -21,11 +21,42 @@ function()
   use 'wellle/targets.vim'
   use "tversteeg/registers.nvim"
 
-  use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
-  use { 'neovim/nvim-lspconfig' }
-  use {'ray-x/navigator.lua', requires = {'ray-x/guihua.lua', run = 'cd lua/fzy && make'}, config = function() require'navigator'.setup() end }
+  use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', config = function()
+    require'nvim-treesitter.configs'.setup {
+      incremental_selection = {
+        enable = true,
+        keymaps = {
+          init_selection = "gnn",
+          node_incremental = "grn",
+          scope_incremental = "grc",
+          node_decremental = "grm",
+        },
+      },
+      highlight = {
+        enable = true
+      },
+      indent = {
+        enable = true
+      }
+    }
+  end }
+  use { 'autozimu/LanguageClient-neovim',   branch = 'next',  run = 'bash install.sh' , config = function()
+    vim.cmd([[
+      let g:LanguageClient_serverCommands = {  'rust': ['rust-analyzer'],  'python': ['pyls'],  }
+      function! LC_maps()
+        if has_key(g:LanguageClient_serverCommands, &filetype)
+          nmap <buffer> <LocalLeader>m <Plug>(lcn-menu)
+          nmap <buffer> <LocalLeader>r <Plug>(lcn-code-lens-action)
+          nmap <buffer> <LocalLeader>e <Plug>(lcn-explain-error)
+          nmap <buffer> <silent> gd <Plug>(lcn-definition)
+          setlocal completefunc=LanguageClient#complete
+          setlocal formatexpr=LanguageClient#textDocument_rangeFormatting_sync()
+        endif
+      endfunction
+      autocmd FileType * call LC_maps()
+    ]])
+  end }
 
-  -- use { 'vim-airline/vim-airline', config = 'vim.cmd([[let g:airline#extensions#tabline#enabled = 0]])' }
   use { 'akinsho/nvim-bufferline.lua', requires = 'kyazdani42/nvim-web-devicons', config = function()
     vim.api.nvim_set_keymap('n', '<Leader>b',  ':BufferLinePick<CR>', { noremap = true })
     require("bufferline").setup{}
