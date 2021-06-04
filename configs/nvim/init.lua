@@ -22,21 +22,6 @@ end
 if vim.fn.executable("rg") then
   vim.o.grepprg = 'rg --vimgrep --smart-case --follow'
 end
-function Grep(bang, args, prg, fmt)
-    local grepprg = vim.o.grepprg
-    local grepformat = vim.o.grepformat
-    vim.o.grepprg = prg
-    vim.o.grepformat = fmt
-
-    vim.cmd('grep' .. bang .. ' ' .. args)
-
-    vim.o.grepprg = grepprg
-    vim.o.grepformat = grepformat
-
-    if bang ~= '' and #vim.fn.getqflist() > 1 then
-        vim.cmd('copen')
-    end
-end
 
 api.nvim_buf_set_keymap(bufnr, "n", "<leader>l", "<Cmd>lua vim.lsp.codelens.run()<CR>", { silent = true })
 vim.cmd([[
@@ -60,10 +45,6 @@ vim.cmd([[
     autocmd TermClose term://*nvr* bd! term://*nvr*
   augroup END
   command! -nargs=0 Fi e term://nvr\ $(sk)
-
-  command! -bar -bang -complete=file -nargs=+ Fd lua Grep(<q-bang>, <q-args>, 'fd -t f', '%f')
-  command! -bar -bang -complete=file -nargs=* Ls lua Grep(<q-bang>, <q-args>, 'ls', '%f')
-  command! -bar -bang -complete=file -nargs=+ Rg lua Grep(<q-bang>, <q-args>, 'rg --vimgrep --smart-case --follow', vim.o.grepformat)
 ]])
 
 require('plugins')
