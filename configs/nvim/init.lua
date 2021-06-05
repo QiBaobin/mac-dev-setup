@@ -23,7 +23,6 @@ if vim.fn.executable("rg") then
   vim.o.grepprg = 'rg --vimgrep --smart-case --follow'
 end
 
-api.nvim_buf_set_keymap(bufnr, "n", "<leader>l", "<Cmd>lua vim.lsp.codelens.run()<CR>", { silent = true })
 vim.cmd([[
   set iskeyword+=-
 
@@ -44,7 +43,7 @@ vim.cmd([[
     autocmd TermOpen term://* startinsert
     autocmd TermClose term://*nvr* bd! term://*nvr*
   augroup END
-  command! -nargs=0 Fi e term://nvr\ $(sk)
+  command! -nargs=0 Fi e term://nvr\ $(fd\|sk\ -m)
 ]])
 
 require('plugins')
