@@ -10,9 +10,9 @@ vim.o.number = true
 vim.o.spell = false
 vim.o.spelllang = 'en_us'
 vim.o.hidden = true
-vim.o.completeopt = 'menuone,noinsert,noselect'
+vim.o.completeopt = 'menuone,noselect'
 vim.o.wildmode = 'longest,full'
-vim.o.guifont = 'Fira_Code:h18'
+vim.o.guifont = 'Hack_Nerd_Font_Mono_:h18'
 
 local abbrev_file="~/.config/nvim/abbrev.vim"
 if vim.fn.findfile(abbrev_file) ~= '' then

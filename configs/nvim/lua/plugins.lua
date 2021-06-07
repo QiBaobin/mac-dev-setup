@@ -1,71 +1,78 @@
 return require('packer').startup({
-function()
+  function()
 
-  -- Packer can manage itself
-  use 'wbthomason/packer.nvim'
+    -- Packer can manage itself
+    use 'wbthomason/packer.nvim'
 
-  use 'tpope/vim-sensible'
-  use 'tpope/vim-sleuth'
-  use { 'tpope/vim-fugitive', config = function() 
-    vim.api.nvim_set_keymap('', '<Leader>g',  ':Git<CR>gg<c-n>', { noremap = true })
-    vim.api.nvim_set_keymap('n', '<Leader>d',  ':Gdiffsplit<CR>', { noremap = true })
-  end }
-  use { 'tpope/vim-commentary', config = function()
-    vim.api.nvim_set_keymap('', '<Leader>c',  '<Plug>Commentary', { noremap = true })
-    vim.api.nvim_set_keymap('n', '<Leader>cc',  '<Plug>CommentaryLine', { noremap = true })
-  end }
-  use 'tpope/vim-unimpaired'
-  use 'tpope/vim-surround'
+    use 'tpope/vim-sensible'
+    use 'tpope/vim-sleuth'
+    use { 'tpope/vim-fugitive', config = function() 
+      vim.api.nvim_set_keymap('', '<Leader>g',  ':Git<CR>gg<c-n>', { noremap = true })
+      vim.api.nvim_set_keymap('n', '<Leader>d',  ':Gdiffsplit<CR>', { noremap = true })
+    end }
+    use 'tpope/vim-unimpaired'
+    use 'tpope/vim-surround'
 
-  use 'AndrewRadev/splitjoin.vim'
-  use 'wellle/targets.vim'
-  use "tversteeg/registers.nvim"
+    use 'AndrewRadev/splitjoin.vim'
+    use 'wellle/targets.vim'
+    use "tversteeg/registers.nvim"
 
-  use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', config = function()
-    require'nvim-treesitter.configs'.setup {
-      incremental_selection = {
-        enable = true,
-        keymaps = {
-          init_selection = "gnn",
-          node_incremental = "grn",
-          scope_incremental = "grc",
-          node_decremental = "grm",
+    use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', config = function()
+      require'nvim-treesitter.configs'.setup {
+        incremental_selection = {
+          enable = true,
+          keymaps = {
+            init_selection = "gnn",
+            node_incremental = "grn",
+            scope_incremental = "grc",
+            node_decremental = "grm",
+          },
         },
-      },
-      highlight = {
-        enable = true
-      },
-      indent = {
-        enable = true
+        highlight = {
+          enable = true
+        },
+        indent = {
+          enable = true
+        }
       }
-    }
-  end }
-  use { 'autozimu/LanguageClient-neovim',   branch = 'next',  run = 'bash install.sh' , config = function()
-    vim.cmd([[
-      let g:LanguageClient_serverCommands = {  'rust': ['rust-analyzer'],  'python': ['pyls'],  }
-      function! LC_maps()
-        if has_key(g:LanguageClient_serverCommands, &filetype)
-          nmap <buffer> <LocalLeader>m <Plug>(lcn-menu)
-          nmap <buffer> <LocalLeader>r <Plug>(lcn-code-lens-action)
-          nmap <buffer> <LocalLeader>e <Plug>(lcn-explain-error)
-          nmap <buffer> <silent> gd <Plug>(lcn-definition)
-          setlocal completefunc=LanguageClient#complete
-          setlocal formatexpr=LanguageClient#textDocument_rangeFormatting_sync()
-        endif
-      endfunction
-      autocmd FileType * call LC_maps()
-    ]])
-  end }
+    end }
+    use { 'neovim/nvim-lspconfig', config = function() require 'lsp-setup' end }
+    use 'b3nj5m1n/kommentary'
+    use { 'hrsh7th/nvim-compe', config = function()
+      require'compe'.setup {
+        enabled = true;
+        autocomplete = true;
+        debug = false;
+        min_length = 1;
+        preselect = 'enable';
+        throttle_time = 80;
+        source_timeout = 200;
+        incomplete_delay = 400;
+        max_abbr_width = 100;
+        max_kind_width = 100;
+        max_menu_width = 100;
+        documentation = true;
 
-  use { 'akinsho/nvim-bufferline.lua', requires = 'kyazdani42/nvim-web-devicons', config = function()
-    vim.api.nvim_set_keymap('n', '<Leader>b',  ':BufferLinePick<CR>', { noremap = true })
-    require("bufferline").setup{}
-  end }
-  use { 'morhetz/gruvbox', config = 'vim.cmd([[colorscheme gruvbox]])' }
-end,
-config = {
-  git = {
-    depth = 1, -- Git clone depth
-    clone_timeout = 300, -- Timeout, in seconds, for git clones
-  }}
+        source = {
+          path = true;
+          buffer = true;
+          tags = true;
+          calc = true;
+          nvim_lsp = true;
+          nvim_lua = true;
+        };
+      }
+    end }
+
+    use { 'akinsho/nvim-bufferline.lua', requires = 'kyazdani42/nvim-web-devicons', config = function()
+      vim.api.nvim_set_keymap('n', '<Leader>b',  ':BufferLinePick<CR>', { noremap = true })
+      require("bufferline").setup{}
+    end }
+    use { "npxbr/gruvbox.nvim", requires = { "rktjmp/lush.nvim" }, config = 'vim.cmd([[colorscheme gruvbox]])' }
+  end,
+  config = {
+    git = {
+      depth = 1, -- Git clone depth
+      clone_timeout = 300, -- Timeout, in seconds, for git clones
+    }}
 })
