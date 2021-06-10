@@ -4,6 +4,7 @@ return require('packer').startup({
     -- Packer can manage itself
     use 'wbthomason/packer.nvim'
 
+    -- fundamental
     use 'tpope/vim-sensible'
     use 'tpope/vim-sleuth'
     use { 'tpope/vim-fugitive', config = function() 
@@ -17,6 +18,7 @@ return require('packer').startup({
     use 'wellle/targets.vim'
     use "tversteeg/registers.nvim"
 
+    -- code
     use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', config = function()
       require'nvim-treesitter.configs'.setup {
         incremental_selection = {
@@ -63,12 +65,20 @@ return require('packer').startup({
         };
       }
     end }
+    use 'pechorin/any-jump.vim'
 
+    -- UI
     use { 'akinsho/nvim-bufferline.lua', requires = 'kyazdani42/nvim-web-devicons', config = function()
       vim.api.nvim_set_keymap('n', '<Leader>b',  ':BufferLinePick<CR>', { noremap = true })
       require("bufferline").setup{}
     end }
     use { "npxbr/gruvbox.nvim", requires = { "rktjmp/lush.nvim" }, config = 'vim.cmd([[colorscheme gruvbox]])' }
+    use { 'hoob3rt/lualine.nvim', requires = {'kyazdani42/nvim-web-devicons', opt = true }, config = function()
+      require('lualine').setup{
+        options = {theme = 'gruvbox'}
+      }
+    end }
+
   end,
   config = {
     git = {
