@@ -16,7 +16,8 @@ return require('packer').startup({
 
     use 'AndrewRadev/splitjoin.vim'
     use 'wellle/targets.vim'
-    use "tversteeg/registers.nvim"
+    use 'ggandor/lightspeed.nvim'
+    use { "folke/which-key.nvim", config = function() require("which-key").setup {} end }
 
     -- code
     use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', config = function()
@@ -73,6 +74,14 @@ return require('packer').startup({
       require("bufferline").setup{}
     end }
     use { "npxbr/gruvbox.nvim", requires = { "rktjmp/lush.nvim" }, config = 'vim.cmd([[colorscheme gruvbox]])' }
+    use { 'voldikss/vim-floaterm', config = function()
+      vim.cmd([[
+        let g:floaterm_width = 0.9
+        let g:floaterm_height = 0.9
+      ]])
+      vim.api.nvim_set_keymap('n', '<Leader>t',  ':FloatermToggle<CR>', { noremap = true })
+      vim.api.nvim_set_keymap('t', '<C-]>',  '<C-\\><C-n>:FloatermToggle<CR>', { noremap = true })
+    end }
     use { 'hoob3rt/lualine.nvim', requires = {'kyazdani42/nvim-web-devicons', opt = true }, config = function()
       require('lualine').setup{
         options = {theme = 'gruvbox'}
