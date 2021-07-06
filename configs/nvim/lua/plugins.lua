@@ -44,11 +44,12 @@ return require('packer').startup({
     use 'pechorin/any-jump.vim'
 
     -- UI
-    use { 'akinsho/nvim-bufferline.lua', requires = 'kyazdani42/nvim-web-devicons', config = function()
-      vim.api.nvim_set_keymap('n', '<Leader>b',  ':BufferLinePick<CR>', { noremap = true })
-      require("bufferline").setup{}
+    use { 'matbme/JABS.nvim', config = function()
+      vim.api.nvim_set_keymap('n', '<Leader>b',  ':JABSOpen<CR>', { noremap = true })
     end }
-    use { "npxbr/gruvbox.nvim", requires = { "rktjmp/lush.nvim" }, config = 'vim.cmd([[colorscheme gruvbox]])' }
+    use { 'marko-cerovac/material.nvim', config = function()
+        require('material').set()
+    end }
     use { 'voldikss/vim-floaterm', config = function()
       vim.cmd([[
         let g:floaterm_width = 0.9
