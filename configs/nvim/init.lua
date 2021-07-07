@@ -12,6 +12,7 @@ vim.o.spelllang = 'en_us'
 vim.o.hidden = true
 vim.o.completeopt = 'menuone,noselect'
 vim.o.wildmode = 'longest,full'
+vim.opt.dictionary:append("/usr/share/dict/words")
 vim.o.guifont = 'Hack_Nerd_Font_Mono_:h18'
 
 local abbrev_file="~/.config/nvim/abbrev.vim"

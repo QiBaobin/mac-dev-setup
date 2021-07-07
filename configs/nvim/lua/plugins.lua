@@ -8,8 +8,7 @@ return require('packer').startup({
     use 'tpope/vim-sensible'
     use 'tpope/vim-sleuth'
     use { 'tpope/vim-fugitive', config = function() 
-      vim.api.nvim_set_keymap('', '<Leader>g',  ':Git<CR>gg<c-n>', { noremap = true })
-      vim.api.nvim_set_keymap('n', '<Leader>d',  ':Gdiffsplit<CR>', { noremap = true })
+      vim.api.nvim_set_keymap('', '<Leader>g',  ':Git | only<CR>gg<c-n>', { noremap = true })
     end }
     use 'tpope/vim-unimpaired'
     use 'tpope/vim-surround'
@@ -31,12 +30,8 @@ return require('packer').startup({
             node_decremental = "grm",
           },
         },
-        highlight = {
-          enable = true
-        },
-        indent = {
-          enable = true
-        }
+        highlight = { enable = true },
+        indent = { enable = true }
       }
     end }
     use { 'neovim/nvim-lspconfig', config = function() require 'lsp-setup' end }
@@ -44,6 +39,9 @@ return require('packer').startup({
     use 'pechorin/any-jump.vim'
 
     -- UI
+    use { "folke/trouble.nvim", requires = "kyazdani42/nvim-web-devicons", config = function()
+        require("trouble").setup {}
+    end }
     use { 'matbme/JABS.nvim', config = function()
       vim.api.nvim_set_keymap('n', '<Leader>b',  ':JABSOpen<CR>', { noremap = true })
     end }
@@ -60,7 +58,7 @@ return require('packer').startup({
     end }
     use { 'hoob3rt/lualine.nvim', requires = {'kyazdani42/nvim-web-devicons', opt = true }, config = function()
       require('lualine').setup{
-        options = {theme = 'gruvbox'}
+        options = {theme = 'material'}
       }
     end }
 
