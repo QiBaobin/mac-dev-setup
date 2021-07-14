@@ -37,7 +37,6 @@ return require('packer').startup({
     use { 'neovim/nvim-lspconfig', config = function() require 'lsp-setup' end }
     use 'b3nj5m1n/kommentary'
     use 'pechorin/any-jump.vim'
-    use 'skywind3000/asyncrun.vim'
 
     -- UI
     use { 'marko-cerovac/material.nvim', config = function()

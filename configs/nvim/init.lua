@@ -36,6 +36,8 @@ vim.cmd([[
   " forward one word
   :cnoremap <M-f>	<S-Right>
 
+  command -nargs=? -bang Buffer if <q-args> != '' | exe 'buffer '.<q-args> | else | ls<bang> | let buffer_nn=input('Which one: ') | if buffer_nn != '' | exe buffer_nn != 0 ? 'buffer '.buffer_nn : 'enew' | endif | endif
+
   :tnoremap <ESC> <C-\><C-N>
   :tnoremap <expr> <C-Q> '<C-\><C-N>"'.nr2char(getchar()).'pi'
   augroup terminal_settings
