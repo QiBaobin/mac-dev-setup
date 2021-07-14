@@ -7,12 +7,13 @@ let g:asyncjob_dir = '/tmp/vim-jobs'
 let s:jobs = {}
 
 function! s:OnEvent(job_id, data, event) dict
-  if bufwinnr(s:jobs[a:job_id]['file']) >= 0
-    let last_buf = bufnr('.')
+  let win_id = bufwinid(s:jobs[a:job_id]['file'])
+  if win_id >= 0
+    let last_win = win_getid()
+    call win_gotoid(win_id)
     call s:View(a:job_id)
-    if last_buf >= 0
-      exe "buffer " last_buf
-    endif
+    normal G
+    call win_gotoid(last_win)
   endif
 
   if a:event == 'stdout' || a:event == 'stderr'
