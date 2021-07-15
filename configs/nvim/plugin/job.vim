@@ -7,7 +7,8 @@ let g:asyncjob_dir = '/tmp/vim-jobs'
 let s:jobs = {}
 
 function! s:OnEvent(job_id, data, event) dict
-  let win_id = bufwinid(s:jobs[a:job_id]['file'])
+  let job = s:jobs[a:job_id]
+  let win_id = bufwinid(job['file'])
   if win_id >= 0
     let last_win = win_getid()
     call win_gotoid(win_id)
@@ -17,11 +18,12 @@ function! s:OnEvent(job_id, data, event) dict
   endif
 
   if a:event == 'stdout' || a:event == 'stderr'
-    if s:jobs[a:job_id]['status'] == 'Pending'
-      let s:jobs[a:job_id]['status'] = 'In Progress'
+    if job['status'] == 'Pending'
+      let job['status'] = 'In Progress'
     endif
   else
-    let s:jobs[a:job_id]['status'] = 'Finished'
+    let job['status'] = 'Finished'
+    call s:List(a:job_id)
   endif
 endfunction
 let s:callbacks = {
@@ -29,10 +31,12 @@ let s:callbacks = {
       \ 'on_stderr': function('s:OnEvent'),
       \ 'on_exit': function('s:OnEvent')
       \ }
-function! s:List(...) abort
+function! s:List(job_id='', ...) abort
   echomsg "Jobs:"
   for [next_key, next_val] in items(s:jobs)
-    echomsg next_key . ': ' . join(values(next_val))
+    if next_key =~ a:job_id
+      echomsg next_key . ': ' . next_val['cmd'] . ' -- ' . next_val['status']
+    endif
   endfor
 endfunction
 function! s:Stop(job = '') abort
@@ -56,7 +60,7 @@ function! s:Start(cmd, bang) abort
   if job <= 0
     finish
   endif
-  let s:jobs[job] = {'file': file, 'status': 'Pending'}
+  let s:jobs[job] = {'file': file, 'status': 'Pending', 'cmd': a:cmd}
   if a:bang ==# ''
     call s:View(job)
   endif
