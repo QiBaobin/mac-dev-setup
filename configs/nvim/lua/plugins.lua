@@ -17,6 +17,7 @@ return require('packer').startup({
     use 'wellle/targets.vim'
     use 'ggandor/lightspeed.nvim'
     use { "folke/which-key.nvim", config = function() require("which-key").setup {} end }
+    use 'QiBaobin/neovim-shelljob'
 
     -- code
     use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', config = function()
