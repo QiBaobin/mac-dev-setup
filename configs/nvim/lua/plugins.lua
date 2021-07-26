@@ -15,7 +15,6 @@ return require('packer').startup({
 
     use 'AndrewRadev/splitjoin.vim'
     use 'wellle/targets.vim'
-    use 'ggandor/lightspeed.nvim'
     use { "folke/which-key.nvim", config = function() require("which-key").setup {} end }
     use 'QiBaobin/neovim-shelljob'
 
@@ -47,6 +46,12 @@ return require('packer').startup({
       require('lualine').setup{
         options = {theme = 'material'}
       }
+    end }
+    use {'akinsho/nvim-bufferline.lua', requires = 'kyazdani42/nvim-web-devicons', config = function()
+      require('bufferline').setup {
+        options = { show_buffer_close_icons = false,}
+      }
+      vim.api.nvim_set_keymap('', '<Leader>b',  ':BufferLinePick<CR>', { noremap = true })
     end }
 
   end,
