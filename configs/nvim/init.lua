@@ -37,6 +37,9 @@ vim.cmd([[
   :cnoremap <M-f>	<S-Right>
 
   nnoremap <leader>b :ls!<CR>:buffer 
+  nnoremap <leader>f :Fi<C-]><CR>
+  nnoremap <leader>s :grep 
+  nnoremap <leader>S :grep! 
 
   :tnoremap <ESC> <C-\><C-N>
   :tnoremap <expr> <C-Q> '<C-\><C-N>"'.nr2char(getchar()).'pi'
