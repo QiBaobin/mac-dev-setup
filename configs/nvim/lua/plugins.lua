@@ -49,9 +49,8 @@ return require('packer').startup({
     end }
     use {'akinsho/nvim-bufferline.lua', requires = 'kyazdani42/nvim-web-devicons', config = function()
       require('bufferline').setup {
-        options = { show_buffer_close_icons = false,}
+        options = { show_buffer_close_icons = false, tab_size=8 }
       }
-      vim.api.nvim_set_keymap('', '<Leader>b',  ':BufferLinePick<CR>', { noremap = true })
     end }
 
   end,
