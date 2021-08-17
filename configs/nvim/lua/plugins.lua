@@ -12,6 +12,8 @@ return require('packer').startup({
     end }
     use 'tpope/vim-unimpaired'
     use 'tpope/vim-surround'
+    use 'tpope/vim-commentary'
+    use 'tpope/vim-rsi'
 
     use 'AndrewRadev/splitjoin.vim'
     use 'wellle/targets.vim'
@@ -35,7 +37,6 @@ return require('packer').startup({
       }
     end }
     use { 'neovim/nvim-lspconfig', config = function() require 'lsp-setup' end }
-    use 'b3nj5m1n/kommentary'
     use 'pechorin/any-jump.vim'
 
     -- UI

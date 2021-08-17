@@ -9,6 +9,8 @@ vim.o.relativenumber = true
 vim.o.number = true
 vim.o.spell = false
 vim.o.spelllang = 'en_us'
+vim.o.ignorecase = true
+vim.o.smartcase = true
 vim.o.hidden = true
 vim.o.completeopt = 'menuone,noselect'
 vim.o.wildmode = 'longest,full'
@@ -31,15 +33,12 @@ vim.cmd([[
   :cnoremap <C-N>		<Down>
   " recall previous (older) command-line
   :cnoremap <C-P>		<Up>
-  " back one word
-  :cnoremap <M-b>	<S-Left>
-  " forward one word
-  :cnoremap <M-f>	<S-Right>
 
   nnoremap <leader>b :ls!<CR>:buffer 
   nnoremap <leader>f :Fi<C-]><CR>
   nnoremap <leader>s :grep 
   nnoremap <leader>S :grep! 
+  nnoremap <leader><leader> <c-^>
 
   :tnoremap <ESC> <C-\><C-N>
   :tnoremap <expr> <C-Q> '<C-\><C-N>"'.nr2char(getchar()).'pi'
