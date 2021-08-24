@@ -40,12 +40,45 @@ return require('packer').startup({
     use 'pechorin/any-jump.vim'
 
     -- UI
-    use { 'marko-cerovac/material.nvim', config = function()
-        require('material').set()
+    use { "Pocco81/Catppuccino.nvim", config  = function()
+      local catppuccino = require("catppuccino")
+
+      -- configure it
+      catppuccino.setup(
+        {
+          colorscheme = "catppuccino",
+          transparency = false,
+          styles = {
+            comments = "italic",
+            functions = "italic",
+            keywords = "italic",
+            strings = "NONE",
+            variables = "NONE",
+          },
+          integrations = {
+            treesitter = true,
+            native_lsp = {
+              enabled = true,
+              styles = {
+                errors = "italic",
+                hints = "italic",
+                warnings = "italic",
+                information = "italic"
+              }
+            },
+            which_key = true,
+            bufferline = true,
+          }
+        }
+      )
+
+      -- load it
+      catppuccino.load()
+
     end }
     use { 'hoob3rt/lualine.nvim', requires = {'kyazdani42/nvim-web-devicons', opt = true }, config = function()
       require('lualine').setup{
-        options = {theme = 'material'}
+        options = {theme = 'catppuccino'}
       }
     end }
     use {'akinsho/nvim-bufferline.lua', requires = 'kyazdani42/nvim-web-devicons', config = function()
