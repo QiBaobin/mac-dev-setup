@@ -9,7 +9,6 @@ vim.o.relativenumber = true
 vim.o.number = true
 vim.o.spell = false
 vim.o.spelllang = 'en_us'
-vim.o.ignorecase = true
 vim.o.hlsearch = false
 vim.o.smartcase = true
 vim.o.showmatch = true
@@ -31,11 +30,6 @@ end
 
 vim.cmd([[
   set iskeyword+=-
-
-  " recall newer command-line
-  :cnoremap <C-N>		<Down>
-  " recall previous (older) command-line
-  :cnoremap <C-P>		<Up>
 
   nnoremap <leader>b :ls!<CR>:buffer 
   nnoremap <leader>f :Fi<C-]><CR>
