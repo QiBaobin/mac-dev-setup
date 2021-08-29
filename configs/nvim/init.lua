@@ -35,6 +35,7 @@ vim.cmd([[
   nnoremap <leader>f :Fi<C-]><CR>
   nnoremap <leader>s :grep 
   nnoremap <leader>S :grep! 
+  nnoremap <leader>p :filter /.git\/index/ browse oldfiles<CR>
   nnoremap <leader><leader> <c-^>
 
   :tnoremap <ESC> <C-\><C-N>

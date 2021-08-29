@@ -14,6 +14,7 @@ return require('packer').startup({
     use 'tpope/vim-surround'
     use 'tpope/vim-commentary'
     use 'tpope/vim-rsi'
+    use 'tpope/vim-dispatch'
 
     use 'AndrewRadev/splitjoin.vim'
     use 'wellle/targets.vim'
