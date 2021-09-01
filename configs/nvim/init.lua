@@ -38,8 +38,8 @@ vim.cmd([[
   nnoremap <leader>p :filter /.git\/index/ browse oldfiles<CR>
   nnoremap <leader><leader> <c-^>
 
-  :tnoremap <ESC> <C-\><C-N>
-  :tnoremap <expr> <C-Q> '<C-\><C-N>"'.nr2char(getchar()).'pi'
+  tnoremap <C-o> <C-\><C-N>
+  tnoremap <expr> <C-Q> '<C-\><C-N>"'.nr2char(getchar()).'pi'
   augroup terminal_settings
     autocmd!
 

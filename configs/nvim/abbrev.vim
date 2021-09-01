@@ -9,5 +9,5 @@ cabbrev JS JobStop
 cabbrev JV JobView
 cabbrev JL JobList
 cabbrev z execute 'cd ' . system('zoxide query ')<Left><Left>
-cabbrev Ins Dispatch ~/work/flagship-android/gradlew -b ~/work/flagship-android/build.gradle :app:installGNRD
+cabbrev Ins Dispatch cd ~/work/flagship-android/ && ./gradlew :app:instalGNPD
 cabbrev sB Dispatch cd ~/work/pr100660-ap011663_android_pi_mobile_sdks/ && abt build 

@@ -8,7 +8,7 @@ return require('packer').startup({
     use 'tpope/vim-sensible'
     use 'tpope/vim-sleuth'
     use { 'tpope/vim-fugitive', config = function() 
-      vim.api.nvim_set_keymap('n', '<Leader>g',  ':Git | only<CR>gg<c-n>', { noremap = true })
+      vim.api.nvim_set_keymap('n', '<Leader>g',  ':Git<CR>gg<c-n>', { noremap = true })
     end }
     use 'tpope/vim-unimpaired'
     use 'tpope/vim-surround'
@@ -39,6 +39,7 @@ return require('packer').startup({
     end }
     use { 'neovim/nvim-lspconfig', config = function() require 'lsp-setup' end }
     use 'pechorin/any-jump.vim'
+    use 'vim-test/vim-test'
 
     -- UI
     use { "Pocco81/Catppuccino.nvim", config  = function()
@@ -47,7 +48,7 @@ return require('packer').startup({
       -- configure it
       catppuccino.setup(
         {
-          colorscheme = "catppuccino",
+          colorscheme = "dark_catppuccino",
           transparency = false,
           styles = {
             comments = "italic",
@@ -75,13 +76,12 @@ return require('packer').startup({
 
       -- load it
       catppuccino.load()
-
     end }
     use { 'hoob3rt/lualine.nvim', requires = {'kyazdani42/nvim-web-devicons', opt = true }, config = function()
       require('lualine').setup{ options = {theme = 'catppuccino'} }
     end }
     use {'akinsho/nvim-bufferline.lua', requires = 'kyazdani42/nvim-web-devicons', config = function()
-      require('bufferline').setup { options = { show_buffer_close_icons = false, tab_size=8 } }
+      require('bufferline').setup { options = { show_buffer_close_icons = false, tab_size = 8 } }
     end }
 
   end,
