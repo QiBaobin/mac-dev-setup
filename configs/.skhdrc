@@ -150,6 +150,8 @@ shift + cmd - 6 : yabai -m window --space 6; yabai -m space --focus 6
 
 # toggle window zoom
 # alt - d : yabai -m window --toggle zoom-parent
+cmd - s : yabai -m space --layout stack
+cmd - b : yabai -m space --layout bsp
 cmd - f : yabai -m window --toggle zoom-fullscreen
 
 # toggle window split type

@@ -3,3 +3,4 @@ yabai -m config --space 4 layout bsp
 
 yabai -m config window_placement first_child
 
+yabai -m rule --add app="^qemu-system.*$" manage=off
