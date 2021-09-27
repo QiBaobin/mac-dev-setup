@@ -39,7 +39,7 @@ return require('packer').startup({
     end }
     use { 'neovim/nvim-lspconfig', config = function() require 'lsp-setup' end }
     use 'pechorin/any-jump.vim'
-    use 'vim-test/vim-test'
+    -- use 'vim-test/vim-test'
 
     -- UI
     use { "Pocco81/Catppuccino.nvim", config  = function()
