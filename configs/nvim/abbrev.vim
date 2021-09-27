@@ -9,5 +9,3 @@ cabbrev JS JobStop
 cabbrev JV JobView
 cabbrev JL JobList
 cabbrev z execute 'cd ' . system('zoxide query ')<Left><Left>
-cabbrev Ins Dispatch! just build-flagship<CR>
-cabbrev sB Dispatch! just build-sdk
