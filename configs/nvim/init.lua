@@ -31,9 +31,7 @@ end
 vim.cmd([[
   set iskeyword+=-
 
-  nnoremap <leader>b :ls!<CR>:buffer 
   nnoremap <leader>B :edit term://just\ --chooser=sk\ --choose<CR>
-  nnoremap <leader>f :Fi<C-]><CR>
   nnoremap <leader>s :grep 
   nnoremap <leader>S :grep! 
   nnoremap <leader>p :filter /.git\/index/ browse oldfiles<CR>

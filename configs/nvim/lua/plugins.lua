@@ -15,11 +15,28 @@ return require('packer').startup({
     use 'tpope/vim-commentary'
     use 'tpope/vim-rsi'
     use 'tpope/vim-dispatch'
+    use 'tpope/vim-abolish'
 
     use 'AndrewRadev/splitjoin.vim'
     use 'wellle/targets.vim'
     use { "folke/which-key.nvim", config = function() require("which-key").setup {} end }
     use 'QiBaobin/neovim-shelljob'
+    use { 'nvim-telescope/telescope.nvim', config =  function()
+      require('telescope').setup{
+        defaults = {
+          layout_strategy='bottom_pane',
+          layout_config = {
+            vertical = { width = 0.8 }
+          },
+        },
+        pickers = {
+          find_files = { previewer = false, },
+        },
+      }
+      
+      vim.api.nvim_set_keymap('n', '<Leader>f',  ':Telescope find_files<CR>', { noremap = true })
+      vim.api.nvim_set_keymap('n', '<Leader>b',  ':Telescope buffers show_all_buffers=true sort_mru=true<CR>', { noremap = true })
+    end, requires = {'nvim-lua/plenary.nvim'} }
 
     -- code
     use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', config = function()
