@@ -26,7 +26,8 @@ return require('packer').startup({
         defaults = {
           layout_strategy='bottom_pane',
           layout_config = {
-            vertical = { width = 0.8 }
+            vertical = { width = 0.8 },
+            bottom_pane = { height = 0.6 },
           },
         },
         pickers = {
@@ -35,8 +36,22 @@ return require('packer').startup({
       }
       
       vim.api.nvim_set_keymap('n', '<Leader>f',  ':Telescope find_files<CR>', { noremap = true })
-      vim.api.nvim_set_keymap('n', '<Leader>b',  ':Telescope buffers show_all_buffers=true sort_mru=true<CR>', { noremap = true })
+      vim.api.nvim_set_keymap('n', '<Leader>b',  ':Telescope buffers sort_mru=true<CR>', { noremap = true })
+      vim.api.nvim_set_keymap('n', '<Leader>s',  ':Telescope grep_string use_regex=true search=', { noremap = true })
+      vim.api.nvim_set_keymap('n', '<Leader>S',  ':Telescope grep_string<CR>', { noremap = true })
+      vim.api.nvim_set_keymap('n', '<Leader>h',  ':Telescope help_tags<CR>', { noremap = true })
+      vim.api.nvim_set_keymap('n', '<Leader>:',  ':Telescope command_history<CR>', { noremap = true })
+      vim.api.nvim_set_keymap('n', '<Leader>t',  ':Telescope<CR>', { noremap = true })
     end, requires = {'nvim-lua/plenary.nvim'} }
+    use { "ahmedkhalf/project.nvim", config = function()
+      require("project_nvim").setup { }
+      require('telescope').load_extension('projects')
+      vim.api.nvim_set_keymap('n', '<Leader>p',  ':Telescope projects<CR>', { noremap = true })
+      end
+    }
+    use { 'nvim-telescope/telescope-fzy-native.nvim', config =  function()
+      require('telescope').load_extension('fzy_native')
+    end}
 
     -- code
     use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', config = function()

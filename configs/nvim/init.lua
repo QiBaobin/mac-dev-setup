@@ -32,9 +32,7 @@ vim.cmd([[
   set iskeyword+=-
 
   nnoremap <leader>B :edit term://just\ --chooser=sk\ --choose<CR>
-  nnoremap <leader>s :grep 
-  nnoremap <leader>S :grep! 
-  nnoremap <leader>p :filter /.git\/index/ browse oldfiles<CR>
+  nnoremap <leader>P :filter /.git\/index/ browse oldfiles<CR>
   nnoremap <leader><tab> <c-^>
 
   tnoremap <C-o> <C-\><C-N>
