@@ -43,12 +43,10 @@ return require('packer').startup({
       vim.api.nvim_set_keymap('n', '<Leader>:',  ':Telescope command_history<CR>', { noremap = true })
       vim.api.nvim_set_keymap('n', '<Leader>t',  ':Telescope<CR>', { noremap = true })
     end, requires = {'nvim-lua/plenary.nvim'} }
-    use { "ahmedkhalf/project.nvim", config = function()
-      require("project_nvim").setup { }
-      require('telescope').load_extension('projects')
-      vim.api.nvim_set_keymap('n', '<Leader>p',  ':Telescope projects<CR>', { noremap = true })
-      end
-    }
+    use { 'nvim-telescope/telescope-project.nvim', config =  function()
+      require'telescope'.load_extension('project')
+      vim.api.nvim_set_keymap('n', '<Leader>p',  ':Telescope project<CR>', { noremap = true })
+    end }
     use { 'nvim-telescope/telescope-fzy-native.nvim', config =  function()
       require('telescope').load_extension('fzy_native')
     end}
