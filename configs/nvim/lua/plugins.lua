@@ -14,42 +14,37 @@ return require('packer').startup({
     use 'tpope/vim-surround'
     use 'tpope/vim-commentary'
     use 'tpope/vim-rsi'
-    use 'tpope/vim-dispatch'
     use 'tpope/vim-abolish'
 
     use 'AndrewRadev/splitjoin.vim'
     use 'wellle/targets.vim'
     use { "folke/which-key.nvim", config = function() require("which-key").setup {} end }
+    use 'ggandor/lightspeed.nvim'
     use 'QiBaobin/neovim-shelljob'
-    use { 'nvim-telescope/telescope.nvim', config =  function()
-      require('telescope').setup{
-        defaults = {
-          layout_strategy='bottom_pane',
-          layout_config = {
-            vertical = { width = 0.8 },
-            bottom_pane = { height = 0.6 },
-          },
-        },
-        pickers = {
-          find_files = { previewer = false, },
-        },
+    use {"akinsho/toggleterm.nvim", config = function()
+      require("toggleterm").setup{
+        open_mapping = [[<c-\>]],
+        direction = 'tab',
+        close_on_exit = true,
       }
-      
-      vim.api.nvim_set_keymap('n', '<Leader>f',  ':Telescope find_files<CR>', { noremap = true })
-      vim.api.nvim_set_keymap('n', '<Leader>b',  ':Telescope buffers sort_mru=true<CR>', { noremap = true })
-      vim.api.nvim_set_keymap('n', '<Leader>s',  ':Telescope grep_string use_regex=true search=', { noremap = true })
-      vim.api.nvim_set_keymap('n', '<Leader>S',  ':Telescope grep_string<CR>', { noremap = true })
-      vim.api.nvim_set_keymap('n', '<Leader>h',  ':Telescope help_tags<CR>', { noremap = true })
-      vim.api.nvim_set_keymap('n', '<Leader>:',  ':Telescope command_history<CR>', { noremap = true })
-      vim.api.nvim_set_keymap('n', '<Leader>t',  ':Telescope<CR>', { noremap = true })
-    end, requires = {'nvim-lua/plenary.nvim'} }
-    use { 'nvim-telescope/telescope-project.nvim', config =  function()
-      require'telescope'.load_extension('project')
-      vim.api.nvim_set_keymap('n', '<Leader>p',  ':Telescope project<CR>', { noremap = true })
+      vim.api.nvim_set_keymap('n', '<Leader>m',  ':TermExec cmd="abt -v build"<Left>', { noremap = true })
+      vim.api.nvim_set_keymap('n', '<Leader>ma',  ':TermExec cmd="./gradlew :app:instGNPD"<Left>', { noremap = true })
+      vim.api.nvim_set_keymap('n', '<Leader>!',  ':TermExec cmd=""<Left>', { noremap = true })
     end }
-    use { 'nvim-telescope/telescope-fzy-native.nvim', config =  function()
-      require('telescope').load_extension('fzy_native')
-    end}
+    use { 'liuchengxu/vim-clap', run = ':Clap install-binary', config = function()
+      vim.api.nvim_command[[
+      let g:clap_layout = { 'relative': 'editor' }
+      let g:clap_open_preview = 'never'
+      let g:clap_provider_all_buffers = {  'source': { -> split(execute('ls!'), "\n") },  'sink': 'e',  'description': 'All buffers includes hidden ones',  }
+      ]]
+      -- let g:clap_provider_buffers_cur_tab_only = v:true
+      vim.api.nvim_set_keymap('n', '<Leader>f',  ':Clap files<CR>', { noremap = true })
+      vim.api.nvim_set_keymap('n', '<Leader>b',  ':Clap buffers<CR>', { noremap = true })
+      vim.api.nvim_set_keymap('n', '<Leader>r',  ':Clap recent_files<CR>', { noremap = true })
+      vim.api.nvim_set_keymap('n', '<Leader>s',  ':Clap dumb_jump ++query=<cword><CR>', { noremap = true })
+      vim.api.nvim_set_keymap('n', '<Leader>S',  ':Clap dumb_jump ++query=', { noremap = true })
+      vim.api.nvim_set_keymap('n', '<Leader>c',  ':Clap providers<CR>', { noremap = true })
+    end }
 
     -- code
     use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', config = function()
@@ -69,7 +64,7 @@ return require('packer').startup({
     end }
     use { 'neovim/nvim-lspconfig', config = function() require 'lsp-setup' end }
     use 'pechorin/any-jump.vim'
-    -- use 'vim-test/vim-test'
+    use 'vim-test/vim-test'
 
     -- UI
     use { "Pocco81/Catppuccino.nvim", config  = function()
@@ -99,7 +94,7 @@ return require('packer').startup({
               }
             },
             which_key = true,
-            bufferline = true,
+            bufferline = false,
           }
         }
       )
@@ -110,8 +105,8 @@ return require('packer').startup({
     use { 'hoob3rt/lualine.nvim', requires = {'kyazdani42/nvim-web-devicons', opt = true }, config = function()
       require('lualine').setup{ options = {theme = 'catppuccino'} }
     end }
-    use {'akinsho/nvim-bufferline.lua', requires = 'kyazdani42/nvim-web-devicons', config = function()
-      require('bufferline').setup { options = { show_buffer_close_icons = false, tab_size = 8 } }
+    use { 'norcalli/nvim-colorizer.lua', config = function()
+      require'colorizer'.setup()
     end }
 
   end,
