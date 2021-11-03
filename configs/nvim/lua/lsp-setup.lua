@@ -1,4 +1,3 @@
-local nvim_lsp = require('lspconfig')
 local on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
@@ -47,10 +46,9 @@ local on_attach = function(client, bufnr)
     ]], false)
   end
 end
+local opts = { on_attach = on_attach, }
 
--- Use a loop to conveniently both setup defined servers 
--- and map buffer local keybindings when the language server attaches
-local servers = { "rust_analyzer", "kotlin_language_server" }
-for _, lsp in ipairs(servers) do
-  nvim_lsp[lsp].setup { on_attach = on_attach }
-end
+local lsp_installer = require("nvim-lsp-installer")
+lsp_installer.on_server_ready(function (server)
+  server:setup(opts)
+end)

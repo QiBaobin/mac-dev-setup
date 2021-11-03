@@ -62,8 +62,10 @@ return require('packer').startup({
         indent = { enable = true }
       }
     end }
-    use { 'neovim/nvim-lspconfig', config = function() require 'lsp-setup' end }
     use 'pechorin/any-jump.vim'
+    use {'williamboman/nvim-lsp-installer', requires = { 'neovim/nvim-lspconfig'}, config = function()
+      require 'lsp-setup'
+    end }
     use 'vim-test/vim-test'
 
     -- UI
