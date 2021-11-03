@@ -9,7 +9,6 @@ vim.o.relativenumber = true
 vim.o.number = true
 vim.o.spell = false
 vim.o.spelllang = 'en_us'
-vim.o.hlsearch = false
 vim.o.smartcase = true
 vim.o.showmatch = true
 vim.o.inccommand = 'split'

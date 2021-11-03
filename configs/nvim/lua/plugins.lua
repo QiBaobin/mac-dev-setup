@@ -24,7 +24,7 @@ return require('packer').startup({
     use {"akinsho/toggleterm.nvim", config = function()
       require("toggleterm").setup{
         open_mapping = [[<c-\>]],
-        direction = 'tab',
+        direction = 'float',
         close_on_exit = true,
       }
       vim.api.nvim_set_keymap('n', '<Leader>m',  ':TermExec cmd="abt -v build"<Left>', { noremap = true })
@@ -34,7 +34,8 @@ return require('packer').startup({
     use { 'liuchengxu/vim-clap', run = ':Clap install-binary', config = function()
       vim.api.nvim_command[[
       let g:clap_layout = { 'relative': 'editor' }
-      let g:clap_open_preview = 'never'
+      let g:clap_layout = { 'width': '95%', 'row': '3%', 'col': '3%' }
+      let g:clap_open_preview = 'on_move'
       let g:clap_provider_all_buffers = {  'source': { -> split(execute('ls!'), "\n") },  'sink': 'e',  'description': 'All buffers includes hidden ones',  }
       ]]
       -- let g:clap_provider_buffers_cur_tab_only = v:true
@@ -43,10 +44,9 @@ return require('packer').startup({
       vim.api.nvim_set_keymap('n', '<Leader>r',  ':Clap recent_files<CR>', { noremap = true })
       vim.api.nvim_set_keymap('n', '<Leader>s',  ':Clap dumb_jump ++query=<cword><CR>', { noremap = true })
       vim.api.nvim_set_keymap('n', '<Leader>S',  ':Clap dumb_jump ++query=', { noremap = true })
-      vim.api.nvim_set_keymap('n', '<Leader>c',  ':Clap providers<CR>', { noremap = true })
+      vim.api.nvim_set_keymap('n', '<Leader><Leader>',  ':Clap providers<CR>', { noremap = true })
     end }
 
-    -- code
     use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', config = function()
       require'nvim-treesitter.configs'.setup {
         incremental_selection = {
