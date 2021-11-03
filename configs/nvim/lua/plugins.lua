@@ -7,7 +7,7 @@ return require('packer').startup({
     -- fundamental
     use 'tpope/vim-sensible'
     use 'tpope/vim-sleuth'
-    use { 'tpope/vim-fugitive', config = function() 
+    use { 'tpope/vim-fugitive', config = function()
       vim.api.nvim_set_keymap('n', '<Leader>g',  ':Git<CR>gg<c-n>', { noremap = true })
     end }
     use 'tpope/vim-unimpaired'
@@ -31,22 +31,30 @@ return require('packer').startup({
       vim.api.nvim_set_keymap('n', '<Leader>ma',  ':TermExec cmd="./gradlew :app:instGNPD"<Left>', { noremap = true })
       vim.api.nvim_set_keymap('n', '<Leader>!',  ':TermExec cmd=""<Left>', { noremap = true })
     end }
-    use { 'liuchengxu/vim-clap', run = ':Clap install-binary', config = function()
-      vim.api.nvim_command[[
-      let g:clap_layout = { 'relative': 'editor' }
-      let g:clap_layout = { 'width': '95%', 'row': '3%', 'col': '3%' }
-      let g:clap_open_preview = 'on_move'
-      let g:clap_provider_all_buffers = {  'source': { -> split(execute('ls!'), "\n") },  'sink': 'e',  'description': 'All buffers includes hidden ones',  }
-      ]]
-      -- let g:clap_provider_buffers_cur_tab_only = v:true
-      vim.api.nvim_set_keymap('n', '<Leader>f',  ':Clap files<CR>', { noremap = true })
-      vim.api.nvim_set_keymap('n', '<Leader>b',  ':Clap buffers<CR>', { noremap = true })
-      vim.api.nvim_set_keymap('n', '<Leader>r',  ':Clap recent_files<CR>', { noremap = true })
-      vim.api.nvim_set_keymap('n', '<Leader>s',  ':Clap dumb_jump ++query=<cword><CR>', { noremap = true })
-      vim.api.nvim_set_keymap('n', '<Leader>S',  ':Clap dumb_jump ++query=', { noremap = true })
-      vim.api.nvim_set_keymap('n', '<Leader><Leader>',  ':Clap providers<CR>', { noremap = true })
-    end }
+    use { 'nvim-telescope/telescope-fzy-native.nvim', requires = { 'nvim-telescope/telescope.nvim', 'nvim-lua/plenary.nvim'}, config =  function()
+      require('telescope').setup{
+        defaults = {
+          layout_strategy='bottom_pane',
+          layout_config = {
+            vertical = { width = 0.8 },
+            bottom_pane = { height = 0.6 },
+          },
+        },
+        pickers = {
+          find_files = { previewer = false, },
+        },
+      }
 
+      require('telescope').load_extension('fzy_native')
+
+      vim.api.nvim_set_keymap('n', '<Leader>f',  ':Telescope find_files<CR>', { noremap = true })
+      vim.api.nvim_set_keymap('n', '<Leader>b',  ':Telescope buffers sort_mru=true<CR>', { noremap = true })
+      vim.api.nvim_set_keymap('n', '<Leader>s',  ':Telescope grep_string use_regex=true search=', { noremap = true })
+      vim.api.nvim_set_keymap('n', '<Leader>h',  ':Telescope help_tags<CR>', { noremap = true })
+      vim.api.nvim_set_keymap('n', '<Leader>:',  ':Telescope command_history<CR>', { noremap = true })
+      vim.api.nvim_set_keymap('n', '<Leader>r',  ':Telescope oldfiles<CR>', { noremap = true })
+      vim.api.nvim_set_keymap('n', '<Leader><Leader>',  ':Telescope<CR>', { noremap = true })
+    end}
     use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', config = function()
       require'nvim-treesitter.configs'.setup {
         incremental_selection = {
