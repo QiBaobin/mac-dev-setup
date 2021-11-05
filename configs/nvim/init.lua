@@ -42,6 +42,8 @@ vim.cmd([[
     autocmd TermOpen term://* startinsert
     autocmd TermClose term://*nvr* bd! term://*nvr*
   augroup END
+
+  packadd! cfilter
 ]])
 
 require('plugins')

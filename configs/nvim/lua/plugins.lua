@@ -31,30 +31,6 @@ return require('packer').startup({
       vim.api.nvim_set_keymap('n', '<Leader>ma',  ':TermExec cmd="./gradlew :app:instGNPD"<Left>', { noremap = true })
       vim.api.nvim_set_keymap('n', '<Leader>!',  ':TermExec cmd=""<Left>', { noremap = true })
     end }
-    use { 'nvim-telescope/telescope-fzy-native.nvim', requires = { 'nvim-telescope/telescope.nvim', 'nvim-lua/plenary.nvim'}, config =  function()
-      require('telescope').setup{
-        defaults = {
-          layout_strategy='bottom_pane',
-          layout_config = {
-            vertical = { width = 0.8 },
-            bottom_pane = { height = 0.6 },
-          },
-        },
-        pickers = {
-          find_files = { previewer = false, },
-        },
-      }
-
-      require('telescope').load_extension('fzy_native')
-
-      vim.api.nvim_set_keymap('n', '<Leader>f',  ':Telescope find_files<CR>', { noremap = true })
-      vim.api.nvim_set_keymap('n', '<Leader>b',  ':Telescope buffers sort_mru=true<CR>', { noremap = true })
-      vim.api.nvim_set_keymap('n', '<Leader>s',  ':Telescope grep_string use_regex=true search=', { noremap = true })
-      vim.api.nvim_set_keymap('n', '<Leader>h',  ':Telescope help_tags<CR>', { noremap = true })
-      vim.api.nvim_set_keymap('n', '<Leader>:',  ':Telescope command_history<CR>', { noremap = true })
-      vim.api.nvim_set_keymap('n', '<Leader>r',  ':Telescope oldfiles<CR>', { noremap = true })
-      vim.api.nvim_set_keymap('n', '<Leader><Leader>',  ':Telescope<CR>', { noremap = true })
-    end}
     use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', config = function()
       require'nvim-treesitter.configs'.setup {
         incremental_selection = {
@@ -71,7 +47,7 @@ return require('packer').startup({
       }
     end }
     use 'pechorin/any-jump.vim'
-    use {'williamboman/nvim-lsp-installer', requires = { 'neovim/nvim-lspconfig'}, config = function()
+    use { 'williamboman/nvim-lsp-installer', requires = { 'neovim/nvim-lspconfig'}, config = function()
       require 'lsp-setup'
     end }
     use 'vim-test/vim-test'
