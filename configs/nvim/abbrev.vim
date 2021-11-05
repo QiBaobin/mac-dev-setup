@@ -9,3 +9,7 @@ cabbrev JS JobStop
 cabbrev JV JobView
 cabbrev JL JobList
 cabbrev z execute 'cd ' . system('zoxide query ')<Left><Left>
+
+cabbrev CF call setqflist(filter(getqflist(), {idx, val -> val.text =~ ''})) \| copen<S-Left><S-Left><S-Left><Right>
+cabbrev LF call setloclist(filter(getloclist(), {idx, val -> val.text =~ ''})) \| lopen<S-Left><S-Left><S-Left><Right>
+

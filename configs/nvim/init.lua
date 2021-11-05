@@ -10,6 +10,7 @@ vim.o.number = true
 vim.o.spell = false
 vim.o.spelllang = 'en_us'
 vim.o.smartcase = true
+vim.o.smartindent = true
 vim.o.showmatch = true
 vim.o.inccommand = 'split'
 vim.o.hidden = true
@@ -30,8 +31,9 @@ end
 vim.cmd([[
   set iskeyword+=-
 
-  nnoremap <leader>B :edit term://just\ --chooser=sk\ --choose<CR>
-  nnoremap <leader>P :filter /.git\/index/ browse oldfiles<CR>
+  nnoremap <leader>b :ls<CR>:b 
+  nnoremap <leader>B :ls!<CR>:b 
+  nnoremap <leader>f :exec 'edit ' . fnameescape('term://nvr $(fd \|sk --regex -m)')<CR>
   nnoremap <leader><tab> <c-^>
 
   tnoremap <C-o> <C-\><C-N>
@@ -42,8 +44,6 @@ vim.cmd([[
     autocmd TermOpen term://* startinsert
     autocmd TermClose term://*nvr* bd! term://*nvr*
   augroup END
-
-  packadd! cfilter
 ]])
 
 require('plugins')
