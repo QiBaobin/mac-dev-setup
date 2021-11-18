@@ -1,4 +1,4 @@
-cabbrev farg -m 1 -e '^' -g 
+cabbrev FA grep -m 1 -e '^' -g 
 cabbrev GR G reset --hard origin/develop
 cabbrev GF G fetch
 cabbrev GP G -p push 

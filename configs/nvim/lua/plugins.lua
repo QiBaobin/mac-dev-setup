@@ -53,43 +53,14 @@ return require('packer').startup({
     use 'vim-test/vim-test'
 
     -- UI
-    use { "Pocco81/Catppuccino.nvim", config  = function()
-      local catppuccino = require("catppuccino")
-
-      -- configure it
-      catppuccino.setup(
-        {
-          colorscheme = "dark_catppuccino",
-          transparency = false,
-          styles = {
-            comments = "italic",
-            functions = "italic",
-            keywords = "italic",
-            strings = "NONE",
-            variables = "NONE",
-          },
-          integrations = {
-            treesitter = true,
-            native_lsp = {
-              enabled = true,
-              styles = {
-                errors = "italic",
-                hints = "italic",
-                warnings = "italic",
-                information = "italic"
-              }
-            },
-            which_key = true,
-            bufferline = false,
-          }
-        }
-      )
-
-      -- load it
-      catppuccino.load()
+    use { "projekt0n/github-nvim-theme", config = function()
+      require("github-theme").setup({
+        theme_style = "dark",
+        sidebars = {"qf", "terminal", "packer"},
+      })
     end }
     use { 'hoob3rt/lualine.nvim', requires = {'kyazdani42/nvim-web-devicons', opt = true }, config = function()
-      require('lualine').setup{ options = {theme = 'catppuccino'} }
+      require('lualine').setup{ options = {theme = 'github'} }
     end }
     use { 'norcalli/nvim-colorizer.lua', config = function()
       require'colorizer'.setup()
