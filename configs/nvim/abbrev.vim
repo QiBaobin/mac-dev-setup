@@ -1,10 +1,10 @@
 cabbrev FA grep -m 1 -e '^' -g 
-cabbrev GR G reset --hard origin/develop
+cabbrev GR G reset --hard origin/develop<Left><Left><Left><Left><Left><Left><Left>
 cabbrev GF G fetch
 cabbrev GP G -p push 
 cabbrev F exec 'edit ' . fnameescape('term://nvr $(fd \|sk --regex -m)')<S-Left><S-Left><S-Left>
 cabbrev O filter // browse oldfiles<S-Left><S-Left><Left><Left>
-cabbrev J Job 
+cabbrev J Job abt -v build
 cabbrev JS JobStop
 cabbrev JV JobView
 cabbrev JL JobList

@@ -35,6 +35,7 @@ vim.cmd([[
   nnoremap <leader>B :ls!<CR>:b 
   nnoremap <leader>f :exec 'edit ' . fnameescape('term://nvr $(fd \|sk --regex -m)')<CR>
   nnoremap <leader><tab> <c-^>
+  nnoremap <leader>t :b term://*<CR>
 
   tnoremap <C-o> <C-\><C-N>
   tnoremap <expr> <C-Q> '<C-\><C-N>"'.nr2char(getchar()).'pi'

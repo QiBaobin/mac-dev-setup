@@ -19,18 +19,7 @@ return require('packer').startup({
     use 'AndrewRadev/splitjoin.vim'
     use 'wellle/targets.vim'
     use { "folke/which-key.nvim", config = function() require("which-key").setup {} end }
-    use 'ggandor/lightspeed.nvim'
     use 'QiBaobin/neovim-shelljob'
-    use {"akinsho/toggleterm.nvim", config = function()
-      require("toggleterm").setup{
-        open_mapping = [[<c-\>]],
-        direction = 'float',
-        close_on_exit = true,
-      }
-      vim.api.nvim_set_keymap('n', '<Leader>m',  ':TermExec cmd="abt -v build"<Left>', { noremap = true })
-      vim.api.nvim_set_keymap('n', '<Leader>ma',  ':TermExec cmd="./gradlew :app:instGNPD"<Left>', { noremap = true })
-      vim.api.nvim_set_keymap('n', '<Leader>!',  ':TermExec cmd=""<Left>', { noremap = true })
-    end }
     use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', config = function()
       require'nvim-treesitter.configs'.setup {
         incremental_selection = {
