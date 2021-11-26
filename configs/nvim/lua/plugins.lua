@@ -2,24 +2,23 @@ return require('packer').startup({
   function()
 
     -- Packer can manage itself
-    use 'wbthomason/packer.nvim'
+    use { 'wbthomason/packer.nvim' }
 
     -- fundamental
     use 'tpope/vim-sensible'
     use 'tpope/vim-sleuth'
     use { 'tpope/vim-fugitive', config = function()
       vim.api.nvim_set_keymap('n', '<Leader>g',  ':Git<CR>gg<c-n>', { noremap = true })
-    end }
+    end, opt = true, cmd = { "G", "Gwrite" }, keys = {"<Leader>g"} }
     use 'tpope/vim-unimpaired'
     use 'tpope/vim-surround'
-    use 'tpope/vim-commentary'
+    use { 'tpope/vim-commentary', opt = true, keys = "gc" }
     use 'tpope/vim-rsi'
-    use 'tpope/vim-abolish'
+    use { 'tpope/vim-abolish', opt = true, cmd = "Abolish" }
 
-    use 'AndrewRadev/splitjoin.vim'
     use 'wellle/targets.vim'
     use { "folke/which-key.nvim", config = function() require("which-key").setup {} end }
-    use 'QiBaobin/neovim-shelljob'
+    use { 'QiBaobin/neovim-shelljob', opt = true,  cmd = {"Job"} }
     use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', config = function()
       require'nvim-treesitter.configs'.setup {
         incremental_selection = {
@@ -35,11 +34,11 @@ return require('packer').startup({
         indent = { enable = true }
       }
     end }
-    use 'pechorin/any-jump.vim'
+    use { 'pechorin/any-jump.vim', opt = true,  keys = "<Leader>j" }
     use { 'williamboman/nvim-lsp-installer', requires = { 'neovim/nvim-lspconfig'}, config = function()
       require 'lsp-setup'
     end }
-    use 'vim-test/vim-test'
+    use { 'vim-test/vim-test', opt = true, cmd = { "TestFile" } }
 
     -- UI
     use { "projekt0n/github-nvim-theme", config = function()
@@ -50,9 +49,6 @@ return require('packer').startup({
     end }
     use { 'hoob3rt/lualine.nvim', requires = {'kyazdani42/nvim-web-devicons', opt = true }, config = function()
       require('lualine').setup{ options = {theme = 'github'} }
-    end }
-    use { 'norcalli/nvim-colorizer.lua', config = function()
-      require'colorizer'.setup()
     end }
 
   end,
