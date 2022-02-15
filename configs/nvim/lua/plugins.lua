@@ -14,7 +14,9 @@ return require('packer').startup({
     use 'tpope/vim-surround'
     use { 'tpope/vim-commentary', opt = true, keys = "gc" }
     use 'tpope/vim-rsi'
+    use 'tpope/vim-rsi'
     use { 'tpope/vim-abolish', opt = true, cmd = "Abolish" }
+    use { 'tpope/vim-dispatch', opt = true, cmd = { "Make", "Dispatch", "Make!", "Dispatch!" } }
 
     use 'wellle/targets.vim'
     use { "folke/which-key.nvim", config = function() require("which-key").setup {} end }
