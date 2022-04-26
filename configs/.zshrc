@@ -1,17 +1,18 @@
 autoload -Uz compinit && compinit
 set -o emacs
 
-alias cargo-install-update="cargo install --list | rg -e '^(\S+).*' -r '\$1' | xargs cargo install"
+alias startavd="$ANDROID_SDK_ROOT/emulator/emulator -no-skin -no-audio '@Pixel_2_API_31' > /dev/null 2>&1 &"
 
-export PATH="$HOME/homebrew/bin:$HOME/homebrew/sbin:$HOME/.cargo/bin:$HOME/bin:$JAVA_HOME/bin:$HOME/code/kotlin-language-server/server/build/install/server/bin/:$PATH"
+export PATH="$HOME/homebrew/bin:$HOME/homebrew/sbin:$HOME/.cargo/bin:$HOME/bin:$JAVA_HOME/bin:$PATH:/Users/a483334/.local/share/nvim/lsp_servers/kotlin/server/bin/"
 
 eval "$(starship init zsh)"
+eval "$(zoxide init zsh)"
+eval "$(atuin init zsh)"
+
 function set_win_title(){
     echo -ne "\033]0; ${PWD##/*/} \007"
 }
 precmd_functions+=(set_win_title)
-
-eval "$(zoxide init zsh)"
 
 source ~/.zsh/skim.zsh
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
