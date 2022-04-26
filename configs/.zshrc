@@ -14,7 +14,6 @@ function set_win_title(){
 }
 precmd_functions+=(set_win_title)
 
-source ~/.zsh/skim.zsh
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
