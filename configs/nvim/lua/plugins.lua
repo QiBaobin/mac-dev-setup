@@ -14,7 +14,6 @@ return require('packer').startup({
     use 'tpope/vim-surround'
     use { 'tpope/vim-commentary', opt = true, keys = "gc" }
     use 'tpope/vim-rsi'
-    use 'tpope/vim-rsi'
     use { 'tpope/vim-abolish', opt = true, cmd = "Abolish" }
     use { 'tpope/vim-dispatch', opt = true, cmd = { "Make", "Dispatch", "Make!", "Dispatch!" } }
 
@@ -41,16 +40,14 @@ return require('packer').startup({
       require 'lsp-setup'
     end }
     use { 'vim-test/vim-test', opt = true, cmd = { "TestFile" } }
+    use { 'psliwka/vim-dirtytalk', run = ':DirtytalkUpdate' }
 
     -- UI
-    use { "projekt0n/github-nvim-theme", config = function()
-      require("github-theme").setup({
-        theme_style = "dark",
-        sidebars = {"qf", "terminal", "packer"},
-      })
+    use { "EdenEast/nightfox.nvim", config = function()
+      vim.cmd("colorscheme dayfox")
     end }
     use { 'hoob3rt/lualine.nvim', requires = {'kyazdani42/nvim-web-devicons', opt = true }, config = function()
-      require('lualine').setup{ options = {theme = 'github'} }
+      require('lualine').setup{}
     end }
 
   end,
