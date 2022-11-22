@@ -1,2 +1,16 @@
-theme = "gruvbox"
-editor.line-number = "relative"
+theme = "base16_terminal"
+
+[editor]
+line-number = "relative"
+shell = ["/bin/zsh", "-c"]
+
+[editor.statusline]
+right = ["diagnostics", "selections", "position", "position-percentage", "file-encoding", "file-type"]
+
+[editor.whitespace]
+render = "all"
+
+[keys.normal]
+x = "extend_line"
+"space".Q = ":quit-all!"
+"space".q = ":write-quit-all!"

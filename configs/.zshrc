@@ -1,5 +1,5 @@
 autoload -Uz compinit && compinit
-set -o emacs
+set -o vi
 
 alias startavd="$ANDROID_SDK_ROOT/emulator/emulator -no-skin -no-audio '@Pixel_2_API_31' > /dev/null 2>&1 &"
 
@@ -7,7 +7,6 @@ export PATH="$HOME/homebrew/bin:$HOME/homebrew/sbin:$HOME/.cargo/bin:$HOME/bin:$
 
 eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
-eval "$(atuin init zsh)"
 
 function set_win_title(){
     echo -ne "\033]0; ${PWD##/*/} \007"
@@ -16,6 +15,9 @@ precmd_functions+=(set_win_title)
 
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ~/.cargo/registry/src/github.com-1ecc6299db9ec823/skim-0.10.2/shell/key-bindings.zsh
+source ~/.cargo/registry/src/github.com-1ecc6299db9ec823/skim-0.10.2/shell/completion.zsh
+
 
 SSH_AGENT_ENV="$HOME/.ssh-agent.env" 
 if [ -f  "$SSH_AGENT_ENV" ]; then
@@ -28,3 +30,4 @@ function sa(){
 }
 alias ls=exa
 printf '\033[3 q'
+eval $(thefuck --alias)

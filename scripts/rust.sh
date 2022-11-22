@@ -8,13 +8,12 @@ if [ -z "$rust_load" ]; then
 
     # dev env
     rustup component add rust-src
+    rustup component add clippy
+    rustup component add rust-analyzer
 
     # useful tools
-    cargo install bat cross fd-find exa ripgrep skim starship zoxide xh atuin cargo-update loc nu topgrade zellij
+    cargo install bat cross fd-find exa ripgrep skim starship zoxide xh cargo-update nu topgrade zellij git-delta ruplacer
 
-    owd=$PWD
-    mkdir ~/code; cd ~/code && git clone --depth 1 https://github.com/rust-analyzer/rust-analyzer.git && cd rust-analyzer && cargo xtask install --server
-    cd $owd
     rust_load=1
 fi
 
