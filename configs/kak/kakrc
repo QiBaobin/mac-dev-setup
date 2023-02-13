@@ -1,11 +1,39 @@
 # relative line numbers
-hook global BufCreate .* %[
-    add-highlighter buffer/ number-lines -relative -hlcursor
-    add-highlighter buffer/ wrap
-]
+add-highlighter global/ number-lines -relative -hlcursor
+add-highlighter global/ wrap -word
 add-highlighter global/ show-matching
+# Highlight trailing whitespace
+add-highlighter global/ regex \h+$ 0:Error
 
-set-option global makecmd 'sh -c'
-set-option global grepcmd 'rg'
+set-option global tabstop 4
+set-option global grepcmd 'rg --column'
 
-define-command mkdir %{ nop %sh{ mkdir -p "$(dirname $kak_buffile) } }
+colorscheme gruvbox-dark
+
+define-command mkdir %{ nop %sh{ mkdir -p $(dirname $kak_buffile) } }
+define-command find -docstring "find files" -params 1 %{ edit %arg{1} }
+complete-command find shell-script-candidates %{ fd -tf . . }
+# Shortcut to quickly exit the editor
+define-command -docstring "save and quit" x "write-all; quit"
+define-command -params .. fifo %{ evaluate-commands %sh{
+    output=$(mktemp -d "${TMPDIR:-/tmp}"/kak-fifo.XXXXXXXX)/fifo
+    mkfifo ${output}
+    ( eval "$@" > ${output} 2>&1 & ) > /dev/null 2>&1 < /dev/null
+    printf %s\\n "evaluate-commands -try-client '$kak_opt_toolsclient' %{
+        edit! -fifo ${output} *fifo*
+        hook -always -once buffer BufCloseFifo .* %{ nop %sh{ rm -r $(dirname ${output}) } }
+    }"
+}}
+
+hook global BufCreate .kt %[
+    set-option buffer number-lines -relative -hlcursor
+    set-option buffer wrap
+]
+
+map global goto n '<esc>:bn<ret>' -docstring 'next buffer'
+map global goto p '<esc>:bp<ret>' -docstring 'previous buffer'
+map global user q %{:x<ret>} -docstring "Save and quit"
+map global user c %{:comment-line<ret>} -docstring "Comment line"
+map global user b %{:buffer } -docstring "Buffer"
+map global user b %{:find } -docstring "Find file"
+map global user b %{:grep } -docstring "Grep"
