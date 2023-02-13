@@ -1,0 +1,11 @@
+# relative line numbers
+hook global BufCreate .* %[
+    add-highlighter buffer/ number-lines -relative -hlcursor
+    add-highlighter buffer/ wrap
+]
+add-highlighter global/ show-matching
+
+set-option global makecmd 'sh -c'
+set-option global grepcmd 'rg'
+
+define-command mkdir %{ nop %sh{ mkdir -p "$(dirname $kak_buffile) } }
