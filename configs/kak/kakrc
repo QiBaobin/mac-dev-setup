@@ -37,3 +37,31 @@ map global user c %{:comment-line<ret>} -docstring "Comment line"
 map global user b %{:buffer } -docstring "Buffer"
 map global user b %{:find } -docstring "Find file"
 map global user b %{:grep } -docstring "Grep"
+
+# System clipboard handling
+# ─────────────────────────
+
+evaluate-commands %sh{
+    if [ -n "$SSH_TTY" ]; then
+        copy='printf "\033]52;;%s\033\\" $(base64 | tr -d "\n") > $( [ -n "$kak_client_pid" ] && echo /proc/$kak_client_pid/fd/0 || echo /dev/tty )'
+        paste='printf "paste unsupported through ssh"'
+        backend="OSC 52"
+    else
+        case $(uname) in
+            Linux)
+                if [ -n "$WAYLAND_DISPLAY" ]; then
+                    copy="wl-copy -p"; paste="wl-paste -p"; backend=Wayland
+                else
+                    copy="xclip -i"; paste="xclip -o"; backend=X11
+                fi
+                ;;
+            Darwin)  copy="pbcopy"; paste="pbpaste"; backend=OSX ;;
+        esac
+    fi
+    printf "map global user -docstring 'paste (after) from clipboard' p '<a-!>%s<ret>'\n" "$paste"
+    printf "map global user -docstring 'paste (before) from clipboard' P '!%s<ret>'\n" "$paste"
+    printf "map global user -docstring 'yank to primary' y '<a-|>%s<ret>:echo -markup %%{{Information}copied selection to %s primary}<ret>'\n" "$copy" "$backend"
+    printf "map global user -docstring 'yank to clipboard' Y '<a-|>%s<ret>:echo -markup %%{{Information}copied selection to %s clipboard}<ret>'\n" "$copy -selection clipboard" "$backend"
+    printf "map global user -docstring 'replace from clipboard' R '|%s<ret>'\n" "$paste"
+    printf "define-command -override echo-to-clipboard -params .. %%{ echo -to-shell-script '%s' -- %%arg{@} }" "$copy"
+}
