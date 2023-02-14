@@ -35,8 +35,10 @@ map global goto p '<esc>:bp<ret>' -docstring 'previous buffer'
 map global user q %{:x<ret>} -docstring "Save and quit"
 map global user c %{:comment-line<ret>} -docstring "Comment line"
 map global user b %{:buffer } -docstring "Buffer"
-map global user b %{:find } -docstring "Find file"
-map global user b %{:grep } -docstring "Grep"
+map global user f %{:find } -docstring "Find file"
+map global user / %{:grep } -docstring "Grep"
+map global user : %{:fifo } -docstring "Shell"
+
 
 # System clipboard handling
 # ─────────────────────────
