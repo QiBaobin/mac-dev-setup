@@ -65,5 +65,5 @@ evaluate-commands %sh{
     printf "map global user -docstring 'yank to primary' y '<a-|>%s<ret>:echo -markup %%{{Information}copied selection to %s primary}<ret>'\n" "$copy" "$backend"
     printf "map global user -docstring 'yank to clipboard' Y '<a-|>%s<ret>:echo -markup %%{{Information}copied selection to %s clipboard}<ret>'\n" "$copy -selection clipboard" "$backend"
     printf "map global user -docstring 'replace from clipboard' R '|%s<ret>'\n" "$paste"
-    printf "define-command -override echo-to-clipboard -params .. %%{ echo -quoting shell '%s' -- %%arg{@} }" "$copy"
+    printf "define-command -override echo-to-clipboard -params .. %%{ echo -to-shell-script '%s' -- %%arg{@} }" "$copy"
 }
