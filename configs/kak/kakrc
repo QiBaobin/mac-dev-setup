@@ -40,6 +40,7 @@ map global user f %{:find } -docstring "Find file"
 map global user / %{:grep } -docstring "Grep"
 map global user < %{:fifo } -docstring "Shell"
 map global user : %{:zellij } -docstring "Zellij"
+map global user w %{:zellij kak -c %val{session}<ret>} -docstring "Open another window in Zellij"
 
 
 # System clipboard handling
