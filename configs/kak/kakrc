@@ -24,6 +24,7 @@ define-command -params .. fifo %{ evaluate-commands %sh{
         hook -always -once buffer BufCloseFifo .* %{ nop %sh{ rm -r $(dirname ${output}) } }
     }"
 }}
+define-command -override zellij -params .. %{ nop %sh{ zellij run -- $@ } }
 
 hook global BufCreate .kt %[
     set-option buffer number-lines -relative -hlcursor
@@ -37,7 +38,8 @@ map global user c %{:comment-line<ret>} -docstring "Comment line"
 map global user b %{:buffer } -docstring "Buffer"
 map global user f %{:find } -docstring "Find file"
 map global user / %{:grep } -docstring "Grep"
-map global user : %{:fifo } -docstring "Shell"
+map global user < %{:fifo } -docstring "Shell"
+map global user : %{:zellij } -docstring "Zellij"
 
 
 # System clipboard handling
