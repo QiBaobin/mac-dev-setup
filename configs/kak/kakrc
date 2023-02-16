@@ -15,7 +15,7 @@ define-command find -docstring "find files" -params 1 %{ edit %arg{1} }
 complete-command find shell-script-candidates %{ fd -tf . . }
 # Shortcut to quickly exit the editor
 define-command -docstring "save and quit" x "write-all; quit"
-define-command -params .. fifo %{ evaluate-commands %sh{
+define-command -params .. -shell-completion fifo %{ evaluate-commands %sh{
     output=$(mktemp -d "${TMPDIR:-/tmp}"/kak-fifo.XXXXXXXX)/fifo
     mkfifo ${output}
     ( eval "$@" > ${output} 2>&1 & ) > /dev/null 2>&1 < /dev/null
@@ -24,7 +24,22 @@ define-command -params .. fifo %{ evaluate-commands %sh{
         hook -always -once buffer BufCloseFifo .* %{ nop %sh{ rm -r $(dirname ${output}) } }
     }"
 }}
-define-command -override zellij -params .. %{ nop %sh{ zellij run $@ } }
+define-command -override zellij -params .. -shell-completion %{ nop %sh{ zellij run $@ } }
+define-command delete-buffers-match -docstring "Delete all buffers matching giving pattern" -params 1 -buffer-completion %{ evaluate-commands %sh{
+    pattern=$1
+	eval "set -- $kak_buflist"
+	for buf in "$@"; do
+    	printf "%s\n" "$buf"
+	done | rg $pattern - | while read f; do
+    	printf "delete-buffer '$f'\n"
+    done
+}}
+define-command edit-match -docstring "Open all files matching giving pattern" -params .. -file-completion %{ evaluate-commands %sh{
+	fd $@ | while read f; do
+        printf "edit $f\n"
+    done
+}}
+
 
 hook global BufCreate .kt %[
     set-option buffer number-lines -relative -hlcursor
