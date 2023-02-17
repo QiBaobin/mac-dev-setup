@@ -4,7 +4,8 @@ if [ -z "$tools_load" ]; then
 
     source ./brew.sh
 
-    brew install tmux ispell pandoc openssl git firefox
+    brew install aspell pandoc openssl git firefox aspell
+    brew install --HEAD kakoune
 
     cp -v ../configs/.skhdrc ../configs/.yabairc ~/
     brew install koekeishiya/formulae/yabai
