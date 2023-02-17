@@ -48,9 +48,10 @@ define-command window-edit-match -docstring "Open all files matching giving patt
 }}
 complete-command window-edit-match file
 
-hook global BufCreate .kt %[
-    set-option buffer number-lines -relative -hlcursor
-    set-option buffer wrap
+hook global WinSetOption filetype=kotlin %[
+    set-option window makecmd './abt -v build'
+    set-option window lintcmd './abt -v build check'
+    set-option window formatcmd './abt -v build spotlessApply'
 ]
 
 map global user q %{:x<ret>} -docstring "Save and quit"
