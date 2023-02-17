@@ -15,6 +15,7 @@ precmd_functions+=(set_win_title)
 
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ~/.zsh/zle.zsh
 source ~/.cargo/registry/src/github.com-1ecc6299db9ec823/skim-0.10.2/shell/key-bindings.zsh
 source ~/.cargo/registry/src/github.com-1ecc6299db9ec823/skim-0.10.2/shell/completion.zsh
 
