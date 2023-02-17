@@ -1,96 +1,65 @@
-# relative line numbers
-add-highlighter global/ number-lines -relative -hlcursor
-add-highlighter global/ wrap -word
-add-highlighter global/ show-matching
-# Highlight trailing whitespace
-add-highlighter global/ regex \h+$ 0:Error
+# https://zellij.dev/
+# ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
 
-set-option global tabstop 4
-set-option global grepcmd 'rg --column'
+provide-module zellij %{
 
-colorscheme gruvbox-dark
-
-define-command mkdir %{ nop %sh{ mkdir -p $(dirname $kak_buffile) } }
-define-command find -docstring "find files" -params 1 %{ edit %arg{1} }
-complete-command find shell-script-candidates %{ fd -tf . . }
-# Shortcut to quickly exit the editor
-define-command -docstring "save and quit" x "write-all; quit"
-define-command -params .. -shell-completion fifo %{ evaluate-commands %sh{
-    output=$(mktemp -d "${TMPDIR:-/tmp}"/kak-fifo.XXXXXXXX)/fifo
-    mkfifo ${output}
-    ( eval "$@" > ${output} 2>&1 & ) > /dev/null 2>&1 < /dev/null
-    printf %s\\n "evaluate-commands -try-client '$kak_opt_toolsclient' %{
-        edit! -fifo ${output} *fifo*
-        hook -always -once buffer BufCloseFifo .* %{ nop %sh{ rm -r $(dirname ${output}) } }
-    }"
-}}
-define-command -override zellij -params .. -shell-completion %{ nop %sh{ zellij run $@ } }
-define-command delete-buffers-match -docstring "Delete all buffers matching giving pattern" -params 1 -buffer-completion %{ evaluate-commands %sh{
-    pattern=$1
-    eval "set -- $kak_buflist"
-    for buf in "$@"; do
-        printf "%s\n" "$buf"
-    done | rg $pattern - | while read f; do
-        printf "delete-buffer '$f'\n"
-    done
-}}
-define-command edit-match -docstring "Open all files matching giving pattern" -params .. -file-completion %{ evaluate-commands %sh{
-    fd $@ | while read f; do
-        printf "edit '$f'\n"
-    done
-}}
-define-command window-edit-match -docstring "Open all files matching giving pattern in windows" -params .. -file-completion %{ evaluate-commands %sh{
-    fd $@ | while read f; do
-        printf "zellij -c -- kak -c $kak_session '$f'\n"
-    done
-}}
-
-hook global BufCreate .kt %[
-    set-option buffer number-lines -relative -hlcursor
-    set-option buffer wrap
-]
-
-map global user q %{:x<ret>} -docstring "Save and quit"
-map global user c %{:comment-line<ret>} -docstring "Comment line"
-map global user b %{:buffer } -docstring "Buffer"
-map global user d %{:delete-buffer} -docstring "Delete buffer"
-map global user D %{:delete-buffers-match } -docstring "Delete buffers"
-map global goto n '<esc>:bn<ret>' -docstring 'next buffer'
-map global goto p '<esc>:bp<ret>' -docstring 'previous buffer'
-map global user f %{:find } -docstring "Find file"
-map global user F %{:edit-match } -docstring "Find files"
-map global user w %{:window-edit-match } -docstring "Find files in windows"
-map global user / %{:grep } -docstring "Grep"
-map global user < %{:fifo } -docstring "Shell"
-map global user : %{:zellij -- } -docstring "Zellij"
-map global user s %{:zellij -c -- kak -c %val{session}<ret>} -docstring "Split window"
-map global user h %{:zellij -d right -c -- kak -c %val{session}<ret>} -docstring "Split window horinzontally"
-map global user v %{:zellij -d down -c -- kak -c %val{session}<ret>} -docstring "Split window vertically"
-
-# System clipboard handling
-# ─────────────────────────
-
+# ensure we're running under zellij
 evaluate-commands %sh{
-    if [ -n "$SSH_TTY" ]; then
-        copy='printf "\033]52;;%s\033\\" $(base64 | tr -d "\n") > $( [ -n "$kak_client_pid" ] && echo /proc/$kak_client_pid/fd/0 || echo /dev/tty )'
-        paste='printf "paste unsupported through ssh"'
-        backend="OSC 52"
-    else
-        case $(uname) in
-            Linux)
-                if [ -n "$WAYLAND_DISPLAY" ]; then
-                    copy="wl-copy -p"; paste="wl-paste -p"; backend=Wayland
-                else
-                    copy="xclip -i"; paste="xclip -o"; backend=X11
-                fi
-                ;;
-            Darwin)  copy="pbcopy"; paste="pbpaste"; backend=OSX ;;
-        esac
-    fi
-    printf "map global user -docstring 'paste (after) from clipboard' p '<a-!>%s<ret>'\n" "$paste"
-    printf "map global user -docstring 'paste (before) from clipboard' P '!%s<ret>'\n" "$paste"
-    printf "map global user -docstring 'yank to primary' y '<a-|>%s<ret>:echo -markup %%{{Information}copied selection to %s primary}<ret>'\n" "$copy" "$backend"
-    printf "map global user -docstring 'yank to clipboard' Y '<a-|>%s<ret>:echo -markup %%{{Information}copied selection to %s clipboard}<ret>'\n" "$copy -selection clipboard" "$backend"
-    printf "map global user -docstring 'replace from clipboard' R '|%s<ret>'\n" "$paste"
-    printf "define-command -override echo-to-clipboard -params .. %%{ echo -to-shell-script '%s' -- %%arg{@} }" "$copy"
+    [ -z "${kak_opt_windowing_modules}" ] || [ -n "$ZELLIJ" ] || echo 'fail zellij not detected'
+}
+
+define-command -hidden -params 1.. zellij %{
+    evaluate-commands %sh{
+       zellij "$@" < /dev/null > /tmp/zellij.log 2>&1 &
+    }
+}
+
+define-command -hidden -params 1.. zellij-terminal-impl %{
+   zellij run %arg{@}
+}
+
+define-command zellij-terminal-vertical -params 1.. -docstring '
+zellij-terminal-vertical <program> [<arguments>]: create a new terminal as a zellij pane
+The current pane is split into two, top and bottom
+The program passed as argument will be executed in the new terminal' \
+%{
+    zellij-terminal-impl -d down -- %arg{@}
+}
+complete-command zellij-terminal-vertical shell
+
+define-command zellij-terminal-horizontal -params 1.. -docstring '
+zellij-terminal-horizontal <program> [<arguments>]: create a new terminal as a zellij pane
+The current pane is split into two, left and right
+The program passed as argument will be executed in the new terminal' \
+%{
+    zellij-terminal-impl -d right -- %arg{@}
+}
+complete-command zellij-terminal-horizontal shell
+
+define-command zellij-terminal-window -params 1.. -docstring '
+zellij-terminal-window <program> [<arguments>] [<arguments>]: create a new terminal as a zellij window
+The program passed as argument will be executed in the new terminal' \
+%{
+    zellij-terminal-impl -- %arg{@}
+}
+complete-command zellij-terminal-window shell
+
+define-command zellij-terminal-window-edit -params .. -docstring '
+zellij-terminal-window-edit <file>: create a new window to edit given file' \
+%{
+    zellij-terminal-impl -c -- kak -c %val{session} %arg{@}
+}
+complete-command zellij-terminal-window-edit file
+
+define-command zellij-focus -params 0 -docstring '
+zellij-focus: focus a panel' \
+%{
+    zellij action switch-mode pane
+}
+
+## The default behaviour for the `new` command is to open an horizontal pane in a zellij session
+alias global focus zellij-focus
+alias global terminal zellij-terminal-window
+alias global window-edit zellij-terminal-window-edit
+
 }
