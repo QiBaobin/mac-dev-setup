@@ -40,19 +40,18 @@ define-command edit-match -docstring "Open all files matching giving pattern" -p
     done
 }}
 
-
 hook global BufCreate .kt %[
     set-option buffer number-lines -relative -hlcursor
     set-option buffer wrap
 ]
 
-map global goto n '<esc>:bn<ret>' -docstring 'next buffer'
-map global goto p '<esc>:bp<ret>' -docstring 'previous buffer'
 map global user q %{:x<ret>} -docstring "Save and quit"
 map global user c %{:comment-line<ret>} -docstring "Comment line"
 map global user b %{:buffer } -docstring "Buffer"
-map global user d %{:delete-buffer } -docstring "Delete buffer"
+map global user d %{:delete-buffer} -docstring "Delete buffer"
 map global user D %{:delete-buffers-match } -docstring "Delete buffers"
+map global goto n '<esc>:bn<ret>' -docstring 'next buffer'
+map global goto p '<esc>:bp<ret>' -docstring 'previous buffer'
 map global user f %{:find } -docstring "Find file"
 map global user F %{:edit-match } -docstring "Find files"
 map global user / %{:grep } -docstring "Grep"
@@ -61,7 +60,6 @@ map global user : %{:zellij -- } -docstring "Zellij"
 map global user s %{:zellij -c -- kak -c %val{session}<ret>} -docstring "Split window"
 map global user h %{:zellij -d right -c -- kak -c %val{session}<ret>} -docstring "Split window horinzontally"
 map global user v %{:zellij -d down -c -- kak -c %val{session}<ret>} -docstring "Split window vertically"
-
 
 # System clipboard handling
 # ─────────────────────────
