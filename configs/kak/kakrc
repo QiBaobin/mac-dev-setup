@@ -36,7 +36,12 @@ define-command delete-buffers-match -docstring "Delete all buffers matching givi
 }}
 define-command edit-match -docstring "Open all files matching giving pattern" -params .. -file-completion %{ evaluate-commands %sh{
     fd $@ | while read f; do
-        printf "edit $f\n"
+        printf "edit '$f'\n"
+    done
+}}
+define-command window-edit-match -docstring "Open all files matching giving pattern in windows" -params .. -file-completion %{ evaluate-commands %sh{
+    fd $@ | while read f; do
+        printf "zellij -c -- kak -c $kak_session '$f'\n"
     done
 }}
 
@@ -54,6 +59,7 @@ map global goto n '<esc>:bn<ret>' -docstring 'next buffer'
 map global goto p '<esc>:bp<ret>' -docstring 'previous buffer'
 map global user f %{:find } -docstring "Find file"
 map global user F %{:edit-match } -docstring "Find files"
+map global user w %{:window-edit-match } -docstring "Find files in windows"
 map global user / %{:grep } -docstring "Grep"
 map global user < %{:fifo } -docstring "Shell"
 map global user : %{:zellij -- } -docstring "Zellij"
