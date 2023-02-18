@@ -8,11 +8,13 @@ add-highlighter global/ regex \h+$ 0:Error
 set-option global tabstop 4
 set-option global grepcmd 'rg --column'
 
-colorscheme gruvbox-dark
+colorscheme palenight
 
-define-command mkdir %{ nop %sh{ mkdir -p $(dirname $kak_buffile) } }
-define-command find -docstring "find files" -params 1 %{ edit %arg{1} }
-complete-command find shell-script-candidates %{ fd -tf . . }
+define-command mkdir -docstring "" -params .. %{ echo %sh{ mkdir -pv ${@-$(dirname $kak_buffile)} } }
+define-command find -docstring "find files" -params .. %{
+    zellij run -d down -c -- sh -c "eval -- fd -tf %arg{@} | sk -m | while read f; do printf ""eval -client %val{client} edit $f\n""; done | kak -p %val{session}"
+}
+complete-command find file
 # Shortcut to quickly exit the editor
 define-command -docstring "save and quit" x "write-all; quit"
 define-command -params .. fifo %{ evaluate-commands %sh{
@@ -60,7 +62,7 @@ map global user d %{:delete-buffer} -docstring "Delete buffer"
 map global user D %{:delete-buffers-match } -docstring "Delete buffers"
 map global goto n '<esc>:bn<ret>' -docstring 'next buffer'
 map global goto p '<esc>:bp<ret>' -docstring 'previous buffer'
-map global user f %{:find } -docstring "Find file"
+map global user f %{:find<ret>} -docstring "Find file"
 map global user F %{:edit-match } -docstring "Find files"
 map global user w %{:window-edit-match } -docstring "Find files in windows"
 map global user / %{:grep } -docstring "Grep"
@@ -163,6 +165,6 @@ alias global window-edit zellij-terminal-window-edit
 }
 evaluate-commands %sh{
     if [ -n "$ZELLIJ" ]; then
-		printf 'require-module zellij'
+        printf 'require-module zellij'
     fi
 }
