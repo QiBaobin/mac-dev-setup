@@ -10,11 +10,12 @@ set-option global grepcmd 'rg --column'
 
 colorscheme palenight
 
+hook global WinSetOption filetype=kotlin %[
+    set-option window makecmd './abt -v build'
+    set-option window lintcmd './abt -v build check'
+]
+
 define-command mkdir -docstring "" -params .. %{ echo %sh{ mkdir -pv ${@-$(dirname $kak_buffile)} } }
-define-command find -docstring "find files" -params .. %{
-    zellij run -d down -c -- sh -c "eval -- fd -tf %arg{@} | sk -m | while read f; do printf ""eval -client %val{client} edit $f\n""; done | kak -p %val{session}"
-}
-complete-command find shell-script-candidates %{ fd -tf . . }
 # Shortcut to quickly exit the editor
 define-command -docstring "save and quit" x "write-all; quit"
 define-command -params .. fifo %{ evaluate-commands %sh{
@@ -48,12 +49,15 @@ define-command window-edit-match -docstring "Open all files matching giving patt
         printf "window-edit '$f'\n"
     done
 }}
-complete-command window-edit-match file
-
-hook global WinSetOption filetype=kotlin %[
-    set-option window makecmd './abt -v build'
-    set-option window lintcmd './abt -v build check'
-]
+complete-command window-edit-match shell-script-candidates %{ fd -tf . . }
+define-command find -docstring "find files" -params .. %{
+    zellij run -d down -c -- sh -c "eval -- fd -tf %arg{@} | sk -m | while read f; do printf ""eval -client %val{client} edit $f\n""; done | kak -p %val{session}"
+}
+complete-command find shell-script-candidates %{ fd -tf . . }
+define-command window-find -docstring "find files in other windows" -params .. %{
+    zellij run -d down -c -- sh -c "eval -- fd -tf %arg{@} | sk -m | while read f; do printf ""eval -client %val{client} window-edit $f\n""; done | kak -p %val{session}"
+}
+complete-command window-find shell-script-candidates %{ fd -tf . . }
 
 map global user q %{:x<ret>} -docstring "Save and quit"
 map global user c %{:comment-line<ret>} -docstring "Comment line"
@@ -62,9 +66,10 @@ map global user d %{:delete-buffer} -docstring "Delete buffer"
 map global user D %{:delete-buffers-match } -docstring "Delete buffers"
 map global goto n '<esc>:bn<ret>' -docstring 'next buffer'
 map global goto p '<esc>:bp<ret>' -docstring 'previous buffer'
-map global user f %{:find<ret>} -docstring "Find files using zellij"
+map global user f %{:find<ret>} -docstring "Open files"
 map global user F %{:edit-match } -docstring "Find files"
-map global user w %{:window-edit-match } -docstring "Find files in windows"
+map global user w %{:window-find<ret>} -docstring "Open files in windows"
+map global user W %{:window-edit-match } -docstring "Find files in windows"
 map global user / %{:grep } -docstring "Grep"
 map global user < %{:fifo } -docstring "Shell"
 map global user : %{:terminal } -docstring "Terminal"
