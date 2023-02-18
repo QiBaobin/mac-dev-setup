@@ -14,7 +14,7 @@ define-command mkdir -docstring "" -params .. %{ echo %sh{ mkdir -pv ${@-$(dirna
 define-command find -docstring "find files" -params .. %{
     zellij run -d down -c -- sh -c "eval -- fd -tf %arg{@} | sk -m | while read f; do printf ""eval -client %val{client} edit $f\n""; done | kak -p %val{session}"
 }
-complete-command find file
+complete-command find shell-script-candidates %{ fd -tf . . }
 # Shortcut to quickly exit the editor
 define-command -docstring "save and quit" x "write-all; quit"
 define-command -params .. fifo %{ evaluate-commands %sh{
@@ -42,7 +42,7 @@ define-command edit-match -docstring "Open all files matching giving pattern" -p
         printf "edit '$f'\n"
     done
 }}
-complete-command edit-match file
+complete-command edit-match shell-script-candidates %{ fd -tf . . }
 define-command window-edit-match -docstring "Open all files matching giving pattern in windows" -params .. %{ evaluate-commands %sh{
     fd $@ | while read f; do
         printf "window-edit '$f'\n"
@@ -62,7 +62,7 @@ map global user d %{:delete-buffer} -docstring "Delete buffer"
 map global user D %{:delete-buffers-match } -docstring "Delete buffers"
 map global goto n '<esc>:bn<ret>' -docstring 'next buffer'
 map global goto p '<esc>:bp<ret>' -docstring 'previous buffer'
-map global user f %{:find<ret>} -docstring "Find file"
+map global user f %{:find<ret>} -docstring "Find files using zellij"
 map global user F %{:edit-match } -docstring "Find files"
 map global user w %{:window-edit-match } -docstring "Find files in windows"
 map global user / %{:grep } -docstring "Grep"
@@ -168,3 +168,4 @@ evaluate-commands %sh{
         printf 'require-module zellij'
     fi
 }
+
