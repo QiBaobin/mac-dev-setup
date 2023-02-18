@@ -1,1 +1,1 @@
-zellij
+zellij -l work
