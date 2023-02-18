@@ -51,11 +51,11 @@ define-command window-edit-match -docstring "Open all files matching giving patt
 }}
 complete-command window-edit-match shell-script-candidates %{ fd -tf . . }
 define-command find -docstring "find files" -params .. %{
-    zellij run -d down -c -- sh -c "eval -- fd -tf %arg{@} | sk -m | while read f; do printf ""eval -client %val{client} edit $f\n""; done | kak -p %val{session}"
+    terminal fd -tf %arg{@} | sk -m | while read f\; do printf """eval -client %val{client} edit $f\n"""\; done | kak -p %val{session}
 }
 complete-command find shell-script-candidates %{ fd -tf . . }
 define-command window-find -docstring "find files in other windows" -params .. %{
-    zellij run -d down -c -- sh -c "eval -- fd -tf %arg{@} | sk -m | while read f; do printf ""eval -client %val{client} window-edit $f\n""; done | kak -p %val{session}"
+    terminal fd -tf %arg{@} | sk -m | while read f\; do printf """eval -client %val{client} window-edit $f\n"""\; done | kak -p %val{session}
 }
 complete-command window-find shell-script-candidates %{ fd -tf . . }
 
@@ -145,7 +145,7 @@ define-command zellij-terminal-window -params 1.. -docstring '
 zellij-terminal-window <program> [<arguments>] [<arguments>]: create a new terminal as a zellij window
 The program passed as argument will be executed in the new terminal' \
 %{
-    zellij-terminal-impl -- %arg{@}
+    zellij-terminal-impl -c -d down --  %val{client_env_SHELL} -i -c "%arg{@}"
 }
 complete-command zellij-terminal-window shell
 
