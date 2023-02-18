@@ -297,7 +297,7 @@ default_layout "compact"
 
 // The folder in which Zellij will look for layouts
 //
-layout_dir "/Users/a483334/.config/zellij/layout_dir"
+// layout_dir "$HOME/.config/zellij/layout_dir"
 
 // The folder in which Zellij will look for themes
 //
