@@ -171,7 +171,7 @@ zellij-focus: focus a panel' \
 
 ## The default behaviour for the `new` command is to open an horizontal pane in a zellij session
 alias global focus zellij-focus
-alias global terminal zellij-terminal-vertical
+alias global terminal zellij-terminal-impl
 alias global window-edit zellij-terminal-window-edit
 
 }
