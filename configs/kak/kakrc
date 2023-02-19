@@ -51,11 +51,11 @@ define-command window-edit-match -docstring "Open all files matching giving patt
 }}
 complete-command window-edit-match shell-script-candidates %{ fd -tf . . }
 define-command find -docstring "find files" -params .. %{
-    terminal fd -tf %arg{@} | sk -m | while read f\; do printf """eval -client %val{client} edit $f\n"""\; done | kak -p %val{session}
+    terminal -c fd -tf %arg{@} | sk -m | while read f\; do printf """eval -client %val{client} edit $f\n"""\; done | kak -p %val{session}
 }
 complete-command find shell-script-candidates %{ fd -tf . . }
 define-command window-find -docstring "find files in other windows" -params .. %{
-    terminal fd -tf %arg{@} | sk -m | while read f\; do printf """eval -client %val{client} window-edit $f\n"""\; done | kak -p %val{session}
+    terminal -c fd -tf %arg{@} | sk -m | while read f\; do printf """eval -client %val{client} window-edit $f\n"""\; done | kak -p %val{session}
 }
 complete-command window-find shell-script-candidates %{ fd -tf . . }
 
@@ -118,17 +118,32 @@ define-command -hidden -params 2.. zellij %{
        zellij "$@" < /dev/null > /dev/null 2>&1 &
     }
 }
-
-define-command -hidden -params 1.. zellij-terminal-impl %{
-   zellij run %arg{@}
-}
+define-command -hidden -params 1.. zellij-terminal-impl %{ evaluate-commands %sh{
+   arg_count=0
+   i=1
+   while [ $i -lt $# ]; do
+       a=${@:$i:1}
+       if [ "${a:0:1}" = "-" ]; then
+           if [ "${a:1:1}" = "d" -o "${a:1:1}" = "n" ]; then
+               ((i+=2))
+           else
+               ((i+=1))
+           fi
+           arg_count=$((i-1))
+       else
+           arg_count=$((i-1))
+           i=$#
+       fi
+   done
+   echo zellij run ${@:1:$arg_count} -- $SHELL -i -c "'"${@:$((1+$arg_count))}"'"
+}}
 
 define-command zellij-terminal-vertical -params 1.. -docstring '
 zellij-terminal-vertical <program> [<arguments>]: create a new terminal as a zellij pane
 The current pane is split into two, top and bottom
 The program passed as argument will be executed in the new terminal' \
 %{
-    zellij-terminal-impl -d down -- %arg{@}
+    zellij-terminal-impl -d down %arg{@}
 }
 complete-command zellij-terminal-vertical shell
 
@@ -137,22 +152,14 @@ zellij-terminal-horizontal <program> [<arguments>]: create a new terminal as a z
 The current pane is split into two, left and right
 The program passed as argument will be executed in the new terminal' \
 %{
-    zellij-terminal-impl -d right -- %arg{@}
+    zellij-terminal-impl -d right %arg{@}
 }
 complete-command zellij-terminal-horizontal shell
-
-define-command zellij-terminal-window -params 1.. -docstring '
-zellij-terminal-window <program> [<arguments>] [<arguments>]: create a new terminal as a zellij window
-The program passed as argument will be executed in the new terminal' \
-%{
-    zellij-terminal-impl -c -d down --  %val{client_env_SHELL} -i -c "%arg{@}"
-}
-complete-command zellij-terminal-window shell
 
 define-command zellij-terminal-window-edit -params .. -docstring '
 zellij-terminal-window-edit <file>: create a new window to edit given file' \
 %{
-    zellij-terminal-impl -c -- kak -c %val{session} %arg{@}
+    zellij-terminal-impl -c kak -c %val{session} %arg{@}
 }
 complete-command zellij-terminal-window-edit file
 
@@ -164,7 +171,7 @@ zellij-focus: focus a panel' \
 
 ## The default behaviour for the `new` command is to open an horizontal pane in a zellij session
 alias global focus zellij-focus
-alias global terminal zellij-terminal-window
+alias global terminal zellij-terminal-vertical
 alias global window-edit zellij-terminal-window-edit
 
 }
