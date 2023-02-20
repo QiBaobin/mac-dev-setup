@@ -137,6 +137,7 @@ define-command -hidden -params 1.. zellij-terminal-impl %{ evaluate-commands %sh
    done
    echo zellij run ${@:1:$arg_count} -- $SHELL -i -c "'"${@:$((1+$arg_count))}"'"
 }}
+complete-command zellij-terminal-impl shell
 
 define-command zellij-terminal-vertical -params 1.. -docstring '
 zellij-terminal-vertical <program> [<arguments>]: create a new terminal as a zellij pane
