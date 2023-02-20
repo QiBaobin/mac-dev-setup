@@ -51,11 +51,11 @@ define-command window-edit-match -docstring "Open all files matching giving patt
 }}
 complete-command window-edit-match shell-script-candidates %{ fd -tf . . }
 define-command find -docstring "find files" -params .. %{
-    terminal -c fd -tf %arg{@} | sk -m | while read f\; do printf """eval -client %val{client} edit $f\n"""\; done | kak -p %val{session}
+    terminal -c -d down fd -tf %arg{@} | sk -m | while read f\; do printf """eval -client %val{client} edit $f\n"""\; done | kak -p %val{session}
 }
 complete-command find shell-script-candidates %{ fd -tf . . }
 define-command window-find -docstring "find files in other windows" -params .. %{
-    terminal -c fd -tf %arg{@} | sk -m | while read f\; do printf """eval -client %val{client} window-edit $f\n"""\; done | kak -p %val{session}
+    terminal -c -d down fd -tf %arg{@} | sk -m | while read f\; do printf """eval -client %val{client} window-edit $f\n"""\; done | kak -p %val{session}
 }
 complete-command window-find shell-script-candidates %{ fd -tf . . }
 
