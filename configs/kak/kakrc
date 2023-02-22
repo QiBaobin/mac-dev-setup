@@ -57,7 +57,7 @@ define-command find -docstring "find files" -params .. %{
 complete-command find shell-script-candidates %{ fd -tf . . }
 define-command window-find -docstring "find files in other windows" -params .. %{
     set window zellij_run_options "-c -d down"
-    terminal sh -c "fd -tf %arg{@} | sk -m | while read f; do printf ""eval -client %val{client} new edit '$f'\n""; done | kak -p %val{session} }"
+    terminal sh -c "fd -tf %arg{@} | sk -m | while read f; do printf ""eval -client %val{client} new edit '$f'\n""; done | kak -p %val{session}"
 }
 complete-command window-find shell-script-candidates %{ fd -tf . . }
 
