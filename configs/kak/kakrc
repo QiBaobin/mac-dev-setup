@@ -52,12 +52,12 @@ define-command window-edit-match -docstring "Open all files matching giving patt
 complete-command window-edit-match shell-script-candidates %{ fd -tf . . }
 define-command find -docstring "find files" -params .. %{
     set window zellij_run_options "-c -d down"
-    terminal fd -tf %arg{@} | sk -m | while read f\; do printf """eval -client %val{client} edit '$f'\n"""\; done | kak -p %val{session}
+    terminal sh -c "fd -tf %arg{@} | sk -m | while read f; do printf ""eval -client %val{client} edit '$f'\n""; done | kak -p %val{session}"
 }
 complete-command find shell-script-candidates %{ fd -tf . . }
 define-command window-find -docstring "find files in other windows" -params .. %{
     set window zellij_run_options "-c -d down"
-    terminal fd -tf %arg{@} | sk -m | while read f\; do printf """eval -client %val{client} new edit '$f'\n"""\; done | kak -p %val{session}
+    terminal sh -c "fd -tf %arg{@} | sk -m | while read f; do printf ""eval -client %val{client} new edit '$f'\n""; done | kak -p %val{session} }"
 }
 complete-command window-find shell-script-candidates %{ fd -tf . . }
 
@@ -120,7 +120,7 @@ declare-option -hidden -docstring %{zellij run options (please check out "zellij
 
 define-command -hidden -params .. zellij-run %{
     nop %sh{
-        zellij run ${kak_opt_zellij_run_options} -- $SHELL -i -c "$*" < /dev/null > /dev/null 2>&1 &
+        zellij run $kak_opt_zellij_run_options -- "$@"
     }
     set global zellij_run_options ""
     unset buffer zellij_run_options
@@ -156,12 +156,14 @@ complete-command zellij-terminal-horizontal shell
 define-command zellij-focus -params ..1 -docstring '
 zellij-focus [<client>]: focus the given client
 If no client is passed then the current one is used' \
-%{ nop %sh{
+%{ evaluate-commands %sh{
     if [ $# -eq 1 ]; then
+        printf "evaluate-commands -client '%s' focus" "$1"
+    elif [ -n "${kak_client_env_ZELLIJ}" ]; then
         output=$(mktemp -d "${TMPDIR:-/tmp}"/kak-zellij.XXXXXXXX)/dump-screen
         pane_count=0
         while [ $((pane_count+=1)) -lt 10 ]; do
-             if zellij action dump-screen "$output" && grep "$1@\[$kak_session\]" "$output" ; then
+             if zellij action dump-screen "$output" && grep "${kak_client}@\[$kak_session\]" "$output" > /dev/null ; then
                  break;
              fi
              zellij action focus-next-pane
