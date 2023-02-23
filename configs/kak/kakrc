@@ -78,7 +78,7 @@ map global user w %{:window-find<ret>} -docstring "Open files in windows"
 map global user W %{:window-edit-match } -docstring "Find files in windows"
 map global user / %{:grep } -docstring "Grep"
 map global user < %{:fifo } -docstring "Shell"
-map global user : %{:terminal } -docstring "Terminal"
+map global user : %{:shell } -docstring "Terminal"
 map global user s %{:new edit!<ret>} -docstring "Split window"
 
 # System clipboard handling
