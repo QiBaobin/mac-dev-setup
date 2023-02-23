@@ -28,6 +28,10 @@ define-command -params .. fifo %{ evaluate-commands %sh{
     }"
 }}
 complete-command fifo shell
+define-command shell -docstring "Run commands in a ternimal shell" -params 1.. %{
+    terminal %val{client_env_SHELL} -i -c "%arg{@}"
+}
+complete-command shell shell
 define-command delete-buffers-match -docstring "Delete all buffers matching giving pattern" -params 1 %{ evaluate-commands %sh{
     pattern=$1
     eval "set -- $client_buflist"
@@ -52,12 +56,12 @@ define-command window-edit-match -docstring "Open all files matching giving patt
 complete-command window-edit-match shell-script-candidates %{ fd -tf . . }
 define-command find -docstring "find files" -params .. %{
     set window zellij_run_options "-c -d down"
-    terminal sh -c "fd -tf %arg{@} | sk -m | while read f; do printf ""eval -client %val{client} edit '$f'\n""; done | kak -p %val{session}"
+    shell fd -tf %arg{@} | sk -m | while read f\; do echo eval -client %val{client} edit "$f" \; done | kak -p %val{session}
 }
 complete-command find shell-script-candidates %{ fd -tf . . }
 define-command window-find -docstring "find files in other windows" -params .. %{
     set window zellij_run_options "-c -d down"
-    terminal sh -c "fd -tf %arg{@} | sk -m | while read f; do printf ""eval -client %val{client} new edit '$f'\n""; done | kak -p %val{session}"
+    shell fd -tf %arg{@} | sk -m | while read f\; do echo eval -client %val{client} new edit "$f" \; done | kak -p %val{session}
 }
 complete-command window-find shell-script-candidates %{ fd -tf . . }
 
