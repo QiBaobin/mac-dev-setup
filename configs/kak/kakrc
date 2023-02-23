@@ -56,12 +56,12 @@ define-command window-edit-match -docstring "Open all files matching giving patt
 complete-command window-edit-match shell-script-candidates %{ fd -tf . . }
 define-command find -docstring "find files" -params .. %{
     set window zellij_run_options "-c -d down"
-    shell fd -tf %arg{@} | sk -m | while read f\; do echo eval -client %val{client} edit "$f" \; done | kak -p %val{session}
+    shell fd -tf %arg{@} | sk -m | while read f\; do echo eval -client %val{client} edit """$f""" \; done | kak -p %val{session}
 }
 complete-command find shell-script-candidates %{ fd -tf . . }
 define-command window-find -docstring "find files in other windows" -params .. %{
     set window zellij_run_options "-c -d down"
-    shell fd -tf %arg{@} | sk -m | while read f\; do echo eval -client %val{client} new edit "$f" \; done | kak -p %val{session}
+    shell fd -tf %arg{@} | sk -m | while read f\; do echo eval -client %val{client} new edit """$f""" \; done | kak -p %val{session}
 }
 complete-command window-find shell-script-candidates %{ fd -tf . . }
 
