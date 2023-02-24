@@ -29,7 +29,7 @@ define-command -params .. fifo %{ evaluate-commands %sh{
 }}
 complete-command fifo shell
 define-command shell -docstring "Run commands in a ternimal shell" -params 1.. %{
-    zellij-run "-c -d down"  %val{client_env_SHELL} -i -c "%arg{@}"
+    terminal %val{client_env_SHELL} -i -c "%arg{@}"
 }
 complete-command shell shell
 define-command delete-buffers-match -docstring "Delete all buffers matching giving pattern" -params 1 %{ evaluate-commands %sh{
