@@ -140,7 +140,8 @@ keybinds {
         bind "Tab" { ToggleTab; }
         bind "o" { FocusNextPane; }
         bind "d" { Detach; }
-        bind "?" { Run "kak" "~/.config/zellij/config.kdl"; SwitchToMode "Locked" }
+        bind "w" { ToggleFloatingPanes; SwitchToMode "Locked"; }
+        bind "?" { Run "kak" "~/.config/zellij/config.kdl"; SwitchToMode "Locked"; }
     }
     shared_except "locked" {
         bind "Ctrl g" { SwitchToMode "Locked"; }
