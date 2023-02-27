@@ -137,7 +137,7 @@ keybinds {
         bind "7" { GoToTab 7; SwitchToMode "Locked"; }
         bind "8" { GoToTab 8; SwitchToMode "Locked"; }
         bind "9" { GoToTab 9; SwitchToMode "Locked"; }
-        bind "Tab" { ToggleTab; SwitchToMode "Locked" }
+        bind "Tab" { ToggleTab; SwitchToMode "Locked"; }
         bind "w" { ToggleFloatingPanes; SwitchToMode "Locked"; }
         bind "?" { Run "kak" "~/.config/zellij/config.kdl"; SwitchToMode "Locked"; }
         bind "o" { FocusNextPane; }
