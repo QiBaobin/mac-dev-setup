@@ -29,7 +29,7 @@ define-command -params .. fifo %{ evaluate-commands %sh{
 }}
 complete-command fifo shell
 define-command shell -docstring "Run commands in a ternimal shell" -params 1.. %{
-    terminal %val{client_env_SHELL} -i -c "%arg{@}"
+    zellij-run "-c -d down"  %val{client_env_SHELL} -i -c "%arg{@}"
 }
 complete-command shell shell
 define-command delete-buffers-match -docstring "Delete all buffers matching giving pattern" -params 1 %{ evaluate-commands %sh{
@@ -44,13 +44,13 @@ define-command delete-buffers-match -docstring "Delete all buffers matching givi
 complete-command delete-buffers-match buffer
 define-command edit-match -docstring "Open all files matching giving pattern" -params .. %{ evaluate-commands %sh{
     fd $@ | while read f; do
-        printf "edit '$f'\n"
+        printf "edit ""$f""\n"
     done
 }}
 complete-command edit-match shell-script-candidates %{ fd -tf . . }
 define-command window-edit-match -docstring "Open all files matching giving pattern in windows" -params .. %{ evaluate-commands %sh{
     fd $@ | while read f; do
-        printf "new edit '$f'\n"
+        printf "new edit ""$f""\n"
     done
 }}
 complete-command window-edit-match shell-script-candidates %{ fd -tf . . }
@@ -62,6 +62,10 @@ define-command window-find -docstring "find files in other windows" -params .. %
     shell fd -tf %arg{@} | sk -m | while read f\; do echo eval -client %val{client} new edit """$f""" \; done | kak -p %val{session}
 }
 complete-command window-find shell-script-candidates %{ fd -tf . . }
+define-command just -docstring "run just command" -params 1.. %{
+    fifo just "%arg{@}"
+}
+complete-command just shell-script-candidates %{ for receipt in $(just --summary); do echo "$receipt"; done }
 
 map global user q %{:x<ret>} -docstring "Save and quit"
 map global user c %{:comment-line<ret>} -docstring "Comment line"
@@ -78,6 +82,7 @@ map global user / %{:grep } -docstring "Grep"
 map global user < %{:fifo } -docstring "Fifo"
 map global user : %{:shell } -docstring "Shell"
 map global user s %{:new edit!<ret>} -docstring "Split window"
+map global user j %{:just } -docstring "Run just command"
 
 # System clipboard handling
 # ─────────────────────────
@@ -117,6 +122,9 @@ evaluate-commands %sh{
     [ -z "${kak_opt_windowing_modules}" ] || [ -n "$ZELLIJ" -a -n "$ZELLIJ_SESSION_NAME" ] || echo 'fail zellij not detected'
 }
 
+define-command -hidden -params 1.. zellij-action %{ nop %sh{
+    zellij --session "$kak_client_env_ZELLIJ_SESSION_NAME" action "$@"
+}}
 define-command -hidden -params 2.. zellij-run %{ nop %sh{
     zellij_run_options=$1
     shift
