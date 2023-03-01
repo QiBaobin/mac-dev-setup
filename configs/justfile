@@ -1,6 +1,9 @@
 build *args='':
   ./abt -v build {{args}}
 
+publish module:
+  IS_DOCKER_ENV=1 ./abt -v build -p {{module}} publishModule
+
 install arch='':
   cd projects/fulcrum/ && {{ if arch == "x86" { "INSTRUMENT_TEST=1" } else { "" } }} ./gradlew :app:instGNPD
 
