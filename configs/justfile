@@ -1,0 +1,24 @@
+build *args='':
+  ./abt -v build {{args}}
+
+install arch='':
+  cd projects/fulcrum/ && {{ if arch == "x86" { "INSTRUMENT_TEST=1" } else { "" } }} ./gradlew :app:instGNPD
+
+startavd:
+  $ANDROID_SDK_ROOT/emulator/emulator -no-skin -no-audio '@Pixel_2_API_R' > /dev/null 2>&1
+
+push story_no:
+  git push origin @:refs/heads/story/PAMPP-{{story_no}}
+
+fetch branch='main':
+  git fetch origin {{branch}}
+
+reset branch='main':
+  git reset --hard origin/{{branch}}
+
+pr:
+  gh pr status
+
+merge pr_no:
+  gh pr merge -s -d {{pr_no}}
+
