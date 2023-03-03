@@ -1,3 +1,5 @@
+# UI
+# ─────────────────────────
 # relative line numbers
 add-highlighter global/ number-lines -relative -hlcursor
 add-highlighter global/ wrap -word
@@ -7,16 +9,22 @@ add-highlighter global/ regex \h+$ 0:Error
 add-highlighter global/ regex //\h*(TODO:)[^\n]* 0:cyan 1:yellow,red
 add-highlighter global/ dynregex '%reg{/}' 0:+i
 
+colorscheme palenight
+
+# Options
+# ─────────────────────────
 set-option global tabstop 4
 set-option global grepcmd 'rg --column'
 
-colorscheme palenight
-
+# Hooks
+# ─────────────────────────
 hook global WinSetOption filetype=kotlin %[
-    set-option window makecmd './abt -v build'
-    set-option window lintcmd './abt -v build check'
+    set-option window makecmd 'just build'
+    set-option window lintcmd 'just build check'
 ]
 
+# Commands
+# ─────────────────────────
 define-command mkdir -docstring "" -params .. %{ echo %sh{ mkdir -pv ${@-$(dirname $client_buffile)} } }
 # Shortcut to quickly exit the editor
 define-command -docstring "save and quit" x "write-all; quit"
@@ -69,6 +77,8 @@ define-command just -docstring "run just command" -params 1.. %{
 }
 complete-command just shell-script-candidates %{ for receipt in $(just --unstable --summary); do echo "$receipt"; done }
 
+# Keys
+# ─────────────────────────
 map global goto n '<esc>:bn<ret>' -docstring 'next buffer'
 map global goto p '<esc>:bp<ret>' -docstring 'previous buffer'
 map global goto x %{<a-|>open $(cat)<ret>} -docstring "Open selection with external program"
@@ -115,6 +125,8 @@ evaluate-commands %sh{
     printf "define-command -override echo-to-clipboard -params .. %%{ echo -to-shell-script '%s' -- %%arg{@} }" "$copy"
 }
 
+# Init
+# ─────────────────────────
 evaluate-commands %sh{
     if [ -n "$ZELLIJ" ]; then
         printf 'require-module zellij'
