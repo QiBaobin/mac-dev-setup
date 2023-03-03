@@ -85,6 +85,7 @@ map global user < %{:fifo } -docstring "Fifo"
 map global user : %{:shell } -docstring "Shell"
 map global user s %{:new edit!<ret>} -docstring "Split window"
 map global user j %{:just } -docstring "Run just command"
+map global user x %{<a-|>open $(cat)<ret>} -docstring "Open selection with external program"
 
 # System clipboard handling
 # ─────────────────────────
