@@ -69,13 +69,14 @@ define-command just -docstring "run just command" -params 1.. %{
 }
 complete-command just shell-script-candidates %{ for receipt in $(just --unstable --summary); do echo "$receipt"; done }
 
+map global goto n '<esc>:bn<ret>' -docstring 'next buffer'
+map global goto p '<esc>:bp<ret>' -docstring 'previous buffer'
+map global goto x %{<a-|>open $(cat)<ret>} -docstring "Open selection with external program"
 map global user q %{:x<ret>} -docstring "Save and quit"
 map global user c %{:comment-line<ret>} -docstring "Comment line"
 map global user b %{:buffer } -docstring "Buffer"
 map global user d %{:delete-buffer} -docstring "Delete buffer"
 map global user D %{:delete-buffers-match } -docstring "Delete buffers"
-map global goto n '<esc>:bn<ret>' -docstring 'next buffer'
-map global goto p '<esc>:bp<ret>' -docstring 'previous buffer'
 map global user f %{:find<ret>} -docstring "Open files"
 map global user F %{:edit-match } -docstring "Find files"
 map global user w %{:window-find<ret>} -docstring "Open files in windows"
@@ -85,7 +86,6 @@ map global user < %{:fifo } -docstring "Fifo"
 map global user : %{:shell } -docstring "Shell"
 map global user s %{:new edit!<ret>} -docstring "Split window"
 map global user j %{:just } -docstring "Run just command"
-map global user x %{<a-|>open $(cat)<ret>} -docstring "Open selection with external program"
 
 # System clipboard handling
 # ─────────────────────────
