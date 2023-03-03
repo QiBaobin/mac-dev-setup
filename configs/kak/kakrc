@@ -4,6 +4,8 @@ add-highlighter global/ wrap -word
 add-highlighter global/ show-matching
 # Highlight trailing whitespace
 add-highlighter global/ regex \h+$ 0:Error
+add-highlighter global/ regex //\h*(TODO:)[^\n]* 0:cyan 1:yellow,red
+add-highlighter global/ dynregex '%reg{/}' 0:+i
 
 set-option global tabstop 4
 set-option global grepcmd 'rg --column'
@@ -34,7 +36,7 @@ define-command shell -docstring "Run commands in a ternimal shell" -params 1.. %
 complete-command shell shell
 define-command delete-buffers-match -docstring "Delete all buffers matching giving pattern" -params 1 %{ evaluate-commands %sh{
     pattern=$1
-    eval "set -- $client_buflist"
+    eval "set -- $kak_buflist"
     for buf in "$@"; do
         printf "%s\n" "$buf"
     done | rg $pattern - | while read f; do
