@@ -39,7 +39,7 @@ define-command -params .. fifo %{ evaluate-commands %sh{
 }}
 complete-command fifo shell
 define-command shell -docstring "Run commands in a ternimal shell" -params 1.. %{
-    ternimal %val{client_env_SHELL} -i -c "%arg{@}"
+    terminal %val{client_env_SHELL} -i -c "%arg{@}"
 }
 complete-command shell shell
 define-command delete-buffers-match -docstring "Delete all buffers matching giving pattern" -params 1 %{ evaluate-commands %sh{
@@ -123,13 +123,5 @@ evaluate-commands %sh{
     printf "map global user -docstring 'yank to clipboard' Y '<a-|>%s<ret>:echo -markup %%{{Information}copied selection to %s clipboard}<ret>'\n" "$copy -selection clipboard" "$backend"
     printf "map global user -docstring 'replace from clipboard' R '|%s<ret>'\n" "$paste"
     printf "define-command -override echo-to-clipboard -params .. %%{ echo -to-shell-script '%s' -- %%arg{@} }" "$copy"
-}
-
-# Init
-# ─────────────────────────
-evaluate-commands %sh{
-    if [ -n "$ZELLIJ" ]; then
-        printf 'require-module zellij'
-    fi
 }
 
