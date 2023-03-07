@@ -33,7 +33,7 @@ define-command -params .. fifo %{ evaluate-commands %sh{
     mkfifo ${output}
     ( eval "$@" > ${output} 2>&1 & ) > /dev/null 2>&1 < /dev/null
     printf %s\\n "evaluate-commands -try-client '$client_opt_toolsclient' %{
-        edit! -fifo ${output} *fifo*
+        edit! -fifo ${output} *fifo-$1*
         hook -always -once buffer BufCloseFifo .* %{ nop %sh{ rm -r $(dirname ${output}) } }
     }"
 }}
