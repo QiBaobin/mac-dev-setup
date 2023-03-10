@@ -33,7 +33,7 @@ define-command -params .. fifo %{ evaluate-commands %sh{
     mkfifo ${output}
     ( eval "$@" > ${output} 2>&1 & ) > /dev/null 2>&1 < /dev/null
     printf %s\\n "evaluate-commands -try-client '$client_opt_toolsclient' %{
-        edit! -fifo ${output} *fifo-$1*
+        edit! -fifo ${output} '*fifo-$@*'
         hook -always -once buffer BufCloseFifo .* %{ nop %sh{ rm -r $(dirname ${output}) } }
     }"
 }}
@@ -44,7 +44,7 @@ define-command shell -docstring "Run commands in a ternimal shell" -params 1.. %
 complete-command shell shell
 define-command delete-buffers-match -docstring "Delete all buffers matching giving pattern" -params 1 %{ evaluate-commands %sh{
     pattern=$1
-    eval "set -- $kak_buflist"
+    eval "set -- $kak_quoted_buflist"
     for buf in "$@"; do
         printf "%s\n" "$buf"
     done | rg $pattern - | while read f; do
@@ -85,7 +85,7 @@ map global goto x %{<a-|>open $(cat)<ret>} -docstring "Open selection with exter
 map global user q %{:x<ret>} -docstring "Save and quit"
 map global user c %{:comment-line<ret>} -docstring "Comment line"
 map global user b %{:buffer } -docstring "Buffer"
-map global user d %{:delete-buffer} -docstring "Delete buffer"
+map global user d %{:delete-buffer<ret>} -docstring "Delete buffer"
 map global user D %{:delete-buffers-match } -docstring "Delete buffers"
 map global user f %{:find<ret>} -docstring "Open files"
 map global user F %{:edit-match } -docstring "Find files"
