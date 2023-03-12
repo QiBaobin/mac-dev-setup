@@ -79,6 +79,8 @@ complete-command just shell-script-candidates %{ for receipt in $(just --unstabl
 
 # Keys
 # ─────────────────────────
+map global insert <tab> '<a-;><gt>'
+map global insert <backtab> '<a-;><lt>'
 map global goto n '<esc>:bn<ret>' -docstring 'next buffer'
 map global goto p '<esc>:bp<ret>' -docstring 'previous buffer'
 map global goto x %{<a-|>open $(cat)<ret>} -docstring "Open selection with external program"
