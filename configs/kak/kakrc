@@ -6,6 +6,7 @@ add-highlighter global/ wrap -word
 add-highlighter global/ show-matching
 # Highlight trailing whitespace
 add-highlighter global/ regex \h+$ 0:Error
+add-highlighter global/ regex \t 0:Error
 add-highlighter global/ regex //\h*(TODO:)[^\n]* 0:cyan 1:yellow,red
 add-highlighter global/ dynregex '%reg{/}' 0:+i
 
@@ -25,7 +26,7 @@ hook global WinSetOption filetype=kotlin %[
 
 # Commands
 # ─────────────────────────
-define-command mkdir -docstring "" -params .. %{ echo %sh{ mkdir -pv ${@-$(dirname $client_buffile)} } }
+define-command mkdir -docstring "" -params .. %{ echo %sh{ mkdir -pv ${@-$(dirname $kak_buffile)} } }
 # Shortcut to quickly exit the editor
 define-command -docstring "save and quit" x "write-all; quit"
 define-command -params .. fifo %{ evaluate-commands %sh{
@@ -33,16 +34,19 @@ define-command -params .. fifo %{ evaluate-commands %sh{
     mkfifo ${output}
     ( eval "$@" > ${output} 2>&1 & ) > /dev/null 2>&1 < /dev/null
     printf %s\\n "evaluate-commands -try-client '$client_opt_toolsclient' %{
-        edit! -fifo ${output} '*fifo-$@*'
-        hook -always -once buffer BufCloseFifo .* %{ nop %sh{ rm -r $(dirname ${output}) } }
+        edit! -fifo ${output} '*fifo*'
+        hook -always -once buffer BufCloseFifo .* %{ nop %sh{ rm -rf $(dirname ${output}) } }
     }"
 }}
 complete-command fifo shell
 define-command shell -docstring "Run commands in a ternimal shell" -params 1.. %{
-    terminal %val{client_env_SHELL} -i -c "%arg{@}"
+    ternimal %val{client_env_SHELL} -i -c "%arg{@}"
 }
 complete-command shell shell
-define-command delete-buffers-match -docstring "Delete all buffers matching giving pattern" -params 1 %{ evaluate-commands %sh{
+define-command kill-fifo-process -docstring "Kill commands run within the fifo command" -params 0 %{
+    shell lsof -c '^kak' | grep kak-fifo | sk -m --bind 'alt-a:select-all,alt-d:deselect-all' | awk "'{print $2}'" | uniq | xargs kill -9
+}
+define-command delete-buffers-match -docstring "Delete all buffers matching giving pattern" -params 1.. %{ evaluate-commands %sh{
     pattern=$1
     eval "set -- $kak_quoted_buflist"
     for buf in "$@"; do
@@ -80,7 +84,7 @@ complete-command just shell-script-candidates %{ for receipt in $(just --unstabl
 # Keys
 # ─────────────────────────
 map global insert <tab> '<a-;><gt>'
-map global insert <backtab> '<a-;><lt>'
+map global insert <s-tab> '<a-;><lt>'
 map global goto n '<esc>:bn<ret>' -docstring 'next buffer'
 map global goto p '<esc>:bp<ret>' -docstring 'previous buffer'
 map global goto x %{<a-|>open $(cat)<ret>} -docstring "Open selection with external program"
