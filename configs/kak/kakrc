@@ -29,23 +29,6 @@ hook global WinSetOption filetype=kotlin %[
 define-command mkdir -docstring "" -params .. %{ echo %sh{ mkdir -pv ${@-$(dirname $kak_buffile)} } }
 # Shortcut to quickly exit the editor
 define-command -docstring "save and quit" x "write-all; quit"
-define-command -params .. fifo %{ evaluate-commands %sh{
-    output=$(mktemp -d "${TMPDIR:-/tmp}"/kak-fifo.XXXXXXXX)/fifo
-    mkfifo ${output}
-    ( eval "$@" > ${output} 2>&1 & ) > /dev/null 2>&1 < /dev/null
-    printf %s\\n "evaluate-commands -try-client '$client_opt_toolsclient' %{
-        edit! -fifo ${output} '*fifo*'
-        hook -always -once buffer BufCloseFifo .* %{ nop %sh{ rm -rf $(dirname ${output}) } }
-    }"
-}}
-complete-command fifo shell
-define-command shell -docstring "Run commands in a ternimal shell" -params 1.. %{
-    terminal %val{client_env_SHELL} -i -c "%arg{@}"
-}
-complete-command shell shell
-define-command kill-fifo-process -docstring "Kill commands run within the fifo command" -params 0 %{
-    shell lsof -c '^kak' | grep kak-fifo | sk -m --bind 'alt-a:select-all,alt-d:deselect-all' | awk "'{print $2}'" | uniq | xargs kill -9
-}
 define-command delete-buffers-match -docstring "Delete all buffers matching giving pattern" -params 1.. %{ evaluate-commands %sh{
     pattern=$1
     eval "set -- $kak_quoted_buflist"
@@ -56,30 +39,32 @@ define-command delete-buffers-match -docstring "Delete all buffers matching givi
     done
 }}
 complete-command delete-buffers-match buffer
-define-command edit-match -docstring "Open all files matching giving pattern" -params .. %{ evaluate-commands %sh{
-    fd $@ | while read f; do
-        printf "edit ""$f""\n"
-    done
+
+define-command kill-fifo-process -docstring "Kill commands run within the fifo command" -params 0.. %{nop %sh{
+    lsof -c '^kak' | rg "kak-fifo" | rg "${@-.}" | awk '{print $2}' | uniq | xargs kill -9
 }}
-complete-command edit-match shell-script-candidates %{ fd -tf . . }
-define-command window-edit-match -docstring "Open all files matching giving pattern in windows" -params .. %{ evaluate-commands %sh{
-    fd $@ | while read f; do
-        printf "new edit ""$f""\n"
-    done
-}}
-complete-command window-edit-match shell-script-candidates %{ fd -tf . . }
-define-command find -docstring "find files" -params .. %{
-    shell fd -tf %arg{@} | sk -m | while read f\; do echo eval -client %val{client} edit """$f""" \; done | kak -p %val{session}
-}
-complete-command find shell-script-candidates %{ fd -tf . . }
-define-command window-find -docstring "find files in other windows" -params .. %{
-    shell fd -tf %arg{@} | sk -m | while read f\; do echo eval -client %val{client} new edit """$f""" \; done | kak -p %val{session}
-}
-complete-command window-find shell-script-candidates %{ fd -tf . . }
 define-command just -docstring "run just command" -params 1.. %{
     fifo just --unstable "%arg{@}"
 }
 complete-command just shell-script-candidates %{ for receipt in $(just --unstable --summary); do echo "$receipt"; done }
+
+define-command edit-match -docstring "Open all files matching giving pattern" -params .. %{
+    for-each-line edit fd -p %arg{@}
+}
+complete-command edit-match shell-script-candidates %{ fd -tf . . }
+define-command window-edit-match -docstring "Open all files matching giving pattern in windows" -params .. %{
+    for-each-line 'new edit' fd -p %arg{@}
+}
+complete-command window-edit-match shell-script-candidates %{ fd -tf . . }
+
+define-command find -docstring "find files" -params .. %{
+    run-in-shell 'for-each-line edit cat' fd -tf %arg{@} | sk -m
+}
+complete-command find shell-script-candidates %{ fd -tf . . }
+define-command window-find -docstring "find files in other windows" -params .. %{
+    run-in-shell 'for-each-line "new edit" cat' fd -tf %arg{@} | sk -m
+}
+complete-command window-find shell-script-candidates %{ fd -tf . . }
 
 # Keys
 # ─────────────────────────
@@ -99,7 +84,7 @@ map global user w %{:window-find<ret>} -docstring "Open files in windows"
 map global user W %{:window-edit-match } -docstring "Find files in windows"
 map global user / %{:grep } -docstring "Grep"
 map global user < %{:fifo } -docstring "Fifo"
-map global user : %{:shell } -docstring "Shell"
+map global user : %{:suspend-and-resume } -docstring "Run in terminal"
 map global user s %{:new edit!<ret>} -docstring "Split window"
 map global user j %{:just } -docstring "Run just command"
 
@@ -131,3 +116,69 @@ evaluate-commands %sh{
     printf "define-command -override echo-to-clipboard -params .. %%{ echo -to-shell-script '%s' -- %%arg{@} }" "$copy"
 }
 
+# Helper commands
+# ─────────────────────────
+define-command -params .. fifo %{ evaluate-commands %sh{
+    output=$(mktemp -d "${TMPDIR:-/tmp}"/kak-fifo.XXXXXXXX)/fifo
+    mkfifo ${output}
+    ( eval "$@" > ${output} 2>&1 & ) > /dev/null 2>&1 < /dev/null
+    printf %s\\n "evaluate-commands -try-client '$client_opt_toolsclient' %{
+        edit! -fifo ${output} '*fifo*'
+        hook -always -once buffer BufCloseFifo .* %{ nop %sh{ rm -rf $(dirname ${output}) } }
+    }"
+}}
+complete-command fifo shell
+
+define-command for-each-line \
+    -docstring "for-each-line <command> <cli command>: run command with the value of each line ouput from the cli command" \
+    -params 2.. \
+    %{ evaluate-commands %sh{
+    ${@:2} | while read f; do
+        printf "$1 $f\n"
+    done
+}}
+
+define-command suspend-and-resume \
+    -params 1..2 \
+    -docstring 'suspend-and-resume <cli command> [<kak command after resume>]: backgrounds current kakoune client and runs specified cli command.  Upon exit of command the optional kak command is executed.' \
+    %{ evaluate-commands %sh{
+
+    # Note we are adding '&& fg' which resumes the kakoune client process after the cli command exits
+    cli_cmd="$1 && fg"
+    post_resume_cmd="$2"
+
+    # automation is different platform to platform
+    platform=$(uname -s)
+    case $platform in
+        Darwin)
+            automate_cmd="sleep 0.01; osascript -e 'tell application \"System Events\" to keystroke \"$cli_cmd\" & return ' || printf '$cli_cmd' | pbcopy"
+            kill_cmd="/bin/kill"
+            break
+            ;;
+        Linux)
+            automate_cmd="sleep 0.2; xdotool type '$cli_cmd'; xdotool key Return"
+            kill_cmd="/usr/bin/kill"
+            break
+            ;;
+    esac
+
+    # Uses platforms automation to schedule the typing of our cli command
+    nohup sh -c "$automate_cmd"  > /dev/null 2>&1 &
+    # Send kakoune client to the background
+    $kill_cmd -SIGTSTP $kak_client_pid
+
+    # ...At this point the kakoune client is paused until the " && fg " gets run in the $automate_cmd
+
+    # Upon resume, run the kak command is specified
+    if [ ! -z "$post_resume_cmd" ]; then
+        echo "$post_resume_cmd"
+    fi
+}}
+
+define-command run-in-shell \
+    -docstring 'run-in-shell <kak command after resume> <cli command>: backgrounds current kakoune client and runs specified cli command. the cli command will ouput will pass to the kak command with a buffer file.' \
+    -params 2.. %{ evaluate-commands %sh{
+    file="/tmp/kak-fifo-$kak_client_pid"
+    postcmd="${1}"
+    printf "suspend-and-resume '${@:2} > $file' '$postcmd $file'"
+}}
