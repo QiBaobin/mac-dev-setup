@@ -72,7 +72,7 @@ map global insert <tab> '<a-;><gt>'
 map global insert <s-tab> '<a-;><lt>'
 map global goto n '<esc>:bn<ret>' -docstring 'next buffer'
 map global goto p '<esc>:bp<ret>' -docstring 'previous buffer'
-map global goto x %{<a-|>open $(cat)<ret>} -docstring "Open selection with external program"
+map global goto x '<esc><a-|>open `cat`<ret>' -docstring "Open selection with external program"
 map global user q %{:x<ret>} -docstring "Save and quit"
 map global user c %{:comment-line<ret>} -docstring "Comment line"
 map global user b %{:buffer } -docstring "Buffer"
