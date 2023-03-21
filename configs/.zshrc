@@ -1,9 +1,8 @@
 autoload -Uz compinit && compinit
 set -o vi
 
-alias startavd="$ANDROID_SDK_ROOT/emulator/emulator -no-skin -no-audio '@Pixel_2_API_31' > /dev/null 2>&1 &"
-
-export PATH="$HOME/homebrew/bin:$HOME/homebrew/sbin:$HOME/.cargo/bin:$HOME/bin:$JAVA_HOME/bin:$PATH:/Users/a483334/.local/share/nvim/lsp_servers/kotlin/server/bin/"
+# need setup PATH here instead of .zshenv https://gist.github.com/Linerre/f11ad4a6a934dcf01ee8415c9457e7b2
+export PATH="$HOME/bin:$HOME/.cargo/bin:$HOME/homebrew/bin:$HOME/homebrew/sbin:$JAVA_HOME/bin:$PATH"
 
 eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
@@ -30,4 +29,3 @@ function sa(){
 }
 alias ls=exa
 printf '\033[3 q'
-eval $(thefuck --alias)
