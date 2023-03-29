@@ -21,6 +21,9 @@ hook global WinSetOption filetype=kotlin %[
     set-option window makecmd 'just build'
     set-option window lintcmd 'just build check'
 ]
+hook global ClientClose .* %{
+    evaluate-commands "nop %sh{ rm -rf /tmp/kak-$kak_client_pid }"
+}
 
 # Commands
 # ─────────────────────────
@@ -85,9 +88,8 @@ map global user F %{:edit-match } -docstring "Find files"
 map global user w %{:window-find<ret>} -docstring "Open files in windows"
 map global user W %{:window-edit-match } -docstring "Find files in windows"
 map global user / %{:grep } -docstring "Grep"
-map global user < %{:fifo } -docstring "Fifo"
-map global user : %{:suspend-and-resume nop } -docstring "Run in terminal"
-map global user s %{:new edit!<ret>} -docstring "Split window"
+map global user : %{:fifo } -docstring "Fifo"
+map global user ! %{:suspend-and-resume nop } -docstring "Run in terminal"
 map global user j %{:just } -docstring "Run just command"
 
 # System clipboard handling
@@ -121,12 +123,11 @@ evaluate-commands %sh{
 # Helper commands
 # ─────────────────────────
 define-command -params .. fifo %{ evaluate-commands %sh{
-    output=$(mktemp -d "${TMPDIR:-/tmp}"/kak-fifo.XXXXXXXX)/fifo
-    mkfifo ${output}
-    ( eval "$@" > ${output} 2>&1 & ) > /dev/null 2>&1 < /dev/null
+    output="/tmp/kak-${kak_client_pid}/fifo"
+    ( mkdir -p $(dirname $output); mkfifo ${output} ) > /dev/null
+    ( eval "$@" >> ${output} 2>&1 & ) > /dev/null 2>&1 < /dev/null
     printf %s\\n "evaluate-commands -try-client '$client_opt_toolsclient' %{
         edit! -fifo ${output} '*fifo*'
-        hook -always -once buffer BufCloseFifo .* %{ nop %sh{ rm -rf $(dirname ${output}) } }
     }"
 }}
 complete-command fifo shell
@@ -181,8 +182,9 @@ complete-command suspend-and-resume shell
 define-command run-in-shell \
     -docstring 'run-in-shell <kak command after resume> <cli command>: backgrounds current kakoune client and runs specified cli command. the cli command will ouput will pass to the kak command with a buffer file.' \
     -params 2.. %{ evaluate-commands %sh{
-    file="/tmp/kak-fifo-$kak_client_pid"
+    file="/tmp/kak-$kak_client_pid/shell"
     postcmd="${1}"
+    mkdir -p $(dirname "$file") > /dev/null
     printf "suspend-and-resume '$postcmd $file' ${@:2} > $file"
 }}
 complete-command run-in-shell shell
