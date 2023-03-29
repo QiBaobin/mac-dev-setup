@@ -1,7 +1,7 @@
 # UI
 # ─────────────────────────
 # relative line numbers
-add-highlighter global/ number-lines -relative -hlcursor
+add-highlighter global/ number-lines -relative -hlcursor -cursor-separator *
 add-highlighter global/ wrap -word
 add-highlighter global/ show-matching
 # Highlight trailing whitespace
@@ -9,8 +9,6 @@ add-highlighter global/ regex \h+$ 0:Error
 add-highlighter global/ regex \t 0:Error
 add-highlighter global/ regex //\h*(TODO:)[^\n]* 0:cyan 1:yellow,red
 add-highlighter global/ dynregex '%reg{/}' 0:+i
-
-colorscheme tomorrow-night
 
 # Options
 # ─────────────────────────
@@ -48,6 +46,10 @@ define-command just -docstring "run just command" -params 1.. %{
 }
 complete-command just shell-script-candidates %{ for receipt in $(just --unstable --summary); do echo "$receipt"; done }
 
+define-command edit-file -docstring "Open all files matching giving pattern" -params .. %{
+    edit %arg{@}
+}
+complete-command edit-file shell-script-candidates %{ fd -tf . . }
 define-command edit-match -docstring "Open all files matching giving pattern" -params .. %{
     for-each-line edit fd -p %arg{@}
 }
@@ -78,8 +80,8 @@ map global user c %{:comment-line<ret>} -docstring "Comment line"
 map global user b %{:buffer } -docstring "Buffer"
 map global user d %{:delete-buffer<ret>} -docstring "Delete buffer"
 map global user D %{:delete-buffers-match } -docstring "Delete buffers"
-map global user F %{:find<ret>} -docstring "Open files"
-map global user f %{:edit-match } -docstring "Find files"
+map global user f %{:edit-file } -docstring "Find file"
+map global user F %{:edit-match } -docstring "Find files"
 map global user w %{:window-find<ret>} -docstring "Open files in windows"
 map global user W %{:window-edit-match } -docstring "Find files in windows"
 map global user / %{:grep } -docstring "Grep"
