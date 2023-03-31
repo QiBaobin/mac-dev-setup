@@ -1,7 +1,7 @@
 # UI
 # ─────────────────────────
 # relative line numbers
-add-highlighter global/ number-lines -relative -hlcursor -cursor-separator *
+add-highlighter global/ number-lines -relative -hlcursor
 add-highlighter global/ wrap -word
 add-highlighter global/ show-matching
 # Highlight trailing whitespace
