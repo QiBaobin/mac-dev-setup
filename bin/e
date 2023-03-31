@@ -1,6 +1,7 @@
 #!/bin/bash
 
-server_name=$(basename `git rev-parse --show-toplevel || PWD`)
+root=`git rev-parse --show-toplevel || PWD`
+server_name=$(basename "$root")
 socket_file=$(kak -l | grep $server_name)
 
 if [[ $socket_file == "" ]]; then
@@ -10,4 +11,9 @@ if [[ $socket_file == "" ]]; then
 fi
 
 # and run kakoune (with any arguments passed to the script)
-kak -c $server_name $@
+if [[ $# -eq 0 ]]; then
+    files=$(fd -tf . $root | sk -m)
+else
+    files=$@
+fi
+kak -c $server_name $files
