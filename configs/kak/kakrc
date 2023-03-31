@@ -28,8 +28,6 @@ hook global ClientClose .* %{
 # Commands
 # ─────────────────────────
 define-command mkdir -docstring "" -params .. %{ echo %sh{ mkdir -pv ${@-$(dirname $kak_buffile)} } }
-# Shortcut to quickly exit the editor
-define-command -docstring "save and quit" x "write-all; quit"
 define-command delete-buffers-match -docstring "Delete all buffers matching giving pattern" -params 1.. %{ evaluate-commands %sh{
     pattern=$1
     eval "set -- $kak_quoted_buflist"
@@ -65,7 +63,7 @@ map global insert <s-tab> '<a-;><lt>'
 map global goto n '<esc>:bn<ret>' -docstring 'next buffer'
 map global goto p '<esc>:bp<ret>' -docstring 'previous buffer'
 map global goto x '<esc><a-|>open `cat`<ret>' -docstring "Open selection with external program"
-map global user q %{:x<ret>} -docstring "Save and quit"
+map global user q %{:write-all-quit<ret>} -docstring "Save and quit"
 map global user c %{:comment-line<ret>} -docstring "Comment line"
 map global user b %{:buffer } -docstring "Buffer"
 map global user d %{:delete-buffer<ret>} -docstring "Delete buffer"
