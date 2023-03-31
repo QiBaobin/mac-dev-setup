@@ -60,6 +60,7 @@ complete-command edit-match shell-script-candidates %{ fd -tf . . }
 # ─────────────────────────
 map global insert <tab> '<a-;><gt>'
 map global insert <s-tab> '<a-;><lt>'
+map global prompt <a-.> '%sh(dirname "$kak_buffile")<a-!>' -docstring 'Expand to the buffer directory'
 map global goto n '<esc>:bn<ret>' -docstring 'next buffer'
 map global goto p '<esc>:bp<ret>' -docstring 'previous buffer'
 map global goto x '<esc><a-|>open `cat`<ret>' -docstring "Open selection with external program"
