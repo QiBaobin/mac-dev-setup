@@ -22,6 +22,7 @@ hook global WinSetOption filetype=kotlin %[
     set-option window lintcmd 'just build check'
 ]
 hook global ClientClose .* %{
+    delete-buffer *fifo*
     evaluate-commands "nop %sh{ rm -rf /tmp/kak-$kak_client_pid }"
 }
 
@@ -43,7 +44,7 @@ define-command kill-fifo-process -docstring "Kill commands run within the fifo c
     lsof -c '^kak' | rg "kak-fifo" | rg "${@-.}" | awk '{print $2}' | uniq | xargs kill -9
 }}
 define-command just -docstring "run just command" -params 1.. %{
-    fifo just --unstable "%arg{@}"
+    pueue-add just --unstable "%arg{@}"
 }
 complete-command just shell-script-candidates %{ for receipt in $(just --unstable --summary); do echo "$receipt"; done }
 
@@ -72,7 +73,8 @@ map global user D %{:delete-buffers-match } -docstring "Delete buffers"
 map global user f %{:find } -docstring "Find a file"
 map global user F %{:edit-match } -docstring "Find files"
 map global user / %{:grep } -docstring "Grep"
-map global user : %{:fifo } -docstring "Fifo"
+map global user : %{:pueue-add } -docstring "Run task"
+map global user l %{:pueue status ; pueue-prompt-log<ret>} -docstring "Task log"
 map global user j %{:just } -docstring "Run just command"
 
 # System clipboard handling
@@ -105,6 +107,19 @@ evaluate-commands %sh{
 
 # Helper commands
 # ─────────────────────────
+define-command -params 1.. -docstring "run pueue commands" pueue %{ info %sh{ pueue $@ }}
+define-command -params 1.. -docstring "add a task to pueue" pueue-add %{ pueue add -- %arg{@} }
+complete-command pueue-add shell
+define-command -params .. -docstring "open the log of tasks in pueue" pueue-log %{
+    fifo pueue log %arg{@}
+}
+define-command -params 0 -hidden pueue-log-text %{
+    pueue-log %val{text}
+}
+define-command -params 0 -docstring "prompt to select logs of tasks in pueue" pueue-prompt-log %{
+    prompt -init '-f ' 'task ids:' pueue-log-text
+}
+
 define-command -params .. fifo %{ evaluate-commands %sh{
     output="/tmp/kak-${kak_client_pid}/fifo"
     ( mkdir -p $(dirname $output); mkfifo ${output} ) > /dev/null
