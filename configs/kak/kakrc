@@ -17,10 +17,6 @@ set-option global grepcmd 'rg --column'
 
 # Hooks
 # ─────────────────────────
-hook global WinSetOption filetype=kotlin %[
-    set-option window makecmd 'just build'
-    set-option window lintcmd 'just build check'
-]
 hook global ClientClose .* %{
     delete-buffer *fifo*
     evaluate-commands "nop %sh{ rm -rf /tmp/kak-$kak_client_pid }"
@@ -29,20 +25,15 @@ hook global ClientClose .* %{
 # Commands
 # ─────────────────────────
 define-command mkdir -docstring "" -params .. %{ echo %sh{ mkdir -pv ${@-$(dirname $kak_buffile)} } }
-define-command delete-buffers-match -docstring "Delete all buffers matching giving pattern" -params 1.. %{ evaluate-commands %sh{
-    pattern=$1
-    eval "set -- $kak_quoted_buflist"
-    for buf in "$@"; do
-        printf "%s\n" "$buf"
-    done | rg $pattern - | while read f; do
-        printf "delete-buffer '$f'\n"
-    done
-}}
+define-command delete-buffers-match -docstring "Delete all buffers matching giving pattern" -params 1 %{
+    evaluate-commands -buffer %sh{
+        pattern=$1; eval set -- "$kak_quoted_buflist"
+        bufs=$(for buf in "$@"; do printf "%s\n" "$buf"; done | rg "$pattern" - | tr '\n' ',')
+        printf %s "${bufs%,}"
+    } delete-buffer
+}
 complete-command delete-buffers-match buffer
 
-define-command kill-fifo-process -docstring "Kill commands run within the fifo command" -params 0.. %{nop %sh{
-    lsof -c '^kak' | rg "kak-fifo" | rg "${@-.}" | awk '{print $2}' | uniq | xargs kill -9
-}}
 define-command just -docstring "run just command" -params 1.. %{
     pueue-add just --unstable "%arg{@}"
 }
@@ -55,7 +46,7 @@ complete-command just shell-script-candidates %{
 define-command find -docstring "Find a file to open" -params 1 %{
     edit %arg{@}
 }
-    complete-command find shell-script-candidates %{ fd -tf . . }
+complete-command find shell-script-candidates %{ fd -tf . . }
 define-command edit-match -docstring "Open all files matching giving pattern" -params .. %{
     for-each-line edit fd -p %arg{@}
 }
@@ -128,7 +119,7 @@ define-command -params 0 -hidden -docstring "prompt to select logs of tasks in p
 
 define-command -params .. fifo %{ evaluate-commands %sh{
     output="/tmp/kak-${kak_client_pid}/fifo"
-    ( mkdir -p $(dirname $output); mkfifo ${output} ) > /dev/null
+    ( mkdir -p $(dirname $output); mkfifo ${output} ) > /dev/null 2>&1
     ( eval "$@" >> ${output} 2>&1 & ) > /dev/null 2>&1 < /dev/null
     printf %s\\n "evaluate-commands -try-client '$client_opt_toolsclient' %{
         edit! -fifo ${output} '*fifo*'
