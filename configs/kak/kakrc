@@ -18,8 +18,11 @@ set-option global grepcmd 'rg --column'
 # Hooks
 # ─────────────────────────
 hook global ClientClose .* %{
-    delete-buffer *fifo*
-    evaluate-commands "nop %sh{ rm -rf /tmp/kak-$kak_client_pid }"
+    delete-buffer %sh{ printf %s "*fifo-${kak_client}*" }
+    nop %sh{ rm -rf "/tmp/kak/${kak_session}/${kak_client}" }
+}
+hook global KakEnd .* %{
+    nop %sh{ rm -rf "/tmp/kak/${kak_session}" }
 }
 
 # Commands
@@ -78,7 +81,7 @@ map global user j %{:just } -docstring "Run just command"
 
 evaluate-commands %sh{
     if [ -n "$SSH_TTY" ]; then
-        copy='printf "\033]52;;%s\033\\" $(base64 | tr -d "\n") > $( [ -n "$client_client_pid" ] && echo /proc/$client_client_pid/fd/0 || echo /dev/tty )'
+        copy='printf "\033]52;;%s\033\\" $(base64 | tr -d "\n") > $( [ -n "$kak_client_pid" ] && echo /proc/$kak_client_pid/fd/0 || echo /dev/tty )'
         paste='printf "paste unsupported through ssh"'
         backend="OSC 52"
     else
@@ -113,10 +116,10 @@ define-command -params 1.. -docstring "add a task to pueue" pueue-add %{ pueue a
 complete-command pueue-add shell
 
 define-command -params 1.. fifo %{ evaluate-commands %sh{
-    output="/tmp/kak-${kak_client_pid}/fifo"
+    output="/tmp/kak/${kak_session}/${kak_client}/fifo"
     ( mkdir -p $(dirname $output); mkfifo ${output} ) > /dev/null 2>&1
     ( eval "$@" >> ${output} 2>&1 & ) > /dev/null 2>&1 < /dev/null
-    printf %s\\n "edit! -fifo ${output} '*fifo*'"
+    printf %s\\n "edit! -fifo ${output} '*fifo-${kak_client}*'"
 }}
 complete-command fifo shell
 
