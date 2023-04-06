@@ -33,7 +33,6 @@ vim.cmd([[
 
   nnoremap <leader>b :ls<CR>:b 
   nnoremap <leader>B :ls!<CR>:b 
-  nnoremap <leader>f :exec 'edit ' . fnameescape('term://nvr $(fd \|sk --regex -m)')<CR>
   nnoremap <leader><tab> <c-^>
   nnoremap <leader>t :b term://*<CR>
 
@@ -47,4 +46,27 @@ vim.cmd([[
   augroup END
 ]])
 
-require('plugins')
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
+end
+vim.opt.rtp:prepend(lazypath)
+
+require("lazy").setup({
+  {
+    "folke/which-key.nvim",
+    config = function()
+      vim.o.timeout = true
+      vim.o.timeoutlen = 300
+      require("which-key").setup({})
+    end,
+  },
+  "tpope/vim-fugitive",
+})
