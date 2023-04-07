@@ -10,5 +10,6 @@ config.font = wezterm.font_with_fallback {"Hack Nerd Font Mono", "Fira Code", "M
 config.font_size = 16.0
 config.text_background_opacity = 1.0
 config.window_padding = { left = 0, right = 0, top = 0, bottom = 0, }
+config.color_scheme = 'Darcula (base16)'
 
 return config
