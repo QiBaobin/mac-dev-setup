@@ -12,7 +12,7 @@ fi
 
 # and run kakoune (with any arguments passed to the script)
 if [[ $# -eq 0 ]]; then
-    files=$(fd -tf . `(realpath --relative-to="." "$root"` | sk -m)
+    files=$(fd -tf . `realpath --relative-to="." "$root"` | sk -m)
 else
     files=$@
 fi
