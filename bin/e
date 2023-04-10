@@ -1,7 +1,7 @@
 #!/bin/bash
 
 root=`git rev-parse --show-toplevel || pwd`
-server_name=$(basename "$root")
+server_name=$(basename $root | cut -c 1-35)
 socket_file=$(kak -l | grep $server_name)
 
 if [[ $socket_file == "" ]]; then
