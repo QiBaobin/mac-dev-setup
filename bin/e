@@ -1,12 +1,12 @@
 #!/bin/bash
 
 root=`git rev-parse --show-toplevel || pwd`
-server_name=$(basename $root | cut -c 1-35)
+server_name=$(basename "$root" | cut -c 1-35)
 socket_file=$(kak -l | grep $server_name)
 
 if [[ $socket_file == "" ]]; then
     # Create new kakoune daemon for current dir
-    nohup kak -d -s $server_name > /dev/null 3>&2 &
+    nohup kak -d -s "$server_name" > /dev/null 3>&2 &
     sleep 0.1
 fi
 
@@ -14,6 +14,6 @@ fi
 if [[ $# -eq 0 ]]; then
     files=$(fd -tf . `realpath --relative-to="." "$root"` | sk -m)
 else
-    files=$@
+    files="$@"
 fi
-kak -c $server_name $files
+kak -c "$server_name" $files
