@@ -1,0 +1,38 @@
+if &compatible
+    set nocompatible
+endif
+syntax on
+set wildmenu wildoptions=pum
+set relativenumber
+set cursorline
+set tabstop=4
+set shiftwidth=4
+set expandtab
+set smartcase
+set smartindent
+set showmatch
+set hidden
+set iskeyword+=-
+
+let mapleader = " "
+let maplocalleader = ","
+
+nnoremap <leader>b :ls<CR>:b 
+nnoremap <leader>B :ls!<CR>:b 
+nnoremap <leader><tab> <c-^>
+nnoremap <leader>t :b term://*<CR>
+
+function! Find(pat='') abort
+    let l:tempname = tempname()
+    execute 'silent !fd -tf ' . a:pat . '| sk -m | awk ''{ print $1":1:0" }'' > ' . fnameescape(l:tempname)
+    try
+        execute 'cfile ' . l:tempname
+        redraw!
+    finally
+        call delete(l:tempname)
+    endtry
+endfunction
+command! -nargs=* Find call Find(<q-args>)
+if executable('rg')
+    set grepprg=rg\ --vimgrep
+endif
