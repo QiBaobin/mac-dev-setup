@@ -59,8 +59,8 @@ define-command edit-match -docstring "Open all files matching giving pattern" -p
 map global normal '#' :comment-line<ret>
 map global normal <c-a> %{:expr +<ret>} -docstring "Increment by given count"
 map global normal <c-x> %{:expr -<ret>} -docstring "Descrement by given count"
-map global insert <tab> '<a-;><gt>'
-map global insert <s-tab> '<a-;><lt>'
+map global prompt <a-n> '<tab>'
+map global prompt <a-p> '<s-tab>'
 map global prompt <a-.> '%sh(dirname "$kak_buffile")<a-!>/' -docstring 'Expand to the buffer directory'
 map global goto n '<esc>:bn<ret>' -docstring 'next buffer'
 map global goto p '<esc>:bp<ret>' -docstring 'previous buffer'
