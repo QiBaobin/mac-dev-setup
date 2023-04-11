@@ -11,6 +11,5 @@ config.font_size = 16.0
 config.text_background_opacity = 1.0
 config.window_padding = { left = 0, right = 0, top = 0, bottom = 0, }
 config.color_scheme = 'Ciapre'
-config.enable_csi_u_key_encoding = true
 
 return config
