@@ -19,6 +19,8 @@ let maplocalleader = ","
 
 nnoremap <leader>b :ls<CR>:b 
 nnoremap <leader>B :ls!<CR>:b 
+nnoremap <leader>d :bd<CR>
+nnoremap <leader>f :Find<CR>
 nnoremap <leader><tab> <c-^>
 nnoremap <leader>t :b term://*<CR>
 
