@@ -42,7 +42,7 @@ define-command find -docstring "Find a file to open" -params 1 %{
 complete-command find shell-script-candidates %{ fd -tf . . }
 define-command find-match -docstring "Open all files matching giving pattern" -params 1.. %{ evaluate-commands %sh{
     file=$(mktemp)
-    fd -tf $@ | sed -e 's/$/:1:0/' > "$file"
+    (fd -tf $@ | sed -e 's/$/:1:0/') > "$file" 2>&1 < /dev/null
     printf %s "grep --no-column -N -I '.*' '$file'"
 }}
 
