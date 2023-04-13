@@ -13,7 +13,7 @@ add-highlighter global/ dynregex '%reg{/}' 0:+i
 # Options
 # ─────────────────────────
 set-option global tabstop 4
-set-option global grepcmd 'rg --column'
+set-option global grepcmd 'rg --vimgrep'
 
 # Commands
 # ─────────────────────────
@@ -40,8 +40,10 @@ define-command find -docstring "Find a file to open" -params 1 %{
     edit %arg{@}
 }
 complete-command find shell-script-candidates %{ fd -tf . . }
-define-command edit-match -docstring "Open all files matching giving pattern" -params 1.. %{ evaluate-commands %sh{
-    fd -p $@ | sed 's/^/edit /'
+define-command find-match -docstring "Open all files matching giving pattern" -params 1.. %{ evaluate-commands %sh{
+    file=$(mktemp)
+    fd -tf $@ | sed -e 's/$/:1:0/' > "$file"
+    printf %s "grep --no-column -N -I '.*' '$file'"
 }}
 
 # Keys
@@ -60,7 +62,7 @@ map global user b %{:buffer } -docstring "Buffer"
 map global user d %{:delete-buffer<ret>} -docstring "Delete buffer"
 map global user D %{:delete-buffers-match } -docstring "Delete buffers"
 map global user f %{:find } -docstring "Find a file"
-map global user F %{:edit-match } -docstring "Find files"
+map global user F %{:find-match } -docstring "Find files"
 map global user / %{:grep } -docstring "Grep"
 map global user : %{:sh } -docstring "Run a shell cmd"
 map global user i %{:info %sh{ }<left><left> } -docstring "Show a shell cmd output"
