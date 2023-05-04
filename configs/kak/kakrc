@@ -80,6 +80,11 @@ hook global -always -once BufOpenFifo '\*grep\*' %{
 hook global -always BufOpenFifo '\*make\*' %{
     map buffer normal <minus> ': make-next-error<ret>'
 }
+hook global WinSetOption filetype=zig %{
+    set-option global makecmd 'zig build'
+    set-option global formatcmd 'zig fmt --stdin'
+    set-option global lintcmd 'zig build test'
+}
 
 # Helper commands
 # ─────────────────────────
