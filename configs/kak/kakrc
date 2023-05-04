@@ -82,8 +82,8 @@ hook global -always BufOpenFifo '\*make\*' %{
 }
 hook global WinSetOption filetype=zig %{
     set-option global makecmd 'zig build'
-    set-option global formatcmd 'zig fmt --stdin'
-    set-option global lintcmd 'zig build test'
+    set-option buffer formatcmd 'zig fmt --stdin'
+    set-option global lintcmd 'zig fmt --check src/*.zig'
 }
 
 # Helper commands
