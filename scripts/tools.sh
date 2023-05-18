@@ -4,9 +4,10 @@ if [ -z "$tools_load" ]; then
 
     source ./brew.sh
 
-    brew install aspell pandoc openssl git firefox aspell
+    brew install aspell pandoc openssl git zig clifm fzf gawk jq
     brew install --HEAD kakoune
-    brew install --HEAD wezterm
+    brew install --cask wezterm
+    brew install --cask vieb
 
     tools_load=1
 fi
