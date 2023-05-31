@@ -36,10 +36,14 @@ complete-command just shell-script-candidates %{
     fi
 }
 
+define-command find-completions -params 1 %{
+    set-register f %arg{1}
+    execute-keys ':find '
+}
 define-command find -docstring "Find a file to open" -params 1 %{
     edit %arg{@}
 }
-complete-command find shell-script-candidates %{ fd -tf . . }
+complete-command find shell-script %{ fd -tf ${kak_reg_f:-.} . }
 define-command find-match -docstring "Open all files matching giving pattern" -params 1.. %{ evaluate-commands %sh{
     file=$(mktemp)
     (fd -tf $@ | sed -e 's/$/:1:0/') > "$file" 2>&1 < /dev/null
@@ -62,7 +66,7 @@ map global user q %{:write-all-quit<ret>} -docstring "Save and quit"
 map global user b %{:buffer } -docstring "Buffer"
 map global user d %{:delete-buffer<ret>} -docstring "Delete buffer"
 map global user D %{:delete-buffers-match } -docstring "Delete buffers"
-map global user f %{:find } -docstring "Find a file"
+map global user f %{:prompt -init '.' 'regex:' 'find-completions %val{text}'<ret>} -docstring "Find a file"
 map global user F %{:find-match } -docstring "Find files"
 map global user / %{:grep } -docstring "Grep"
 map global user s %{:ctags-search } -docstring "Search symbol"
