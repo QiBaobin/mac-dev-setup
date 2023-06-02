@@ -44,7 +44,7 @@ define-command find -docstring "Find a file to open" -params 1.. %{
 complete-command find shell-script %{
     pattern="${@: -1}"
     if [[ -z "$pattern" ]]; then pattern="."; fi
-    fd -tf -- "$pattern" .
+    fd -tf --max-results=20 -p -- "$pattern" .
 }
 define-command find-match -docstring "Open all files matching giving pattern" -params 1.. %{ evaluate-commands %sh{
     file=$(mktemp)
