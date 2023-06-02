@@ -42,7 +42,7 @@ define-command find -docstring "Find a file to open" -params 1.. %{
     }
 }
 complete-command find shell-script %{
-    pattern="${@: -1}"
+    pattern="${@:$kak_token_to_complete+1:1}"
     if [[ -z "$pattern" ]]; then pattern="."; fi
     fd -tf --max-results=20 -p -- "$pattern" .
 }
