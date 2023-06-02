@@ -43,7 +43,7 @@ define-command find-completions -params 1 %{
 define-command find -docstring "Find a file to open" -params 1 %{
     edit %arg{@}
 }
-complete-command find shell-script %{ fd -tf ${kak_reg_f:-.} . }
+complete-command find shell-script-candidates %{ fd -tf ${kak_reg_f:-.} . }
 define-command find-match -docstring "Open all files matching giving pattern" -params 1.. %{ evaluate-commands %sh{
     file=$(mktemp)
     (fd -tf $@ | sed -e 's/$/:1:0/') > "$file" 2>&1 < /dev/null
