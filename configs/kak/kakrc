@@ -36,15 +36,8 @@ complete-command just shell-script-candidates %{
     fi
 }
 
-define-command find -docstring "Find a file to open" -params 1.. %{
-    evaluate-commands %sh{
-        for f in "$@"; do printf "edit %s;" "$f"; done
-    }
-}
-complete-command find shell-script %{
-    pattern="${@:$kak_token_to_complete+1:1}"
-    if [[ -z "$pattern" ]]; then pattern="."; fi
-    fd -tf --max-results=20 -p -- "$pattern" .
+define-command find -docstring "Find a file to open" -params .. %{
+    terminal sk -c "fd -tf %arg{@}" --bind %exp{enter:execute(echo eval -verbatim -client %val{client} edit '"{}"' | kak -p %val{session})+abort}
 }
 define-command find-match -docstring "Open all files matching giving pattern" -params 1.. %{ evaluate-commands %sh{
     file=$(mktemp)
