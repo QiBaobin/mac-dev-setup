@@ -85,7 +85,12 @@ hook global -always BufOpenFifo '\*make\*' %{
 hook global WinSetOption filetype=zig %{
     set-option global makecmd 'zig build'
     set-option buffer formatcmd 'zig fmt --stdin'
-    set-option global lintcmd 'zig fmt --check src/*.zig'
+    set-option global lintcmd 'zig fmt --check'
+}
+hook global WinSetOption filetype=kotlin %{
+    set-option global makecmd 'abt -s @ build'
+    set-option buffer formatcmd 'abt -s @ spotlessApply'
+    set-option global lintcmd 'ktlint'
 }
 
 # Helper commands
