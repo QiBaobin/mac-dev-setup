@@ -38,13 +38,9 @@ complete-command just shell-script-candidates %{
 }
 
 define-command find -docstring "Find a file to open" -params .. %{
-    terminal sk -c "fd -tf %arg{@}" --bind %exp{enter:execute(echo eval -verbatim -client %val{client} edit '"{}"' | kak -p %val{session})+abort}
+    terminal sk -c "fd -tf %arg{@}" --bind %exp{enter:execute(echo eval -verbatim -client %val{client} edit '"{}"' | kak -p %val{session})+abort,ctrl-m:execute(echo eval -verbatim -client %val{client} edit '"{}"' | kak -p %val{session})}
 }
 complete-command find file
-define-command find-match -docstring "List all files matching giving pattern" -params 1.. %{
-    grep --pre echo %arg{@}
-}
-complete-command find-match file
 
 # Keys
 # ─────────────────────────
@@ -64,7 +60,6 @@ map global user b %{:buffer } -docstring "Buffer"
 map global user d %{:delete-buffer<ret>} -docstring "Delete buffer"
 map global user D %{:delete-buffers-match } -docstring "Delete buffers"
 map global user f %{:find<ret>} -docstring "Find a file"
-map global user F %{:find-match } -docstring "Find files"
 map global user / %{:grep } -docstring "Grep"
 map global user s %{:ctags-search } -docstring "Search symbol"
 map global user : %{:sh } -docstring "Run a shell cmd"
