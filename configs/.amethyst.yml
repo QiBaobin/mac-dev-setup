@@ -173,24 +173,24 @@ throw-screen-4:
 #   key: i
 
 # Select tall layout
-select-tall-layout:
-  mod: mod1
-  key: a
+# select-tall-layout:
+#   mod: mod1
+#   key: a
 
 # Select wide layout
-select-wide-layout:
-  mod: mod1
-  key: s
+# select-wide-layout:
+#   mod: mod1
+#   key: s
 
 # Select fullscreen layout
-select-fullscreen-layout:
-  mod: mod1
-  key: d
+# select-fullscreen-layout:
+#   mod: mod1
+#   key: d
 
 # Select column layout
-select-column-layout:
-  mod: mod1
-  key: f
+# select-column-layout:
+#   mod: mod1
+#   key: f
 
 # Move the currently focused window to the space to the left.
 throw-space-left:
@@ -213,9 +213,9 @@ display-current-layout:
   key: i
 
 # Turn on or off tiling entirely.
-toggle-tiling:
-  mod: mod1
-  key: t
+# toggle-tiling:
+#   mod: mod1
+#   key: t
 
 # Rerun the current layout's algorithm.
 reevaluate-windows:
