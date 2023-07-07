@@ -29,11 +29,11 @@ define-command delete-buffers-match -docstring "Delete all buffers matching givi
 complete-command delete-buffers-match buffer
 
 define-command just -docstring "run just command" -params 1.. %{
-    pueue-add just --unstable "%arg{@}"
+    pueue-add just "%arg{@}"
 }
 complete-command just shell-script-candidates %{
     if [ $kak_token_to_complete -eq 0 ]; then
-        for receipt in $(just --unstable --summary); do echo "$receipt"; done
+        for receipt in $(just --summary); do echo "$receipt"; done
     fi
 }
 
@@ -41,11 +41,9 @@ define-command find -docstring "Find a file to open" -params .. %{
     terminal sk -c "fd -tf %arg{@}" --bind %exp{enter:execute(echo eval -verbatim -client %val{client} edit '"{}"' | kak -p %val{session})+abort}
 }
 complete-command find file
-define-command find-match -docstring "Open all files matching giving pattern" -params 1.. %{ evaluate-commands %sh{
-    file=$(mktemp)
-    fd -tf $@ > "$file" 2>&1 < /dev/null
-    printf %s "grep --no-column -N -I '.*' -r '\$0:1:0' '$file'"
-}}
+define-command find-match -docstring "List all files matching giving pattern" -params 1.. %{
+    grep --pre echo %arg{@}
+}
 complete-command find-match file
 
 # Keys
@@ -53,6 +51,7 @@ complete-command find-match file
 map global normal '#' :comment-line<ret>
 map global normal <c-a> %{:expr +<ret>} -docstring "Increment by given count"
 map global normal <c-x> %{:expr -<ret>} -docstring "Descrement by given count"
+
 map global insert <tab> '<c-n>'
 map global prompt <a-n> '<tab>'
 map global prompt <a-p> '<s-tab>'
@@ -116,3 +115,7 @@ define-command -params 1..2 -docstring "expr <operator> [number]" expr %{ execut
     printf '|expr `cat` %s %s<ret>' "$1" "${count-1}"
 }}
 
+define-command show-ctags-complete %{ evaluate-commands -draft %{ # select previous word >= ctags_min_chars
+    execute-keys ",b_<a-k>.{%opt{ctags_min_chars},}<ret>"
+    ctags-complete          # run in draft context to preserve selection
+}}
