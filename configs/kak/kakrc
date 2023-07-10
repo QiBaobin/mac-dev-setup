@@ -38,7 +38,7 @@ complete-command just shell-script-candidates %{
 }
 
 define-command find -docstring "Find a file to open" -params .. %{
-    terminal sk -c "fd -tf %arg{@}" --bind %exp{enter:execute(echo eval -verbatim -client %val{client} edit '"{}"' | kak -p %val{session})+abort,ctrl-m:execute(echo eval -verbatim -client %val{client} edit '"{}"' | kak -p %val{session})}
+    terminal sk -c "fd -tf %arg{@}" --bind %exp{enter:execute-silent(echo eval -verbatim -client %val{client} edit '"{}"' | kak -p %val{session})+abort,alt-j:execute-silent(echo eval -verbatim -client %val{client} edit '"{}"' | kak -p %val{session})+down,alt-k:execute-silent(echo eval -verbatim -client %val{client} edit '"{}"' | kak -p %val{session})+up}
 }
 complete-command find file
 
