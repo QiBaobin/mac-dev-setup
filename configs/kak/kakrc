@@ -77,18 +77,26 @@ hook global -always BufOpenFifo '\*make\*' %{
     map buffer normal <minus> ': make-next-error<ret>'
 }
 hook global WinSetOption filetype=zig %{
-    set-option global makecmd 'zig build'
+    set-option buffer makecmd 'zig build'
     set-option buffer formatcmd 'zig fmt --stdin'
-    set-option global lintcmd 'zig fmt --check'
+    set-option buffer lintcmd 'zig fmt --check'
 }
 hook global WinSetOption filetype=kotlin %{
-    set-option global makecmd 'abt -s @ build'
+    set-option buffer makecmd 'abt -s @ build'
     set-option buffer formatcmd 'abt -s @ spotlessApply'
-    set-option global lintcmd 'ktlint'
+    set-option buffer lintcmd 'ktlint'
 }
 
 # Helper commands
 # ─────────────────────────
+define-command -params 1.. -docstring "run a shell command" sh %{
+    edit! -scratch *shell-output*
+    set-option buffer makecmd "zsh -c '%arg{@}'"
+    make
+    delete-buffer *shell-output*
+}
+complete-command sh shell
+
 define-command -params 1.. -docstring "run pueue commands" pueue %{ info %sh{ pueue $@ }}
 complete-command pueue shell-script-candidates %{
     if [ $kak_token_to_complete -eq 0 ]; then
@@ -98,19 +106,9 @@ complete-command pueue shell-script-candidates %{
 define-command -params 1.. -docstring "add a task to pueue" pueue-add %{ pueue add -- %arg{@} }
 complete-command pueue-add shell
 
-define-command -params 1.. -docstring "run a shell command" sh %{
-    edit! -scratch *shell-output*
-    execute-keys "!%arg{@}<ret>"
-}
-complete-command sh shell
-
 define-command -params 1..2 -docstring "expr <operator> [number]" expr %{ execute-keys %sh{
     if [ $kak_count = 0 ]; then kak_count=1; fi
     count=${2-$kak_count}
     printf '|expr `cat` %s %s<ret>' "$1" "${count-1}"
 }}
 
-define-command show-ctags-complete %{ evaluate-commands -draft %{ # select previous word >= ctags_min_chars
-    execute-keys ",b_<a-k>.{%opt{ctags_min_chars},}<ret>"
-    ctags-complete          # run in draft context to preserve selection
-}}
