@@ -1,4 +1,4 @@
-# ################################################################ #
+#se ################################################################ #
 # THE FOLLOWING IS AN EXPLANATION OF THE GRAMMAR THAT SKHD PARSES. #
 # FOR SIMPLE EXAMPLE MAPPINGS LOOK FURTHER DOWN THIS FILE..        #
 # ################################################################ #
@@ -77,42 +77,42 @@
 :: yabai @ : yabai -m config window_gap 20
 
 # default mode
-cmd - h : yabai -m window --focus west || yabai -m window --focus east
-cmd - l : yabai -m window --focus east || yabai -m window --focus west
-cmd - j : yabai -m window --focus south || yabai -m window --focus north
-cmd - k : yabai -m window --focus north || yabai -m window --focus south
+cmd - h : yabai -m window --focus west || yabai -m window --focus last
+cmd - l : yabai -m window --focus east || yabai -m window --focus first
+cmd - j : yabai -m window --focus south || yabai -m window --focus first
+cmd - k : yabai -m window --focus north || yabai -m window --focus last
+cmd - 0x29 : yabai -m window --focus stack.next || yabai -m window --focus stack.first
 cmd - o : yabai -m window --focus recent
+
 cmd - e : yabai -m window --toggle split
+cmd - m : yabai -m window --swap first || yabai -m window --swap last
+cmd - return : yabai -m window --focus first
 cmd - 0x2B  : yabai -m display --focus prev || yabai -m display --focus next
 cmd - 0x2F  ; yabai
 
 # yabai mode
 yabai < return  ; default
 yabai < escape  ; default
-yabai < h : yabai -m window --focus west
-yabai < l : yabai -m window --focus east
-yabai < j : yabai -m window --focus south
-yabai < k : yabai -m window --focus north
-yabai < p : yabai -m window --focus prev
-yabai < n : yabai -m window --focus next
+yabai < h : yabai -m window --focus west || yabai -m window --focus last
+yabai < l : yabai -m window --focus east || yabai -m window --focus first
+yabai < j : yabai -m window --focus south || yabai -m window --focus first
+yabai < k : yabai -m window --focus north || yabai -m window --focus last
+yabai < p : yabai -m window --focus stack.prev || yabai -m window --focus stack.last
+yabai < n : yabai -m window --focus stack.next || yabai -m window --focus stack.first
 yabai < ctrl - h : yabai -m window --warp west
 yabai < ctrl - l : yabai -m window --warp east
 yabai < ctrl - j : yabai -m window --warp south
 yabai < ctrl - k : yabai -m window --warp north
-yabai < ctrl - p : yabai -m window --warp prev
-yabai < ctrl - n : yabai -m window --warp next
 yabai < shift - h : yabai -m window --swap west
 yabai < shift - l : yabai -m window --swap east
 yabai < shift - j : yabai -m window --swap south
 yabai < shift - k : yabai -m window --swap north
-yabai < shift - p : yabai -m window --swap prev
-yabai < shift - n : yabai -m window --swap next
 yabai < alt - h : yabai -m window --resize left:-20:0
 yabai < alt - l : yabai -m window --resize right:-20:0
 yabai < alt - j : yabai -m window --resize bottom:0:-20
 yabai < alt - k : yabai -m window --resize top:0:-20
 yabai < 0x2B  : yabai -m display --focus prev || yabai -m display --focus next
-yabai < shift - 0x2B  : yabai -m window --display prev || yabai -m window --display prev; yabai -m display --focus next || yabai -m display --focus next
+yabai < shift - 0x2B  : yabai -m window --display prev || yabai -m window --display next
 yabai < 0 : yabai -m space --balance
 yabai < 1 : yabai -m window --space 1
 yabai < 2 : yabai -m window --space 2
@@ -123,23 +123,22 @@ yabai < 6 : yabai -m window --space 6
 yabai < 7 : yabai -m window --space 7
 yabai < 8 : yabai -m window --space 8
 yabai < 9 : yabai -m window --space 9
+yabai < i : yabai -m window --insert west
+yabai < shift - i : yabai -m window --insert stack ; skhd -k "escape"
 
 # make floating window fill screen
 yabai < up     : yabai -m window --grid 1:1:0:0:1:1 ; skhd -k "escape"
-
-# make floating window fill left-half of screen
-yabai < left   : yabai -m window --grid 1:2:0:0:1:1 ; skhd -k "escape"
-
-yabai < i : yabai -m window --insert west ; skhd -k "escape"
 
 # toggle window zoom
 yabai < d : yabai -m window --toggle zoom-parent ; skhd -k "escape"
 yabai < f : yabai -m window --toggle zoom-fullscreen ; skhd -k "escape"
 yabai < s : yabai -m space --layout stack ; skhd -k "escape"
 yabai < b : yabai -m space --layout bsp ; skhd -k "escape"
+yabai < shift - s : yabai -m display --layout stack ; skhd -k "escape"
+yabai < shift - b : yabai -m display --layout bsp ; skhd -k "escape"
 
 # toggle window split type
 
 # float / unfloat window and center on screen
-yabai < t : yabai -m window --toggle float --grid 4:4:1:1:2:2 ; skhd -k "escape"
+yabai < t : yabai -m window --toggle float --grid 4:4:1:1:2:2
 
