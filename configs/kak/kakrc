@@ -33,7 +33,7 @@ map global user q %{:write-all-quit<ret>} -docstring "Save and quit"
 map global user b %{:buffer } -docstring "Buffer"
 map global user d %{:delete-buffer<ret>} -docstring "Delete buffer"
 map global user D %{:delete-buffers-match } -docstring "Delete buffers"
-map global user f %{:find<ret>} -docstring "Find a file"
+map global user f %{:find } -docstring "Find a file"
 map global user / %{:grep } -docstring "Grep"
 map global user s %{:ctags-search } -docstring "Search symbol"
 map global user : %{:sh } -docstring "Run a shell cmd"
@@ -86,13 +86,6 @@ complete-command just shell-script-candidates %{
     fi
 }
 
-define-command find -docstring "Find a file to open" -params .. %{
-    suspend-and-resume \
-      %exp{ fd -tf %arg{@} | sk -m --bind 'alt-a:select-all,alt-d:deselect-all' > /tmp/kak-find-%val{client_pid} } \
-      "for-each-line edit /tmp/kak-find-%val{client_pid}"
-}
-complete-command find file
-
 define-command -params 1.. -docstring "run a shell command" sh %{
     set-option buffer=*debug* makecmd "zsh -c '%arg{@}'"
     evaluate-commands -buffer *debug* make
@@ -100,7 +93,7 @@ define-command -params 1.. -docstring "run a shell command" sh %{
 }
 complete-command sh shell
 
-define-command -params 1.. -docstring "find files" grep-file %{
+define-command -params 1.. -docstring "find files" find %{
     set-option buffer=*debug* grepcmd "fd -tf"
     evaluate-commands -buffer *debug* grep %arg{@} -x echo {}:1:0
     evaluate-commands -try-client "%opt{toolsclient}" buffer *grep*
@@ -121,44 +114,3 @@ define-command -params 1..2 -docstring "expr <operator> [number]" expr %{ execut
     printf '|expr `cat` %s %s<ret>' "$1" "${count-1}"
 }}
 
-def suspend-and-resume \
-    -params 1..2 \
-    -docstring 'suspend-and-resume <cli command> [<kak command after resume>]: backgrounds current kakoune client and runs specified cli command.  Upon exit of command the optional kak command is executed.' \
-    %{ evaluate-commands %sh{
-
-    # Note we are adding '&& fg' which resumes the kakoune client process after the cli command exits
-    cli_cmd="$1 && fg"
-    post_resume_cmd="$2"
-
-    # automation is different platform to platform
-    platform=$(uname -s)
-    case $platform in
-        Darwin)
-            automate_cmd="sleep 0.01; osascript -e 'tell application \"System Events\" to keystroke \"$cli_cmd\" & return '"
-            kill_cmd="/bin/kill"
-            break
-            ;;
-        Linux)
-            automate_cmd="sleep 0.2; xdotool type '$cli_cmd'; xdotool key Return"
-            kill_cmd="/usr/bin/kill"
-            break
-            ;;
-    esac
-
-    # Uses platforms automation to schedule the typing of our cli command
-    nohup sh -c "$automate_cmd"  > /dev/null 2>&1 &
-    # Send kakoune client to the background
-    $kill_cmd -SIGTSTP $kak_client_pid
-
-    # ...At this point the kakoune client is paused until the " && fg " gets run in the $automate_cmd
-
-    # Upon resume, run the kak command is specified
-    if [ ! -z "$post_resume_cmd" ]; then
-        echo "$post_resume_cmd"
-    fi
-}}
-def for-each-line -docstring "for-each-line <command> <path to file>: run command with the value of each line in the file" -params 2 %{ evaluate-commands %sh{
-    while read f; do
-        printf "$1 $f\n"
-    done < "$2"
-}}
