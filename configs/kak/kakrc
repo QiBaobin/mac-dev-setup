@@ -72,7 +72,10 @@ hook global WinSetOption filetype=kotlin %{
     set-option buffer formatcmd 'abt -s @ spotlessApply'
     set-option buffer lintcmd 'ktlint'
 }
-hook global ModuleLoaded wezterm %{
+hook global ModuleLoaded 'wezterm|zellij|alacritty' %{
+    define-command -override find %{
+        terminal %val{client_env_SHELL} -c %exp{ sk -m  -c 'fd -tf %arg{@}' | rg -r 'eval -verbatim -try-client %val{client} edit "$0"' '.*' | kak -p %val{session} }
+    }
 }
 
 # Commands
