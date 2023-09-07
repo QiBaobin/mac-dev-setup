@@ -7,7 +7,8 @@ if wezterm.config_builder then
 end
 
 config.hide_tab_bar_if_only_one_tab = true
-config.font = wezterm.font_with_fallback {"Hack Nerd Font Mono", "Input Mono", "Fira Code", "Inconsolata", "Monaco"}
+local fonts = { "Hack Nerd Font Mono", "Input Mono", "Fira Code", "Inconsolata", "Monaco" }
+config.font = wezterm.font_with_fallback(fonts)
 config.font_size = 16.0
 config.command_palette_font_size = 16.0
 config.window_background_opacity = 0.9
@@ -26,8 +27,10 @@ wezterm.on('window-config-reloaded', function(window, pane)
   if not window:get_config_overrides() then
     -- Pick a random scheme name
     local scheme = schemes[math.random(#schemes)]
+    table.insert(fonts, 1, table.remove(fonts, math.random(#fonts - 1) + 1))
     window:set_config_overrides {
-      color_scheme = scheme,
+        color_scheme = scheme,
+        font = wezterm.font_with_fallback(fonts)
     }
     window:maximize()
   end
