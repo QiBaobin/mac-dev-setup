@@ -6,6 +6,15 @@ if wezterm.config_builder then
   config = wezterm.config_builder()
 end
 
+local shell = os.getenv 'HOME' .. '/homebrew/bin/zsh'
+local f = io.open(shell, 'r')
+if f ~= nil then
+    f:close()
+    config.default_prog = { shell }
+    config.set_environment_variables = {
+        SHELL = shell,
+    }
+end
 config.hide_tab_bar_if_only_one_tab = true
 local fonts = { "Hack Nerd Font Mono", "Input Mono", "Fira Code", "Inconsolata", "Monaco" }
 config.font = wezterm.font_with_fallback(fonts)
