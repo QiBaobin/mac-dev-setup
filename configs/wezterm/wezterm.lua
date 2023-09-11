@@ -34,6 +34,12 @@ wezterm.on('window-config-reloaded', function(window, pane)
   -- If there are no overrides, this is our first time seeing
   -- this window, so we can pick a random scheme.
   if not window:get_config_overrides() then
+    act.EmitEvent 'next-scheme'
+    window:maximize()
+  end
+end)
+
+wezterm.on('next-scheme', function(window, pane)
     -- Pick a random scheme name
     local scheme = schemes[math.random(#schemes)]
     table.insert(fonts, 1, table.remove(fonts, math.random(#fonts - 1) + 1))
@@ -41,8 +47,6 @@ wezterm.on('window-config-reloaded', function(window, pane)
         color_scheme = scheme,
         font = wezterm.font_with_fallback(fonts)
     }
-    window:maximize()
-  end
 end)
 
 wezterm.on('trigger-editor', function(window, pane)
@@ -78,6 +82,11 @@ config.keys = {
     key = 'e',
     mods = 'CTRL|SHIFT',
     action = act.EmitEvent 'trigger-editor',
+  },
+  {
+    key = 'c',
+    mods = 'CTRL|SHIFT',
+    action = act.EmitEvent 'next-scheme',
   },
   {
     key = 'r',
