@@ -25,7 +25,7 @@ hook global ModeChange .*:insert:.* %{ try %{
 set-option global tabstop 4
 set-option global grepcmd 'rg --vimgrep'
 set-option global toolsclient 'client1'
-set-option global ctagscmd 'ctags -R --fields=+S --exclude=.git --exclude=build'
+set-option global ctagscmd 'ctags -R --fields=+S --exclude=.git --exclude=build --exclude=.gradle'
 
 # Keys
 # ─────────────────────────
@@ -71,7 +71,7 @@ hook global WinSetOption filetype=zig %{
 hook global WinSetOption filetype=kotlin %{
     set-option buffer makecmd 'abt -s @ build'
     set-option buffer formatcmd 'abt -s @ spotlessApply'
-    set-option buffer lintcmd 'ktlint'
+    set-option buffer lintcmd 'abt -s @ check'
 }
 hook global ModuleLoaded 'wezterm|zellij|alacritty' %{
     define-command -override -params .. find %{
