@@ -10,15 +10,6 @@ add-highlighter global/ regex \t 0:Error
 add-highlighter global/ regex //\h*(TODO:)[^\n]* 0:cyan 1:yellow,red
 add-highlighter global/ dynregex '%reg{/}' 0:+i
 set-face global InsertCursor default,green+B
-# Swap cursor color in insert mode
-hook global ModeChange .*:.*:insert %{
-    set-face window PrimaryCursor InsertCursor
-    set-face window PrimaryCursorEol InsertCursor
-}
-hook global ModeChange .*:insert:.* %{ try %{
-    unset-face window PrimaryCursor
-    unset-face window PrimaryCursorEol
-} }
 
 # Options
 # ─────────────────────────
@@ -56,12 +47,24 @@ map global user j %{:just } -docstring "Run just command"
 
 # Hooks
 # ─────────────────────────
+# Swap cursor color in insert mode
+hook global ModeChange .*:.*:insert %{
+    set-face window PrimaryCursor InsertCursor
+    set-face window PrimaryCursorEol InsertCursor
+}
+hook global ModeChange .*:insert:.* %{ try %{
+    unset-face window PrimaryCursor
+    unset-face window PrimaryCursorEol
+} }
 hook global -always -once BufOpenFifo '\*grep\*' %{
     map global goto / '<esc>:grep-next-match<ret>' -docstring "Go to grep next match"
     map global goto ? '<esc>:grep-next-match<ret>' -docstring "Go to grep previous match"
 }
 hook global -always BufOpenFifo '\*make\*' %{
     map buffer normal <minus> ': make-next-error<ret>'
+}
+hook global -always BufWritePost .* %{
+    git show-diff
 }
 hook global WinSetOption filetype=zig %{
     set-option buffer makecmd 'zig build'
