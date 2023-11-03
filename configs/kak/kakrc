@@ -70,7 +70,7 @@ hook global -always BufWritePost .* %{
 hook global WinSetOption filetype=zig %{
     set-option buffer makecmd 'zig'
     hook global -always -once BufOpenFifo '\*make\*' %{
-        set-option buffer make_error_line_pattern "^(?:\w:)?([^:\n]+):(\d+):(?:(\d+):)? (?:fatal )?error:([^\n]+)?"
+        set-option buffer make_error_pattern "^(?:\w:)?([^:\n]+):(\d+):(?:(\d+):)? (?:fatal )?error:([^\n]+)?"
     }
     set-option buffer formatcmd 'zig fmt --stdin'
     set-option buffer lintcmd 'zig fmt --check'
@@ -78,7 +78,7 @@ hook global WinSetOption filetype=zig %{
 hook global WinSetOption filetype=kotlin %{
     set-option buffer makecmd 'abt -s @'
     hook global -always -once BufOpenFifo '\*make\*' %{
-        set-option buffer make_error_line_pattern '(?:e: file://)([^:\n]+):(\d+):(\d+)([^\n]+)?'
+        set-option buffer make_error_pattern '(?:e: file://)([^:\n]+):(\d+):(\d+)([^\n]+)?'
     }
     set-option buffer formatcmd 'abt -s @ spotlessApply'
     set-option buffer lintcmd 'abt -s @ check'
