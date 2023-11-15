@@ -16,7 +16,7 @@ if f ~= nil then
     }
 end
 config.hide_tab_bar_if_only_one_tab = true
-local fonts = { "Hack Nerd Font Mono", "Input Mono", "Fira Code", "Inconsolata", "Monaco" }
+local fonts = { "Hack Nerd Font Mono", "Input Mono", "Fira Code", "Inconsolata", "Monaco", "Monaspace Neon" }
 config.font = wezterm.font_with_fallback(fonts)
 config.font_size = 16.0
 config.command_palette_font_size = 16.0
