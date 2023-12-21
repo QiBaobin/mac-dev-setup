@@ -86,7 +86,7 @@ hook global WinSetOption filetype=kotlin %{
 }
 hook global ModuleLoaded 'wezterm|zellij|alacritty' %{
     define-command -override -params .. find %{
-        terminal %val{client_env_SHELL} -c %exp{ sk -m  -c 'fd -tf %arg{@}' | rg -r 'eval -verbatim -try-client %val{client} edit "$0"' '.*' | kak -p %val{session} }
+        with-option windowing_placement vertical terminal %val{client_env_SHELL} -c %exp{ sk -m  -c 'fd -tf %arg{@}' | rg -r 'eval -verbatim -try-client %val{client} edit "$0"' '.*' | kak -p %val{session} }
     }
 }
 
@@ -113,15 +113,13 @@ complete-command just shell-script-candidates %{
 }
 
 define-command -params 1.. -docstring "run a shell command" sh %{
-    set-option buffer=*debug* makecmd "%val{client_env_SHELL} -c '%arg{@}'"
-    evaluate-commands -buffer *debug* make
+    with-option makecmd "%val{client_env_SHELL} -c '%arg{@}'" make
     evaluate-commands -try-client "%opt{toolsclient}" buffer *make*
 }
 complete-command sh shell
 
 define-command -params 1.. -docstring "find files" find %{
-    set-option buffer=*debug* grepcmd "fd -tf"
-    evaluate-commands -buffer *debug* grep %arg{@} -x echo {}:1:0
+    with-option grepcmd "fd -tf" grep %arg{@} -x echo {}:1:0
     evaluate-commands -try-client "%opt{toolsclient}" buffer *grep*
 }
 
@@ -139,4 +137,3 @@ define-command -params 1..2 -docstring "expr <operator> [number]" expr %{ execut
     count=${2-$kak_count}
     printf '|expr `cat` %s %s<ret>' "$1" "${count-1}"
 }}
-
