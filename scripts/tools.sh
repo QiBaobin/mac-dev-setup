@@ -4,7 +4,7 @@ if [ -z "$tools_load" ]; then
 
     source ./brew.sh
 
-    brew install aspell pandoc openssl git zig clifm fzf gawk jq
+    brew install aspell openssl git zig fzf gawk jq
     brew install --HEAD kakoune
     brew install --cask wezterm
     brew install --cask amethyst && cp ../configs/.amethyst.yml ~/
