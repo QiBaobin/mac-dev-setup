@@ -12,7 +12,7 @@ if [ -z "$rust_load" ]; then
     rustup component add rust-analyzer
 
     # useful tools
-    cargo install bat cross fd-find exa ripgrep skim starship zoxide xh cargo-update just git-absort topgrade pueue git-delta sd viu
+    cargo install bat fd-find eza ripgrep skim starship zoxide xh cargo-update just git-absort topgrade pueue git-delta sd viu atuin
 
     rust_load=1
 fi
