@@ -137,3 +137,7 @@ define-command -params 1..2 -docstring "expr <operator> [number]" expr %{ execut
     count=${2-$kak_count}
     printf '|expr `cat` %s %s<ret>' "$1" "${count-1}"
 }}
+
+define-command -params 2 -docstring "countdown <title> <time>" countdown %{
+    terminal sh -c %sh{ printf 'termdown -T "%s" %s && say Time is up' "$1" "$2" }
+}
