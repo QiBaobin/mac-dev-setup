@@ -20,6 +20,10 @@ precmd_functions+=(set_win_title)
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
+export CARAPACE_BRIDGES='zsh,bash,inshellisense' # optional
+zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
+source <(carapace _carapace)
+
 alias ls=eza
 alias gs='git status'
 alias ga='git add'
