@@ -90,6 +90,27 @@ hook global ModuleLoaded 'wezterm|zellij|alacritty' %{
         terminal %val{client_env_SHELL} -c %exp{ sk -m  -c 'fd -tf %arg{@}' | rg -r 'eval -verbatim -try-client %val{client} edit "$0"' '.*' | kak -p %val{session} }
     }
 }
+# lsp
+declare-option -hidden int lsp_status 0
+hook global WinSetOption filetype=(zig) %{
+    eval %sh{
+        if [ "$kak_opt_lsp_status" == "0" ] ; then
+            if which kak-lsp > /dev/null 2>&1 ; then
+                echo 'set global lsp_status 1'
+                kak-lsp --kakoune -s $kak_session
+            else
+                echo 'set global lsp_status 2'
+            fi
+        fi
+    }
+    eval %sh{
+        if [ "$kak_opt_lsp_status" == "1" ] ; then
+            echo 'lsp-enable-window'
+        else
+            info 'echo "kak-lsp is not installed'
+        fi
+    }
+}
 
 # Commands
 # ─────────────────────────
