@@ -16,7 +16,7 @@ set-face global InsertCursor default,green+B
 set-option global tabstop 4
 set-option global grepcmd 'rg --vimgrep'
 set-option global toolsclient 'client1'
-set-option global ctagscmd 'ctags -R --fields=+S --exclude=.git --exclude=build --exclude=.gradle'
+set-option global ctagscmd 'ctags -R --fields=+S --exclude=.git --exclude=build/ --exclude=.gradle'
 
 # Keys
 # ─────────────────────────
@@ -86,10 +86,8 @@ hook global WinSetOption filetype=kotlin %{
 }
 hook global ModuleLoaded 'wezterm|zellij|alacritty' %{
     define-command -override -params .. find %{
-        evaluate-commands %{
-            set local windowing_placement vertical
-            terminal %val{client_env_SHELL} -c %exp{ sk -m  -c 'fd -tf %arg{@}' | rg -r 'eval -verbatim -try-client %val{client} edit "$0"' '.*' | kak -p %val{session} }
-        }
+        set local windowing_placement vertical
+        terminal %val{client_env_SHELL} -c %exp{ sk -m  -c 'fd -tf %arg{@}' | rg -r 'eval -verbatim -try-client %val{client} edit "$0"' '.*' | kak -p %val{session} }
     }
 }
 
@@ -116,12 +114,12 @@ complete-command just shell-script-candidates %{
 }
 
 define-command -params 1.. -docstring "run a shell command" sh %{
-    evaluate-commands %{ set local makecmd "%val{client_env_SHELL} -c '%arg{@}'"; make }
+    set local makecmd "%val{client_env_SHELL} -c '%arg{@}'"; make
 }
 complete-command sh shell
 
 define-command -params 1.. -docstring "find files" find %{
-    evaluate-commands %{ set local grepcmd "fd -tf"; grep %arg{@} -x echo {}:1:0 }
+    set local grepcmd "fd -tf"; grep %arg{@} -x echo {}:1:0
 }
 
 define-command -params 1.. -docstring "run pueue commands" pueue %{ info %sh{ pueue $@ }}
