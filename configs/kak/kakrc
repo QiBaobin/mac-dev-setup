@@ -44,7 +44,8 @@ map global user w :write<ret> -docstring "write the buffer to its file"
 map global user : %{:sh } -docstring "Run a shell cmd"
 map global user m %{:make build<ret>} -docstring "Run make"
 map global user i %{:info %sh{ 2>&1}<a-B><left> } -docstring "Show a shell cmd output"
-map global user l %{:pueue status ; prompt -init '-f ' 'task ids:' 'sh pueue log %val{text}'<ret>} -docstring "Task log"
+map global user l %{:enter-user-mode lsp<ret>} -docstring "LSP mode"
+map global user L %{:pueue status ; prompt -init '-f ' 'task ids:' 'sh pueue log %val{text}'<ret>} -docstring "Task log"
 map global user j %{:just } -docstring "Run just command"
 
 # Hooks
