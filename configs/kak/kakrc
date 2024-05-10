@@ -92,7 +92,7 @@ hook global ModuleLoaded 'wezterm|zellij|alacritty' %{
 }
 # lsp
 declare-option -hidden int lsp_status 0
-hook global WinSetOption filetype=(zig) %{
+hook global WinSetOption filetype=(zig|rust|python) %{
     eval %sh{
         if [ "$kak_opt_lsp_status" == "0" ] ; then
             if which kak-lsp > /dev/null 2>&1 ; then
