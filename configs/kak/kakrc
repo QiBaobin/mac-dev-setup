@@ -81,7 +81,7 @@ hook global WinSetOption filetype=kotlin %{
     hook global -always -once BufOpenFifo '\*make\*' %{
         set-option buffer make_error_pattern '(?:e: file://)([^:\n]+):(\d+):(\d+)([^\n]+)?'
     }
-    set-option buffer formatcmd 'abt -s @ spotlessApply'
+    set-option buffer formatcmd 'java -jar ~/bin/ktfmt.jar -'
     set-option buffer lintcmd 'abt -s @ check'
 }
 hook global ModuleLoaded 'wezterm|zellij|alacritty' %{
