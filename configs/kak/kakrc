@@ -23,7 +23,8 @@ set-option global ctagscmd 'ctags -R --fields=+S --exclude=.git --exclude=build/
 map global normal '#' :comment-line<ret>
 map global normal <c-a> %{:expr +<ret>} -docstring "Increment by given count"
 map global normal <c-x> %{:expr -<ret>} -docstring "Descrement by given count"
-map global insert <tab> '<c-n>'
+map global insert <c-[> <esc>
+map global insert <tab> <c-n>
 map global insert <c-s> '<a-;>:w<ret>'
 map global prompt <a-n> '<tab>'
 map global prompt <a-p> '<s-tab>'
@@ -157,3 +158,4 @@ define-command -params 1..2 -docstring "expr <operator> [number]" expr %{ execut
 define-command -params 2 -docstring "countdown <title> <time>" countdown %{
     terminal sh -c %sh{ printf 'termdown -T "%s" %s && say Time is up' "$1" "$2" }
 }
+
