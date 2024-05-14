@@ -44,7 +44,6 @@ map global user w :write<ret> -docstring "write the buffer to its file"
 map global user : %{:sh } -docstring "Run a shell cmd"
 map global user m %{:make build<ret>} -docstring "Run make"
 map global user i %{:info %sh{ 2>&1}<a-B><left> } -docstring "Show a shell cmd output"
-map global user l %{:enter-user-mode lsp<ret>} -docstring "LSP mode"
 map global user L %{:pueue status ; prompt -init '-f ' 'task ids:' 'sh pueue log %val{text}'<ret>} -docstring "Task log"
 map global user j %{:just } -docstring "Run just command"
 
@@ -102,9 +101,9 @@ hook global WinSetOption filetype=(zig|rust|python) %{
     }
     eval %sh{
         if [ "$kak_opt_lsp_status" == "1" ] ; then
-            echo 'lsp-enable-window'
+            printf %s 'lsp-enable-window; map window user l %{:enter-user-mode lsp<ret>} -docstring "LSP mode"'
         else
-            info 'echo "kak-lsp is not installed'
+            printf %s 'echo "kak-lsp is not installed"'
         fi
     }
 }
@@ -158,4 +157,3 @@ define-command -params 1..2 -docstring "expr <operator> [number]" expr %{ execut
 define-command -params 2 -docstring "countdown <title> <time>" countdown %{
     terminal sh -c %sh{ printf 'termdown -T "%s" %s && say Time is up' "$1" "$2" }
 }
-
