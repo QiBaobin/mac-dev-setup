@@ -5,7 +5,6 @@ size = 16.0
 family = "Cascadia Code"
 
 [window]
-decorations = "buttonless"
 dynamic_title = true
 opacity = 0.9
 option_as_alt = "OnlyLeft"
