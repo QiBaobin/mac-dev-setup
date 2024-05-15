@@ -25,6 +25,9 @@ map global normal <c-a> %{:expr +<ret>} -docstring "Increment by given count"
 map global normal <c-x> %{:expr -<ret>} -docstring "Descrement by given count"
 map global insert <c-[> <esc>
 map global insert <c-h> <backspace>
+map global insert <c-d> <del>
+map global insert <tab> <c-n>
+map global insert <c-s> '<a-;>:w<ret>'
 map global prompt <a-n> '<tab>'
 map global prompt <a-p> '<s-tab>'
 map global prompt <a-.> '%sh{dirname "$kak_reg_percent"}<a-!>/' -docstring 'Expand to the buffer directory'
@@ -68,13 +71,13 @@ hook global -always BufOpenFifo '\*make\*' %{
 hook global -always BufWritePost .* %{
     git show-diff
 }
-hook global WinSetOption filetype=zig %{
+hook global BufSetOption filetype=zig %{
     set-option buffer makecmd 'zig'
     set-option buffer make_error_pattern "^(?:\w:)?([^:\n]+):(\d+):(?:(\d+):)? (?:fatal )?error:([^\n]+)?"
     set-option buffer formatcmd 'zig fmt --stdin'
     set-option buffer lintcmd 'zig fmt --check'
 }
-hook global WinSetOption filetype=kotlin %{
+hook global BufSetOption filetype=kotlin %{
     set-option buffer makecmd 'abt -s @'
     set-option buffer make_error_pattern '(?:e: file://)([^:\n]+):(\d+):(\d+)([^\n]+)?'
     set-option buffer formatcmd 'java -jar ~/bin/ktfmt.jar -'
@@ -92,18 +95,28 @@ hook global WinSetOption filetype=(zig|rust|python) %{
     eval %sh{
         if [ "$kak_opt_lsp_status" == "0" ] ; then
             if which kak-lsp > /dev/null 2>&1 ; then
-                echo 'set global lsp_status 1'
+                printf '%s;' 'set global lsp_status 1'
                 kak-lsp --kakoune -s $kak_session
+                printf ';%s' 'set global lsp_status 10'
             else
-                echo 'set global lsp_status 2'
+                printf %s 'set global lsp_status 2; echo "kak-lsp is not installed"'
             fi
         fi
     }
     eval %sh{
-        if [ "$kak_opt_lsp_status" == "1" ] ; then
-            printf %s 'lsp-enable-window; map window user l %{:enter-user-mode lsp<ret>} -docstring "LSP mode"'
-        else
-            printf %s 'echo "kak-lsp is not installed"'
+        if [ "$kak_opt_lsp_status" == "10" ] ; then
+            printf %s 'set window lsp_status 11; lsp-enable-window; set window lsp_status 20;'
+        fi
+    }
+    eval %sh{
+        if [ "$kak_opt_lsp_status" == "20" ] ; then
+            printf %s '
+                map buffer user l ":enter-user-mode lsp<ret>" -docstring "LSP mode"
+                map buffer object f "<a-semicolon>lsp-object Function Method<ret>" -docstring "LSP function or method"
+                map buffer object t "<a-semicolon>lsp-object Class Interface Struct<ret>" -docstring "LSP class interface or struct"
+                map buffer object d "<a-semicolon>lsp-diagnostic-object --include-warnings<ret>" -docstring "LSP errors and warnings"
+                map buffer object D "<a-semicolon>lsp-diagnostic-object<ret>" -docstring "LSP errors"
+            '
         fi
     }
 }
