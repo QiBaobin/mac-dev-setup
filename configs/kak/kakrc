@@ -32,7 +32,7 @@ map global goto n '<esc>:bn<ret>' -docstring 'next buffer'
 map global goto p '<esc>:bp<ret>' -docstring 'previous buffer'
 map global goto x '<esc><a-|>open `cat`<ret>' -docstring "Open selection with external program"
 map global goto F '<esc>s(?:file://)?([^:\n]+)(?::)?(\d+)(?::)?(\d+)?<ret>:e %reg{1} %reg{2} %reg{3}<ret>' -docstring "Open file in selection"
-map global goto d %{<esc>:ctags-search<ret>} -docstring "Goto symbol"
+map global goto D %{<esc>:ctags-search<ret>} -docstring "Goto symbol"
 map global user q %{:write-all-quit<ret>} -docstring "Save and quit"
 map global user b %{:buffer } -docstring "Buffer"
 map global user d %{:delete-buffer<ret>} -docstring "Delete buffer"
