@@ -16,7 +16,7 @@ set-face global InsertCursor default,green+B
 set-option global tabstop 4
 set-option global grepcmd 'rg --vimgrep'
 set-option global toolsclient 'client1'
-set-option global ctagscmd 'ctags -R --fields=+S --exclude=.git --exclude=build/ --exclude=.gradle'
+set-option global ctagscmd 'ctags -R --fields=+S --exclude=.git --exclude=*/build/* --exclude=.gradle'
 
 # Keys
 # ─────────────────────────
@@ -69,7 +69,7 @@ hook global -always BufWritePost .* %{
     git show-diff
 }
 hook global BufSetOption filetype=zig %{
-    set-option buffer makecmd 'zig build'
+    set-option buffer makecmd 'zig'
     set-option buffer make_error_pattern "^(?:\w:)?([^:\n]+):(\d+):(?:(\d+):)? (?:fatal )?error:([^\n]+)?"
     set-option buffer formatcmd 'zig fmt --stdin'
     set-option buffer lintcmd 'zig fmt --check'
@@ -104,6 +104,7 @@ hook global WinSetOption filetype=(zig|rust|python|kotlin) %{
 }
 hook global BufSetOption filetype=(zig|rust|python|kotlin) %{
     map buffer user l %{:enter-user-mode lsp<ret>} -docstring "LSP mode"
+    map buffer insert <tab> '<a-;>:lsp-snippets-select-next-placeholders<ret>' -docstring 'Select next snippet placeholder'
     map buffer object f "<a-semicolon>lsp-object Function Method<ret>" -docstring "LSP function or method"
     map buffer object t "<a-semicolon>lsp-object Class Interface Struct<ret>" -docstring "LSP class interface or struct"
     map buffer object d "<a-semicolon>lsp-diagnostic-object --include-warnings<ret>" -docstring "LSP errors and warnings"
