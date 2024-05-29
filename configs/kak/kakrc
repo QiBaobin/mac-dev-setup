@@ -69,7 +69,7 @@ hook global -always BufWritePost .* %{
     git show-diff
 }
 hook global BufSetOption filetype=zig %{
-    set-option buffer makecmd 'zig'
+    set-option buffer makecmd 'zig build'
     set-option buffer make_error_pattern "^(?:\w:)?([^:\n]+):(\d+):(?:(\d+):)? (?:fatal )?error:([^\n]+)?"
     set-option buffer formatcmd 'zig fmt --stdin'
     set-option buffer lintcmd 'zig fmt --check'
