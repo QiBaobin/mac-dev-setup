@@ -1,6 +1,6 @@
 # yank history
-cmd - c -> : sleep 1 && { pbpaste; echo } >> ~/.pb_saved
-cmd + shift - v : alacritty -e zsh -i -c 'sk < ~/.pb_saved | pbcopy && pueue add "sleep 1 &&skhd -k \"cmd - v\""'
+cmd - c -> :  {cat ~/.pb_saved && sleep 1 && pbpaste && echo} | sort -u | tee ~/.pb_saved
+cmd + shift - v : alacritty -e zsh -i -c 'sk < ~/.pb_saved | pbcopy' && sleep 1 && skhd -k "cmd - v"
 
 # add an on_enter command to the default mode
 :: default : yabai -m config window_gap 0; yabai -m config top_padding 0; yabai -m config bottom_padding 0
@@ -28,6 +28,8 @@ cmd - 0x2F  ; yabai
 cmd + shift - 0x2F  ; passthrough
 
 # passthrough mode
+passthrough < cmd - c -> ; default
+passthrough < cmd + shift - v -> ; default
 passthrough < cmd - h -> ; default
 passthrough < cmd - l -> ; default
 passthrough < cmd - j -> ; default
@@ -39,6 +41,7 @@ passthrough < cmd - m -> ; default
 passthrough < cmd - return -> ; default
 passthrough < cmd - 0x2B  -> ; default
 passthrough < cmd - 0x2F  -> ; default
+passthrough < cmd + shift - 0x2F  -> ; default
 passthrough < return  ; default
 passthrough < escape  ; default
 
@@ -67,15 +70,15 @@ yabai < alt - k : yabai -m window --stack north
 yabai < 0x2B  : yabai -m display --focus prev || yabai -m display --focus next
 yabai < shift - 0x2B  : yabai -m window --display prev || yabai -m window --display next
 yabai < 0 : yabai -m space --balance
-yabai < 1 : yabai -m window --space 1 ; skhd -k "ctr - 1"
-yabai < 2 : yabai -m window --space 2 ; skhd -k "ctr - 2"
-yabai < 3 : yabai -m window --space 3 ; skhd -k "ctr - 3"
-yabai < 4 : yabai -m window --space 4 ; skhd -k "ctr - 4"
-yabai < 5 : yabai -m window --space 5 ; skhd -k "ctr - 5"
-yabai < 6 : yabai -m window --space 6 ; skhd -k "ctr - 6"
-yabai < 7 : yabai -m window --space 7 ; skhd -k "ctr - 7"
-yabai < 8 : yabai -m window --space 8 ; skhd -k "ctr - 8"
-yabai < 9 : yabai -m window --space 9 ; skhd -k "ctr - 9"
+yabai < 1 : yabai -m window --space 1
+yabai < 2 : yabai -m window --space 2
+yabai < 3 : yabai -m window --space 3
+yabai < 4 : yabai -m window --space 4
+yabai < 5 : yabai -m window --space 5
+yabai < 6 : yabai -m window --space 6
+yabai < 7 : yabai -m window --space 7
+yabai < 8 : yabai -m window --space 8
+yabai < 9 : yabai -m window --space 9
 yabai < ctrl - 1 -> :
 yabai < ctrl - 2 -> :
 yabai < ctrl - 3 -> :
