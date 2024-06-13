@@ -43,7 +43,7 @@ map global user s %{:ctags-search } -docstring "Search symbol"
 map global user w :write<ret> -docstring "write the buffer to its file"
 map global user : %{:sh } -docstring "Run a shell cmd"
 map global user m %{:make build<ret>} -docstring "Run make"
-map global user i %{:info %sh{ 2>&1}<a-B><left> } -docstring "Show a shell cmd output"
+map global user i %{:info -- %sh{ 2>&1}<a-B><left> } -docstring "Show a shell cmd output"
 map global user L %{:pueue status ; prompt -init '-f ' 'task ids:' 'sh pueue log %val{text}'<ret>} -docstring "Task log"
 map global user j %{:just } -docstring "Run just command"
 
@@ -145,7 +145,7 @@ define-command -params 1.. -docstring "find files" find %{
     set local grepcmd "fd -tf"; grep %arg{@} -x echo {}:1:0
 }
 
-define-command -params 1.. -docstring "run pueue commands" pueue %{ info %sh{ pueue $@ }}
+define-command -params 1.. -docstring "run pueue commands" pueue %{ info -- %sh{ pueue $@ }}
 complete-command pueue shell-script-candidates %{
     if [ $kak_token_to_complete -eq 0 ]; then
         printf "add\nremove\nrestart\nkill\nstatus\nlog\nclean\nreset\nsend\nparallel\n"
