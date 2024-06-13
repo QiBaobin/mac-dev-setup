@@ -1,12 +1,13 @@
 # yank history
-cmd + shift - c : pbpaste >> ~/.pb_saved
-cmd + shift - v : alacritty -e zsh -i -c 'sk < ~/.pb_saved | pbcopy'
+cmd - c -> : sleep 1 && { pbpaste; echo } >> ~/.pb_saved
+cmd + shift - v : alacritty -e zsh -i -c 'sk < ~/.pb_saved | pbcopy && pueue add "sleep 1 &&skhd -k \"cmd - v\""'
 
 # add an on_enter command to the default mode
-:: default : yabai -m config window_gap 0; yabai -m config top_padding 0
+:: default : yabai -m config window_gap 0; yabai -m config top_padding 0; yabai -m config bottom_padding 0
 #
 # defines a new mode 'yabai' with an on_enter command, that captures keypresses
 :: yabai @ : yabai -m config window_gap 20; yabai -m config top_padding 20
+:: passthrough @ : yabai -m config bottom_padding 20
 
 # default mode
 cmd - h : yabai -m window --focus west || yabai -m window --focus last
@@ -24,6 +25,22 @@ cmd - return : yabai -m window --focus first
 cmd - 0x2B  : yabai -m display --focus prev || yabai -m display --focus next
 # cmd - >
 cmd - 0x2F  ; yabai
+cmd + shift - 0x2F  ; passthrough
+
+# passthrough mode
+passthrough < cmd - h -> ; default
+passthrough < cmd - l -> ; default
+passthrough < cmd - j -> ; default
+passthrough < cmd - k -> ; default
+passthrough < cmd - 0x29 -> ; default
+passthrough < cmd - o -> ; default
+passthrough < cmd - e -> ; default
+passthrough < cmd - m -> ; default
+passthrough < cmd - return -> ; default
+passthrough < cmd - 0x2B  -> ; default
+passthrough < cmd - 0x2F  -> ; default
+passthrough < return  ; default
+passthrough < escape  ; default
 
 # yabai mode
 yabai < return  ; default
@@ -59,6 +76,15 @@ yabai < 6 : yabai -m window --space 6 ; skhd -k "ctr - 6"
 yabai < 7 : yabai -m window --space 7 ; skhd -k "ctr - 7"
 yabai < 8 : yabai -m window --space 8 ; skhd -k "ctr - 8"
 yabai < 9 : yabai -m window --space 9 ; skhd -k "ctr - 9"
+yabai < ctrl - 1 -> :
+yabai < ctrl - 2 -> :
+yabai < ctrl - 3 -> :
+yabai < ctrl - 4 -> :
+yabai < ctrl - 5 -> :
+yabai < ctrl - 6 -> :
+yabai < ctrl - 7 -> :
+yabai < ctrl - 8 -> :
+yabai < ctrl - 9 -> :
 yabai < i : yabai -m window --insert west
 yabai < shift - i : yabai -m window --insert stack ; skhd -k "escape"
 
@@ -77,3 +103,4 @@ yabai < shift - b : yabai -m display --layout bsp ; skhd -k "escape"
 
 # float / unfloat window and center on screen
 yabai < t : yabai -m window --toggle float --grid 4:4:1:1:2:2
+
