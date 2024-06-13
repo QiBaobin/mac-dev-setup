@@ -135,7 +135,9 @@ complete-command just shell-script-candidates %{
 
 define-command -params 1.. -docstring "run a shell command" sh %{
     require-module fifo
-    fifo -scroll -name "*shell*" "%val{client_env_SHELL} -c '%arg{@}'"
+    evaluate-commands -try-client %opt{toolsclient} %{
+        fifo -scroll -name "*shell*" "%val{client_env_SHELL} -c '%arg{@}'"
+    }
 }
 complete-command sh shell
 
@@ -161,3 +163,4 @@ define-command -params 1..2 -docstring "expr <operator> [number]" expr %{ execut
 define-command -params 2 -docstring "countdown <title> <time>" countdown %{
     terminal sh -c %sh{ printf 'termdown -T "%s" %s && say Time is up' "$1" "$2" }
 }
+
