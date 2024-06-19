@@ -81,10 +81,7 @@ hook global BufSetOption filetype=kotlin %{
     set-option buffer lintcmd 'abt -s @ check'
 }
 hook global ModuleLoaded 'wezterm|zellij|alacritty' %{
-    define-command -override -params .. find %{
-        set local windowing_placement vertical
-        terminal %val{client_env_SHELL} -c %exp{ sk -m  -c 'fd -tf %arg{@}' | rg -r 'eval -verbatim -try-client %val{client} edit "$0"' '.*' | kak -p %val{session} }
-    }
+    alias global find sk
 }
 # lsp
 declare-option -hidden int lsp_status 0
@@ -142,7 +139,17 @@ define-command -params 1.. -docstring "run a shell command" sh %{
 complete-command sh shell
 
 define-command -params 1.. -docstring "find files" fd %{
-    set local grepcmd "fd -tf"; grep --strip-cwd-prefix %arg{@} -X printf '%s:1:0\n'
+    require-module fifo
+    evaluate-commands -try-client %opt{toolsclient} %{
+        fifo -name "*fd*" fd -tf %arg{@} -X %{printf '%s:1:0\n'}
+        set buffer filetype grep
+    }
+}
+alias global find fd
+
+define-command -override -params .. -docstring "find files interactively" sk %{
+    set local windowing_placement vertical
+    terminal %val{client_env_SHELL} -c %exp{ sk -m  -c 'fd -tf %arg{@}' | rg -r 'eval -verbatim -try-client %val{client} edit "$0"' '.*' | kak -p %val{session} }
 }
 
 define-command -params 1.. -docstring "run pueue commands" pueue %{ info -- %sh{ pueue $@ }}
