@@ -133,7 +133,7 @@ complete-command just shell-script-candidates %{
 define-command -params 1.. -docstring "run a shell command" sh %{
     require-module fifo
     evaluate-commands -try-client %opt{toolsclient} %{
-        fifo -scroll -name "*shell*" "%val{client_env_SHELL} -c '%arg{@}'"
+        fifo -scroll -name "*shell*" -script "%arg{@}"
     }
 }
 complete-command sh shell
@@ -143,6 +143,7 @@ define-command -params 1.. -docstring "find files" fd %{
     evaluate-commands -try-client %opt{toolsclient} %{
         fifo -name "*fd*" fd -tf %arg{@}
         require-module jump
+        set-option buffer jump_pattern '^([^\n]+)'
         hook buffer NormalKey <ret> jump
     }
 }
