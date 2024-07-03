@@ -47,6 +47,11 @@ scripts to setup my mac development enviroment
 - [Cascadia code](https://github.com/microsoft/cascadia-code)
 - [Input Mono](https://input.djr.com/)
 - [Fira Code](https://github.com/tonsky/FiraCode)
+
+### Web browser extensions
+- Chrome keyborad enhencement [Surfingkeys](https://github.com/brookhong/Surfingkeys)
+- Firefox vim interface [tridactyl](https://github.com/tridactyl/tridactyl)
+- Ad blocker [adblock plus](https://adblockplus.org/)
   
 ## Install
 
