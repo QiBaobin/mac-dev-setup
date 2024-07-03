@@ -3,15 +3,16 @@ scripts to setup my mac development enviroment
 
 ## List
 
-### Editor
+### Text Editor
 [kakoune](https://github.com/mawww/kakoune)
 [config](https://github.com/QiBaobin/mac-dev-setup/blob/master/configs/kak/kakrc)
 [Philosophy](http://kakoune.org/why-kakoune/why-kakoune.html)
 
 ### Terminal
-[wezterm](https://github.com/wez/wezterm)
+- [wezterm](https://github.com/wez/wezterm)
 [config](https://github.com/QiBaobin/mac-dev-setup/blob/master/configs/wezterm/wezterm.lua)
-
+- [alacritty](https://github.com/alacritty/alacritty) [config](https://github.com/QiBaobin/mac-dev-setup/blob/master/configs/alacritty/alacritty.toml)
+  
 ### Shell
 [zsh](https://www.zsh.org/)
 [config](https://github.com/QiBaobin/mac-dev-setup/blob/master/configs/.zshrc)
