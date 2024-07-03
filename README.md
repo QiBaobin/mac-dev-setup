@@ -40,6 +40,7 @@ scripts to setup my mac development enviroment
 ### Programming
 - Project Setup [hermit](https://github.com/cashapp/hermit)
 - [zig](https://ziglang.org/)
+- Javascript runtime, a better nodejs replacement [bun](https://github.com/oven-sh/bun)
 
 ### Fonts
 - [Nerd fonts](https://github.com/ryanoasis/nerd-fonts)
