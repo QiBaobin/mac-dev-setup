@@ -35,6 +35,7 @@ scripts to setup my mac development enviroment
 - Software Upgrade [topgrade](https://github.com/topgrade-rs/topgrade)
 - Print files [bat](https://github.com/sharkdp/bat)
 - Counter down timer [termdown](https://github.com/trehn/termdown)
+- Count lines of code [loc](https://github.com/cgag/loc)
 
 ### Programming
 - Project Setup [hermit](https://github.com/cashapp/hermit)
