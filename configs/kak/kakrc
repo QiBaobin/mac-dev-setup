@@ -16,7 +16,7 @@ set-face global InsertCursor default,green+B
 set-option global tabstop 4
 set-option global grepcmd 'rg --vimgrep'
 set-option global toolsclient 'client1'
-set-option global ctagscmd 'ctags -R --fields=+S --exclude=.git --exclude=*/build/* --exclude=.gradle'
+set-option global ctagscmd 'ctags -R --fields=+S --exclude=.git --exclude=build --exclude=.gradle --exclude-exception=src/*/build'
 
 # Keys
 # ─────────────────────────
@@ -80,7 +80,7 @@ hook global BufSetOption filetype=kotlin %{
     set-option buffer formatcmd 'java -jar ~/bin/ktfmt.jar -'
     set-option buffer lintcmd 'abt -s @ check'
 }
-hook global ModuleLoaded 'wezterm|zellij|alacritty' %{
+hook global ModuleLoaded 'wezterm|zellij' %{
     alias global find sk
 }
 # lsp
@@ -151,7 +151,7 @@ alias global find fd
 
 define-command -override -params .. -docstring "find files interactively" sk %{
     set local windowing_placement vertical
-    terminal %val{client_env_SHELL} -c %exp{ sk -m  -c 'fd -tf %arg{@}' | rg -r 'eval -verbatim -try-client %val{client} edit "$0"' '.*' | kak -p %val{session} }
+    try-terminal %val{client_env_SHELL} -c %exp{ cd %val{client_env_PWD} && sk -m  -c 'fd -tf %arg{@}' | rg -r 'eval -verbatim -try-client %val{client} edit "$0"' '.*' | kak -p %val{session} }
 }
 
 define-command -params 1.. -docstring "run pueue commands" pueue %{ info -- %sh{ pueue $@ }}
@@ -173,3 +173,6 @@ define-command -params 2 -docstring "countdown <title> <time>" countdown %{
     terminal sh -c %sh{ printf 'termdown -T "%s" %s && say Time is up' "$1" "$2" }
 }
 
+define-command -params 2.. -docstring "try terminal with <windowing_placement> <cmd>" try-terminal %{
+    try %{ terminal %arg{@} } catch %{ set local windowing_placement window; terminal %arg{@} }
+}
