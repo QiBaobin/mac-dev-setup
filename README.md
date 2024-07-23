@@ -17,6 +17,10 @@ scripts to setup my mac development enviroment
 [zsh](https://www.zsh.org/)
 [config](https://github.com/QiBaobin/mac-dev-setup/blob/master/configs/.zshrc)
 
+### Terminal multiplexer
+[tmux](https://github.com/tmux/tmux/)
+[config](https://github.com/QiBaobin/mac-dev-setup/blob/master/configs/tmux/tmux.conf)
+
 ### Window Manager
 - [yabai](https://github.com/koekeishiya/yabai)
 [config](https://github.com/QiBaobin/mac-dev-setup/blob/master/configs/.yabairc)
