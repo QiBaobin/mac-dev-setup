@@ -80,7 +80,8 @@ hook global BufSetOption filetype=kotlin %{
     set-option buffer formatcmd 'java -jar ~/bin/ktfmt.jar -'
     set-option buffer lintcmd 'abt -s @ check'
 }
-hook global ModuleLoaded 'wezterm|zellij' %{
+hook global ModuleLoaded 'wezterm|tmux|zellij' %{
+    set-option global windowing_placement horizontal
     alias global find sk
 }
 # lsp
@@ -170,7 +171,7 @@ define-command -params 1..2 -docstring "expr <operator> [number]" expr %{ execut
 }}
 
 define-command -params 2 -docstring "countdown <title> <time>" countdown %{
-    terminal sh -c %sh{ printf 'termdown -T "%s" %s && say Time is up' "$1" "$2" }
+    try-terminal sh -c %sh{ printf 'termdown -T "%s" %s && say Time is up' "$1" "$2" }
 }
 
 define-command -params 2.. -docstring "try terminal with <windowing_placement> <cmd>" try-terminal %{
