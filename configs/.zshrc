@@ -1,4 +1,4 @@
-export PATH="$HOME/bin:$HOME/homebrew/bin:$HOME/homebrew/sbin:$HOME/.cargo/bin:$JAVA_HOME/bin:$HOME/homebrew/opt/coreutils/libexec/gnubin:$HOME/homebrew/opt/gawk/libexec/gnubin:$PATH"
+export PATH="$HOME/bin:$HOME/homebrew/bin:$HOME/homebrew/sbin:$HOME/.cargo/bin:$JAVA_HOME/bin:$HOME/homebrew/opt/coreutils/libexec/gnubin:$HOME/homebrew/opt/gawk/libexec/gnubin:$HOME/.local/bin:/usr/local/bin:$PATH"
 
 autoload -Uz compinit && compinit
 setopt incappendhistory
@@ -8,21 +8,13 @@ autoload -z edit-command-line
 zle -N edit-command-line
 bindkey "^X^E" edit-command-line
 
-eval "$(starship init zsh)"
+PS1='%F{blue}%~ %(?.%F{green}.%F{red})%#%f '
 eval "$(zoxide init zsh)"
 eval "$(atuin init zsh)"
 
-function set_win_title(){
-    echo -ne "\033]0; ${PWD##/*/} \007"
-}
-precmd_functions+=(set_win_title)
-
-source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-export CARAPACE_BRIDGES='zsh,bash,inshellisense' # optional
-zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
-source <(carapace _carapace)
+mkdir ~/.zsh
+[ -d ~/.zsh/zsh-autosuggestions ] || git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions && source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+[ -d ~/.zsh/zsh-syntax-highlighting ] || git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh/zsh-syntax-highlighting && source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 alias ls=eza
 alias gs='git status'
