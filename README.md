@@ -32,7 +32,7 @@ scripts to setup my mac development enviroment
 - Find file [fd](https://github.com/sharkdp/fd)
 - Code navigation [ctags](https://github.com/universal-ctags/ctags)
 - Change directory [zoxide](https://github.com/ajeetdsouza/zoxide)
-- Interactive search [skim](https://github.com/lotabout/skim)
+- Interactive search [skim](https://github.com/lotabout/skim) [fzf](https://github.com/junegunn/fzf)
 - Shell prompt [starship](https://github.com/starship/starship)
 - File Manager [yazi](https://github.com/sxyazi/yazi)
 - Command Runner [just](https://github.com/casey/just) [config](https://github.com/QiBaobin/mac-dev-setup/blob/master/configs/justfile)
