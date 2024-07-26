@@ -80,3 +80,13 @@ curl -fsSL https://github.com/cashapp/hermit/releases/download/stable/install.sh
 ```
 
 If you only need setup some of them, just run related shell scripts.
+
+## Nix
+
+### Install
+Need sudo
+```sh
+sh <(curl -L https://nixos.org/nix/install)
+```
+### Setup proxy [optional]
+Add http_proxy and https_proxy in /Library/LaunchDaemons/org.nixos.nix-daemon.plist
