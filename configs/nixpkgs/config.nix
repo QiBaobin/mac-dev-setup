@@ -3,7 +3,7 @@
     myPackages = pkgs.buildEnv {
       name = "my-packages";
       paths = [
-        wezterm
+        # wezterm
         kakoune
         git
         fzf
