@@ -57,26 +57,6 @@ scripts to setup my mac development enviroment
 - Firefox vim interface [tridactyl](https://github.com/tridactyl/tridactyl)
 - Ad blocker [adblock plus](https://adblockplus.org/)
   
-## Install
-
-``` sh
-mkdir $HOME/homebrew && curl -L https://github.com/Homebrew/brew/tarball/master | tar xz --strip 1 -C $HOME/homebrew
-mkdir "$HOME/Applications"
-export HOMEBREW_CASK_OPTS="--appdir=$HOME/Applications"
-export PATH="$HOME/homebrew/bin:$PATH"
-
-brew install git tmux fzf fd ripgrep zsh font-hack-nerd-font font-inconsolata font-input font-monaspace just pueue universal-ctags zoxide
-brew install --HEAD kakoune
-brew install --cask wezterm@nightly
-brew install koekeishiya/formulae/yabai koekeishiya/formulae/skhd
-
-mkdir $HOME/.config; cp -Rv configs/ $HOME/.config/
-skhd --start-service
-yabai --start-service
-```
-
-If you only need setup some of them, just run related shell scripts.
-
 ## Programming enviroments
 ### Nix
 
@@ -93,3 +73,30 @@ Add http_proxy and https_proxy in /Library/LaunchDaemons/org.nixos.nix-daemon.pl
 ```sh
 curl -fsSL https://github.com/cashapp/hermit/releases/download/stable/install.sh | /bin/bash
 ```
+
+## Install
+
+### nix
+```sh
+mkdir $HOME/.config; cp -Rv configs/ $HOME/.config/
+nix-env -iA nixpkgs.myPackages
+```
+
+### homebrew
+```sh
+mkdir $HOME/homebrew && curl -L https://github.com/Homebrew/brew/tarball/master | tar xz --strip 1 -C $HOME/homebrew
+mkdir "$HOME/Applications"
+export HOMEBREW_CASK_OPTS="--appdir=$HOME/Applications"
+export PATH="$HOME/homebrew/bin:$PATH"
+
+brew install git tmux fzf fd ripgrep zsh font-hack-nerd-font font-inconsolata font-input font-monaspace just pueue universal-ctags zoxide
+brew install --HEAD kakoune
+brew install --cask wezterm@nightly
+brew install koekeishiya/formulae/yabai koekeishiya/formulae/skhd
+
+mkdir $HOME/.config; cp -Rv configs/ $HOME/.config/
+skhd --start-service
+yabai --start-service
+```
+
+
