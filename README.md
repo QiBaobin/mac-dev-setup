@@ -57,7 +57,7 @@ scripts to setup my mac development enviroment
 - Firefox vim interface [tridactyl](https://github.com/tridactyl/tridactyl)
 - Ad blocker [adblock plus](https://adblockplus.org/)
   
-## Programming enviroments
+## Development enviroments
 ### Nix
 
 #### Install
