@@ -19,6 +19,7 @@ setopt HIST_NO_STORE             # Don't store history commands
 
 PS1='%F{blue}%~ %(?.%F{green}.%F{red})%#%f '
 eval "$(zoxide init zsh)"
+eval "$(direnv hook zsh)"
 
 [ -d ~/.zsh ] || mkdir ~/.zsh
 [ -d ~/.zsh/zsh-autosuggestions ] || git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions && source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
