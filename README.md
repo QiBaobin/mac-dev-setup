@@ -75,6 +75,8 @@ brew install koekeishiya/formulae/yabai koekeishiya/formulae/skhd
 mkdir $HOME/.config; cp -Rv configs/ $HOME/.config/
 skhd --start-service
 yabai --start-service
+
+curl -fsSL https://github.com/cashapp/hermit/releases/download/stable/install.sh | /bin/bash
 ```
 
 If you only need setup some of them, just run related shell scripts.
