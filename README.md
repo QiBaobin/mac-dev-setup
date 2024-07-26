@@ -63,7 +63,8 @@ scripts to setup my mac development enviroment
 #### Install
 Need sudo
 ```sh
-sh <(curl -L https://nixos.org/nix/install)
+curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
+# or use offical installer: sh <(curl -L https://nixos.org/nix/install)
 ```
 #### Setup proxy [optional]
 Add http_proxy and https_proxy in /Library/LaunchDaemons/org.nixos.nix-daemon.plist
