@@ -61,7 +61,20 @@ scripts to setup my mac development enviroment
 ## Install
 
 ``` sh
-cd scripts && chmod +x ./* && ./setup_all.sh
+mkdir $HOME/homebrew && curl -L https://github.com/Homebrew/brew/tarball/master | tar xz --strip 1 -C $HOME/homebrew
+mkdir "$HOME/Applications"
+export HOMEBREW_CASK_OPTS="--appdir=$HOME/Applications"
+export PATH="$HOME/homebrew/bin:$PATH"
+
+brew install git tmux fzf fd ripgrep zsh font-hack-nerd-font font-inconsolata font-input font-monaspace just pueue universal-ctags zoxide
+brew install --HEAD kakoune
+brew install --cask wezterm@nightly
+brew install --cask android-studio
+brew install koekeishiya/formulae/yabai koekeishiya/formulae/skhd
+
+mkdir $HOME/.config; cp -Rv configs/ $HOME/.config/
+skhd --start-service
+yabai --start-service
 ```
 
 If you only need setup some of them, just run related shell scripts.
