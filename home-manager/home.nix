@@ -26,10 +26,11 @@
     };
     tmux = {
       enable = true;
+      sensibleOnTop = false;
       escapeTime = 0;
       keyMode = "vi";
       shortcut = "g";
-      shell = "\${pkgs.zsh}/bin/zsh";
+      shell = "${pkgs.zsh}/bin/zsh";
       terminal = "screen-256color";
       extraConfig = ''
         set -g renumber-windows on
@@ -45,6 +46,7 @@
 
     zsh = {
       enable = true;
+      completionInit = "autoload -U compinit && compinit -i";
       autosuggestion.enable = true;
       syntaxHighlighting.enable = true;
       shellAliases = {
@@ -56,7 +58,11 @@
     };
     eza.enable = true;
     starship.enable = true;
-    git.enable = true;
+    git = {
+      enable = true;
+      delta.enable = true;
+      # difftastic.enable = true;
+    };
     fzf.enable = true;
     ripgrep.enable = true;
     fd.enable = true;

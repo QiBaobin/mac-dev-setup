@@ -16,7 +16,7 @@
       let
         pkgs = import nixpkgs { inherit system; };
       in {
-        homeConfigurations.bob = home-manager.lib.homeManagerConfiguration {
+        packages.homeConfigurations."bob" = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
 
           modules = [ ./home.nix ./user.nix ];

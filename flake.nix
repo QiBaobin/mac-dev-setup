@@ -12,17 +12,9 @@
         packages.default = pkgs.writeScriptBin "swithHome" ''
         #!/bin/sh
 
-        cat <<EOF > home-manager/flake.nix
-{ ... }:
-
-{
-  home = {
-      username = "$USER";
-      homeDirectory = "$HOME";
-  };
-}
-EOF
+        echo '{ ... }:  { home = { username = "'$USER'"; homeDirectory = "'$HOME'"; }; }' > home-manager/user.nix
         nix run home-manager/master -- switch --flake ./home-manager#bob -b backup
+        echo > home-manager/user.nix
         cp -v configs/kak/kakrc $HOME/.config/kak/realrc
         '';
         apps.default = {
