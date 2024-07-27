@@ -79,12 +79,7 @@ curl -fsSL https://github.com/cashapp/hermit/releases/download/stable/install.sh
 
 ### nix
 ```sh
-mkdir $HOME/.config; cp -Rv configs/ $HOME/.config/
-
-nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
-nix-channel --update
-
-nix run home-manager/master -- switch
+nix run github:QiBaobin/mac-dev-setup
 
 ```
 
