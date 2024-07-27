@@ -5,6 +5,7 @@
       stateVersion = "24.05";
 
       packages = with pkgs; [
+        alacritty-theme
         just
         pueue
         universal-ctags
@@ -68,5 +69,22 @@
     fd.enable = true;
     zoxide.enable = true;
     bat.enable = true;
+    alacritty = {
+      enable = true;
+      settings = {
+        import = [ "${pkgs.alacritty-theme}/alabaster.toml" ];
+        font = {
+          size = 16.0;
+          normal.family = "Cascadia Code";
+        };
+
+        window = {
+          dynamic_title = true;
+          opacity = 0.9;
+          option_as_alt = "OnlyLeft";
+          startup_mode = "Maximized";
+        };
+      };
+    };
   };
 }
