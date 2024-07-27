@@ -12,9 +12,18 @@
         packages.default = pkgs.writeScriptBin "swithHome" ''
         #!/bin/sh
 
-        sed -e "s#myUser#$USER#" -e "s#mySystem#${system}#" -e "s#myHome#$HOME#" home-manager/template.nix > home-manager/flake.nix
-        git add --intent-to-add home-manager/flake.nix
-        nix run home-manager/master -- switch --flake ./home-manager -b backup
+        cat <<EOF > home-manager/flake.nix
+{ ... }:
+
+{
+  home = {
+      username = "$USER";
+      homeDirectory = "$HOME";
+  };
+}
+EOF
+        nix run home-manager/master -- switch --flake ./home-manager#bob -b backup
+        cp -v configs/kak/kakrc $HOME/.config/kak/realrc
         '';
         apps.default = {
           type = "app";
