@@ -19,7 +19,7 @@
         packages.homeConfigurations."bob" = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
 
-          modules = [ ./home.nix ./user.nix ];
+          modules = [ ./home.nix ./user.nix ./proxy.nix ];
         };
       }
     );

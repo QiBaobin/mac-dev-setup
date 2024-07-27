@@ -63,7 +63,7 @@
       delta.enable = true;
       # difftastic.enable = true;
     };
-    fzf.enable = true;
+    skim.enable = true;
     ripgrep.enable = true;
     fd.enable = true;
     zoxide.enable = true;
