@@ -16,15 +16,16 @@ cmd - j : yabai -m window --focus south || yabai -m window --focus first
 cmd - k : yabai -m window --focus north || yabai -m window --focus last
 # cmd - ;
 cmd - 0x29 : yabai -m window --focus stack.next || yabai -m window --focus stack.first
-cmd - o : yabai -m window --focus recent
 
 cmd - e : yabai -m window --toggle split
 cmd - m : yabai -m window --swap first || yabai -m window --swap last
 cmd - return : yabai -m window --focus first
-# cmd - <
-cmd - 0x2B  : yabai -m display --focus prev || yabai -m display --focus next
-# cmd - >
+# cmd - [
+cmd - 0x21  : yabai -m display --focus prev || yabai -m display --focus next
+cmd + shift - 0x21  : yabai -m window --display prev || yabai -m window --display next
+# cmd - .
 cmd - 0x2F  ; yabai
+cmd - space  ; launch
 cmd + shift - 0x2F  ; passthrough
 
 # passthrough mode
@@ -35,15 +36,20 @@ passthrough < cmd - l -> ; default
 passthrough < cmd - j -> ; default
 passthrough < cmd - k -> ; default
 passthrough < cmd - 0x29 -> ; default
-passthrough < cmd - o -> ; default
 passthrough < cmd - e -> ; default
 passthrough < cmd - m -> ; default
 passthrough < cmd - return -> ; default
-passthrough < cmd - 0x2B  -> ; default
+passthrough < cmd - 0x21  -> ; default
 passthrough < cmd - 0x2F  -> ; default
+passthrough < cmd - space  -> ; default
 passthrough < cmd + shift - 0x2F  -> ; default
 passthrough < return  ; default
 passthrough < escape  ; default
+
+# launch mode
+launch < escape  ; default
+launch < return : open Alacritty.app; skhd -k "escape"
+launch < w : open Firefox.app; skhd -k "escape"
 
 # yabai mode
 yabai < return  ; default
@@ -66,9 +72,13 @@ yabai < alt - h : yabai -m window --stack west
 yabai < alt - l : yabai -m window --stack east
 yabai < alt - j : yabai -m window --stack south
 yabai < alt - k : yabai -m window --stack north
-# 0x2B = '<'
-yabai < 0x2B  : yabai -m display --focus prev || yabai -m display --focus next
-yabai < shift - 0x2B  : yabai -m window --display prev || yabai -m window --display next
+yabai < r : yabai -m space --rotate 90
+# 0x21 = '['
+yabai < 0x21  : yabai -m display --focus prev
+yabai < shift - 0x21  : yabai -m window --display prev
+# 0x1E = ']'
+yabai < 0x1E  : yabai -m display --focus next
+yabai < shift - 0x1E  : yabai -m window --display next
 yabai < 0 : yabai -m space --balance
 yabai < 1 : yabai -m window --space 1
 yabai < 2 : yabai -m window --space 2
@@ -79,6 +89,15 @@ yabai < 6 : yabai -m window --space 6
 yabai < 7 : yabai -m window --space 7
 yabai < 8 : yabai -m window --space 8
 yabai < 9 : yabai -m window --space 9
+yabai < shift - 1 : yabai -m window --space 1 --focus
+yabai < shift - 2 : yabai -m window --space 2 --focus
+yabai < shift - 3 : yabai -m window --space 3 --focus
+yabai < shift - 4 : yabai -m window --space 4 --focus
+yabai < shift - 5 : yabai -m window --space 5 --focus
+yabai < shift - 6 : yabai -m window --space 6 --focus
+yabai < shift - 7 : yabai -m window --space 7 --focus
+yabai < shift - 8 : yabai -m window --space 8 --focus
+yabai < shift - 9 : yabai -m window --space 9 --focus
 yabai < ctrl - 1 -> :
 yabai < ctrl - 2 -> :
 yabai < ctrl - 3 -> :

@@ -6,9 +6,13 @@
 
       packages = with pkgs; [
         alacritty-theme
+        difftastic
         just
+        kakoune-lsp
         pueue
+        skhd
         universal-ctags
+        yabai
       ];
   };
 
