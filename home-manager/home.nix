@@ -8,7 +8,6 @@
         alacritty-theme
         difftastic
         gh
-        kakoune-lsp
         nil
         skhd
         universal-ctags
@@ -54,6 +53,9 @@
       completionInit = "autoload -U compinit && compinit -i";
       autosuggestion.enable = true;
       syntaxHighlighting.enable = true;
+      sessionVariables = {
+        PATH = "$PATH:$HOME/homebrew/bin";
+      };
       shellAliases = {
         gs = "git status";
         ga = "git add";
