@@ -6,7 +6,6 @@
 
       packages = with pkgs; [
         alacritty-theme
-        difftastic
         gh
         nil
         skhd
@@ -71,7 +70,6 @@
     git = {
       enable = true;
       delta.enable = true;
-      # difftastic.enable = true;
     };
     skim.enable = true;
     ripgrep.enable = true;
