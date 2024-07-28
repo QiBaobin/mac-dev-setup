@@ -35,8 +35,6 @@ scripts to setup my mac development enviroment
 - Interactive search [skim](https://github.com/lotabout/skim) [fzf](https://github.com/junegunn/fzf)
 - Shell prompt [starship](https://github.com/starship/starship)
 - File Manager [yazi](https://github.com/sxyazi/yazi)
-- Command Runner [just](https://github.com/casey/just) [config](https://github.com/QiBaobin/mac-dev-setup/blob/master/configs/justfile)
-- Task Manager [pueue](https://github.com/Nukesor/pueue)
 - Software Upgrade [topgrade](https://github.com/topgrade-rs/topgrade)
 - Print files [bat](https://github.com/sharkdp/bat)
 - Counter down timer [termdown](https://github.com/trehn/termdown)
@@ -56,7 +54,7 @@ scripts to setup my mac development enviroment
 - Chrome keyborad enhencement [Surfingkeys](https://github.com/brookhong/Surfingkeys)
 - Firefox vim interface [tridactyl](https://github.com/tridactyl/tridactyl)
 - Ad blocker [adblock plus](https://adblockplus.org/)
-  
+
 ## Development enviroments
 ### Nix
 
@@ -90,7 +88,7 @@ mkdir "$HOME/Applications"
 export HOMEBREW_CASK_OPTS="--appdir=$HOME/Applications"
 export PATH="$HOME/homebrew/bin:$PATH"
 
-brew install git tmux fzf fd ripgrep zsh font-hack-nerd-font font-inconsolata font-input font-monaspace just pueue universal-ctags zoxide
+brew install git tmux fzf fd ripgrep zsh font-hack-nerd-font font-inconsolata font-input font-monaspace universal-ctags zoxide
 brew install --HEAD kakoune
 brew install --cask wezterm@nightly
 brew install koekeishiya/formulae/yabai koekeishiya/formulae/skhd

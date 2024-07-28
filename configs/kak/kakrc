@@ -45,8 +45,6 @@ map global user w :write<ret> -docstring "write the buffer to its file"
 map global user : %{:sh } -docstring "Run a shell cmd"
 map global user m %{:make build<ret>} -docstring "Run make"
 map global user i %{:info -- %sh{ 2>&1}<a-B><left> } -docstring "Show a shell cmd output"
-map global user L %{:pueue status ; prompt -init '-f ' 'task ids:' 'sh pueue log %val{text}'<ret>} -docstring "Task log"
-map global user j %{:just } -docstring "Run just command"
 
 # Hooks
 # ─────────────────────────
@@ -123,15 +121,6 @@ define-command delete-buffers-match -docstring "Delete all buffers matching givi
 }
 complete-command delete-buffers-match buffer
 
-define-command just -docstring "run just command" -params 1.. %{
-    pueue-add just "%arg{@}"
-}
-complete-command just shell-script-candidates %{
-    if [ $kak_token_to_complete -eq 0 ]; then
-        for receipt in $(just --summary); do echo "$receipt"; done
-    fi
-}
-
 define-command -params 1.. -docstring "run a shell command" sh %{
     require-module fifo
     evaluate-commands -try-client %opt{toolsclient} %{
@@ -155,15 +144,6 @@ define-command -override -params .. -docstring "find files interactively" sk %{
     set local windowing_placement vertical
     try-terminal %val{client_env_SHELL} -c %exp{ cd %val{client_env_PWD} && sk -m  -c 'fd -tf %arg{@}' | rg -r 'eval -verbatim -try-client %val{client} edit "$0"' '.*' | kak -p %val{session} }
 }
-
-define-command -params 1.. -docstring "run pueue commands" pueue %{ info -- %sh{ pueue $@ }}
-complete-command pueue shell-script-candidates %{
-    if [ $kak_token_to_complete -eq 0 ]; then
-        printf "add\nremove\nrestart\nkill\nstatus\nlog\nclean\nreset\nsend\nparallel\n"
-    fi
-}
-define-command -params 1.. -docstring "add a task to pueue" pueue-add %{ pueue add -- %arg{@} }
-complete-command pueue-add shell
 
 define-command -params 1..2 -docstring "expr <operator> [number]" expr %{ execute-keys %sh{
     if [ $kak_count = 0 ]; then kak_count=1; fi

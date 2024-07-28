@@ -7,9 +7,8 @@
       packages = with pkgs; [
         alacritty-theme
         difftastic
-        just
+        gh
         kakoune-lsp
-        pueue
         skhd
         universal-ctags
         yabai
@@ -58,6 +57,9 @@
         gs = "git status";
         ga = "git add";
         gc = "git commit";
+        gf = "git fetch origin main";
+        gr = "git rebase -i origin/main";
+        gp = "git push origin @:refs/heads/story/PAMPP-";
         "!!" = "fc -ln -1";
       };
     };
