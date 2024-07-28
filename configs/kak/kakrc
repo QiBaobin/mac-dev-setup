@@ -85,7 +85,7 @@ hook global ModuleLoaded 'wezterm|tmux|zellij' %{
 }
 # lsp
 declare-option -hidden int lsp_status 0
-hook global WinSetOption filetype=(zig|rust|python|kotlin) %{
+hook global WinSetOption filetype=(zig|rust|python|kotlin|nix) %{
     eval %sh{
         if [ "$kak_opt_lsp_status" == "0" ] ; then
             if which kak-lsp > /dev/null 2>&1 ; then
@@ -99,7 +99,7 @@ hook global WinSetOption filetype=(zig|rust|python|kotlin) %{
     }
     lsp-enable-window
 }
-hook global BufSetOption filetype=(zig|rust|python|kotlin) %{
+hook global BufSetOption filetype=(zig|rust|python|kotlin|nix) %{
     map buffer user l %{:enter-user-mode lsp<ret>} -docstring "LSP mode"
     map buffer insert <tab> '<a-;>:lsp-snippets-select-next-placeholders<ret>' -docstring 'Select next snippet placeholder'
     map buffer object f "<a-semicolon>lsp-object Function Method<ret>" -docstring "LSP function or method"

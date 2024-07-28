@@ -9,6 +9,7 @@
         difftastic
         gh
         kakoune-lsp
+        nil
         skhd
         universal-ctags
         yabai
