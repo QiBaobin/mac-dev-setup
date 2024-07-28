@@ -19,7 +19,7 @@
         echo > home-manager/proxy.nix
 
         cp -v configs/kak/kakrc $HOME/.config/kak/realrc
-        cp -Rv configs/skhd $HOME/
+        cp -Rv configs/skhd $HOME/.config/
         '';
         apps.default = {
           type = "app";
