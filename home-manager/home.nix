@@ -8,6 +8,7 @@
         alacritty-theme
         aspell
         gh
+        jq
         nil
         skhd
         universal-ctags
@@ -65,6 +66,7 @@
         gr = "git rebase -i origin/main";
         gp = "git push origin @:refs/heads/story/PAMPP-";
         "!!" = "fc -ln -1";
+        choose-theme = ''ls "${pkgs.alacritty-theme}" | sk | awk '{print "${pkgs.alacritty-theme}/" $0}' | xargs -J % ln -sf % ~/.config/alacritty/local.toml'';
       };
       initExtra = ''
         for f in "$HOME/.config/zsh"/*.zsh; do
