@@ -1,3 +1,4 @@
+out="${out:-.}"
 dir=$(mktemp -d "${TMPDIR:-/tmp}"/XXXXXXX)
 dir=$(realpath $dir)
 cp -R "$out/home-manager"/* "$dir/"
@@ -12,6 +13,6 @@ cp -Rv "$out/configs/skhd" "$HOME/.config/"
 for arg in "$@"; do
   if [ "$arg" = "--android" ]; then
     mkdir -p "$HOME/.config/zsh"
-    cp -v "$out/configs/zsh/android.zsh" "$HOME/.config/zsh/"
+    cp -fv "$out/configs/zsh/android.zsh" "$HOME/.config/zsh/"
   fi
 done
