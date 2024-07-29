@@ -78,7 +78,6 @@ curl -fsSL https://github.com/cashapp/hermit/releases/download/stable/install.sh
 ### nix
 ```sh
 nix run github:QiBaobin/mac-dev-setup
-# or clone the dir and run `sh switchHome.sh` insdie the dir
 
 ```
 

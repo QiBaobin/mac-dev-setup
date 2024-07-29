@@ -2,8 +2,24 @@ out="${out:-.}"
 dir=$(mktemp -d "${TMPDIR:-/tmp}"/XXXXXXX)
 dir=$(realpath $dir)
 cp -R "$out/home-manager"/* "$dir/"
-echo '{ ... }:  { home = { username = "'$USER'"; homeDirectory = "'$HOME'"; }; }' > "$dir/user.nix"
-echo '{ ... }:  { programs.zsh.sessionVariables.no_proxy = "'$no_proxy'"; programs.zsh.sessionVariables.http_proxy = "'$http_proxy'"; programs.zsh.sessionVariables.https_proxy = "'$https_proxy'"; }' > "$dir/proxy.nix"
+
+cat <<EOF > "$dir/user.nix"
+{ ... }:
+{
+  home.username = "$USER";
+  home.homeDirectory = "$HOME";
+  programs.alacritty.settings.import = [ "$HOME/.config/alacritty/local.toml" ];
+}
+EOF
+cat <<EOF > "$dir/proxy.nix"
+{ ... }:
+{
+  programs.zsh.sessionVariables.no_proxy = "$no_proxy";
+  programs.zsh.sessionVariables.http_proxy = "$http_proxy";
+  programs.zsh.sessionVariables.https_proxy = "$https_proxy";
+}
+EOF
+
 nix run home-manager/master -- switch --flake "$dir/#bob" -b backup || exit
 rm -rf "$dir"
 

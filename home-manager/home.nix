@@ -87,7 +87,6 @@
     alacritty = {
       enable = true;
       settings = {
-        import = [ "~/.config/alacritty/local.toml" ];
         font = {
           size = 16.0;
           normal.family = "Cascadia Code";
