@@ -77,11 +77,11 @@ yabai < alt - j : yabai -m window --stack south
 yabai < alt - k : yabai -m window --stack north
 yabai < r : yabai -m space --rotate 90
 # 0x21 = '['
-yabai < 0x21  : yabai -m display --focus prev
-yabai < shift - 0x21  : yabai -m window --display prev
+yabai < 0x21  : yabai -m display --focus prev || yabai -m display --focus next
+yabai < shift - 0x21  : yabai -m window --display prev || yabai -m window --display next
 # 0x1E = ']'
-yabai < 0x1E  : yabai -m display --focus next
-yabai < shift - 0x1E  : yabai -m window --display next
+yabai < 0x1E  : yabai -m display --focus next || yabai -m display --focus prev
+yabai < shift - 0x1E  : yabai -m window --display next || yabai -m window --display prev
 yabai < 0 : yabai -m space --balance
 yabai < 1 : yabai -m window --space 1
 yabai < 2 : yabai -m window --space 2

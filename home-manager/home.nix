@@ -87,7 +87,7 @@
     alacritty = {
       enable = true;
       settings = {
-        import = [ "${pkgs.alacritty-theme}/alabaster.toml" "local.toml" ];
+        import = [ "~/.config/alacritty/local.toml" ];
         font = {
           size = 16.0;
           normal.family = "Cascadia Code";
