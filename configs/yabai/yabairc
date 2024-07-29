@@ -8,5 +8,6 @@ yabai -m rule --add app="^(Android Studio|Alacritty|Wezterm)$" space=2
 yabai -m rule --add app="^(Zoom)$" space=3
 yabai -m rule --add app="^Firefox$" space=4
 yabai -m rule --add app="^Google Chrome$" space=5
+yabai -m rule --add title="^(scratchpad)$" scratchpad=scratchpad grid=11:11:2:2:7:7
 
 echo "yabai configuration loaded.."

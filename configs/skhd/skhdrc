@@ -1,7 +1,7 @@
 # yank history
 cmd - c -> :  {cat ~/.pb_saved && sleep 1 && pbpaste && echo} | sort -u | tee ~/.pb_saved
 cmd + shift - v : alacritty -e zsh -i -c 'sk < ~/.pb_saved | pbcopy' && sleep 1 && skhd -k "cmd - v"
-cmd -  g: alacritty -e zsh -i -c "yabai -m query --windows | jq --raw-output '.[] | [.id,.title,.app] | join(\" \")' | sk | awk '{print $1}' | xargs yabai -m window {} --focus"
+cmd -  g: alacritty -T scratchpad -e zsh -i -c "yabai -m query --windows | jq --raw-output '.[] | [.id,.title,.app] | join(\" \")' | sk | awk '{print $1}' | xargs yabai -m window {} --focus"
 
 # add an on_enter command to the default mode
 :: default : rm /tmp/skhd_${USER}_MOD*; yabai  -m config external_bar all:0:0 || true

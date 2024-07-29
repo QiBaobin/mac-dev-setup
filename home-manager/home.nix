@@ -69,6 +69,10 @@
         choose-theme = ''ls "${pkgs.alacritty-theme}" | sk | awk '{print "${pkgs.alacritty-theme}/" $0}' | xargs -J % ln -sf % ~/.config/alacritty/local.toml'';
       };
       initExtra = ''
+        function set_win_title(){
+            echo -ne "\033]0; ''${PWD##/*/} \007"
+        }
+        precmd_functions+=(set_win_title)
         for f in "$HOME/.config/zsh"/*.zsh; do
         [[ -e "$f" ]] || continue
           source "$f"
