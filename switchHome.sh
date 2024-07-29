@@ -7,12 +7,11 @@ echo '{ ... }:  { programs.zsh.sessionVariables.no_proxy = "'$no_proxy'"; progra
 nix run home-manager/master -- switch --flake "$dir/#bob" -b backup || exit
 rm -rf "$dir"
 
-mkdir -p "$HOME/.config/kak"
-cp -v "$out/configs/kak/kakrc" "$HOME/.config/kak/realrc"
-cp -Rv "$out/configs/skhd" "$HOME/.config/"
+mkdir -p "$HOME/.config/kak";  ln -sf "$out/configs/kak/kakrc" "$HOME/.config/kak/realrc"
+mkdir -p "$HOME/.config/skhd";  ln -sf "$out/configs/skhd/skhdrc" "$HOME/.config/skhd/"
 for arg in "$@"; do
   if [ "$arg" = "--android" ]; then
     mkdir -p "$HOME/.config/zsh"
-    cp -fv "$out/configs/zsh/android.zsh" "$HOME/.config/zsh/"
+     ln -sf "$out/configs/zsh/android.zsh" "$HOME/.config/zsh/"
   fi
 done
