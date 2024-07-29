@@ -25,6 +25,7 @@ rm -rf "$dir"
 
 mkdir -p "$HOME/.config/kak";  ln -sf "$out/configs/kak/kakrc" "$HOME/.config/kak/realrc"
 mkdir -p "$HOME/.config/skhd";  ln -sf "$out/configs/skhd/skhdrc" "$HOME/.config/skhd/"
+mkdir -p "$HOME/.config/yabai";  ln -sf "$out/configs/yabai/yabairc" "$HOME/.config/yabai/"
 for arg in "$@"; do
   if [ "$arg" = "--android" ]; then
     mkdir -p "$HOME/.config/zsh"

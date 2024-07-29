@@ -3,12 +3,11 @@ cmd - c -> :  {cat ~/.pb_saved && sleep 1 && pbpaste && echo} | sort -u | tee ~/
 cmd + shift - v : alacritty -e zsh -i -c 'sk < ~/.pb_saved | pbcopy' && sleep 1 && skhd -k "cmd - v"
 
 # add an on_enter command to the default mode
-:: default : yabai -m config window_gap 0; yabai -m config top_padding 0; yabai -m config bottom_padding 0
-#
+:: default : rm /tmp/skhd_${USER}_MOD*; yabai  -m config external_bar all:0:0 || true
 # defines a new mode 'yabai' with an on_enter command, that captures keypresses
-:: yabai @ : yabai -m config window_gap 20; yabai -m config top_padding 20
-:: passthrough @ : yabai -m config bottom_padding 20
-:: launch @ : sleep 2 && skhd -k "escape"
+:: yabai @ : touch /tmp/skhd_${USER}_MODE_yabai; yabai -m config external_bar all:50:0; sleep 20 && [ -e "/tmp/skhd_${USER}_MODE_yabai" ] && skhd -k "escape"
+:: passthrough @ : touch /tmp/skhd_${USER}_MODE_passthrough; sleep 2 && [ -e "/tmp/skhd_${USER}_MODE_passthrough" ] && skhd -k "escape"
+:: launch @ : touch /tmp/skhd_${USER}_MODE_launch; sleep 2 && [ -e "/tmp/skhd_${USER}_MODE_launch" ] && skhd -k "escape"
 
 # default mode
 cmd - h : yabai -m window --focus west || yabai -m window --focus last
@@ -50,9 +49,11 @@ passthrough < escape  ; default
 # launch mode
 launch < escape ; default
 launch < return : open -a Alacritty.app
-launch < w : open -a Firefox.app; skhd -k "escape"
-launch < o : open -a 'Microsoft Outlook.app'; skhd -k "escape"
-launch < t : open -a 'Microsoft Teams.app'; skhd -k "escape"
+launch < w : skhd -k "escape; open -a Firefox.app"
+launch < o : skhd -k "escape; open -a 'Microsoft Outlook.app'"
+launch < t : skhd -k "escape; open -a 'Microsoft Teams.app'"
+launch < s : skhd -k "escape; open "x-apple.systempreferences:""
+launch < shift - s : skhd -k "escape; pmset displaysleepnow"
 
 # yabai mode
 yabai < return  ; default
@@ -111,18 +112,18 @@ yabai < ctrl - 7 -> :
 yabai < ctrl - 8 -> :
 yabai < ctrl - 9 -> :
 yabai < i : yabai -m window --insert west
-yabai < shift - i : yabai -m window --insert stack ; skhd -k "escape"
+yabai < shift - i : skhd -k "escape; yabai -m window --insert stack "
 
 # make floating window fill screen
-yabai < up     : yabai -m window --grid 1:1:0:0:1:1 ; skhd -k "escape"
+yabai < up     : skhd -k "escape; yabai -m window --grid 1:1:0:0:1:1 "
 
 # toggle window zoom
-yabai < d : yabai -m window --toggle zoom-parent ; skhd -k "escape"
-yabai < f : yabai -m window --toggle zoom-fullscreen ; skhd -k "escape"
-yabai < s : yabai -m space --layout stack ; skhd -k "escape"
-yabai < b : yabai -m space --layout bsp ; skhd -k "escape"
-yabai < shift - s : yabai -m display --layout stack ; skhd -k "escape"
-yabai < shift - b : yabai -m display --layout bsp ; skhd -k "escape"
+yabai < d : skhd -k "escape; yabai -m window --toggle zoom-parent "
+yabai < f : skhd -k "escape; yabai -m window --toggle zoom-fullscreen "
+yabai < s : skhd -k "escape; yabai -m space --layout stack "
+yabai < b : skhd -k "escape; yabai -m space --layout bsp "
+yabai < shift - s : skhd -k "escape; yabai -m display --layout stack "
+yabai < shift - b : skhd -k "escape; yabai -m display --layout bsp "
 
 # toggle window split type
 
