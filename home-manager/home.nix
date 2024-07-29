@@ -67,7 +67,10 @@
         "!!" = "fc -ln -1";
       };
       initExtra = ''
-        find "$HOME/.config/zsh" -maxdepth 1 -type f -name '*.zsh' -print0 | xargs -0 source
+        for f in "$HOME/.config/zsh"/*.zsh; do
+        [[ -e "$f" ]] || continue
+          source "$f"
+        done
       '';
     };
     eza.enable = true;
