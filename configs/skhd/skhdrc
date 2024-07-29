@@ -49,11 +49,11 @@ passthrough < escape  ; default
 # launch mode
 launch < escape ; default
 launch < return : open -a Alacritty.app
-launch < w : skhd -k "escape"; open -a Firefox.app
-launch < o : skhd -k "escape"; open -a 'Microsoft Outlook.app'
-launch < t : skhd -k "escape"; open -a 'Microsoft Teams.app'
-launch < s : skhd -k "escape"; open "x-apple.systempreferences:"
-launch < shift - s : skhd -k "escape"; pmset displaysleepnow
+launch < w : open -a Firefox.app; skhd -k "escape"
+launch < o : open -a 'Microsoft Outlook.app'; skhd -k "escape"
+launch < t : open -a 'Microsoft Teams.app'; skhd -k "escape"
+launch < s : open "x-apple.systempreferences:"; skhd -k "escape"
+launch < shift - s : pmset displaysleepnow; skhd -k "escape"
 
 # yabai mode
 yabai < return  ; default
@@ -112,18 +112,18 @@ yabai < ctrl - 7 -> :
 yabai < ctrl - 8 -> :
 yabai < ctrl - 9 -> :
 yabai < i : yabai -m window --insert west
-yabai < shift - i : skhd -k "escape"; yabai -m window --insert stack
+yabai < shift - i : yabai -m window --insert stack ; skhd -k "escape"
 
 # make floating window fill screen
-yabai < up     : skhd -k "escape"; yabai -m window --grid 1:1:0:0:1:1
+yabai < up     : yabai -m window --grid 1:1:0:0:1:1 ; skhd -k "escape"
 
 # toggle window zoom
-yabai < d : skhd -k "escape"; yabai -m window --toggle zoom-parent
-yabai < f : skhd -k "escape"; yabai -m window --toggle zoom-fullscreen
-yabai < s : skhd -k "escape"; yabai -m space --layout stack
-yabai < b : skhd -k "escape"; yabai -m space --layout bsp
-yabai < shift - s : skhd -k "escape"; yabai -m display --layout stack
-yabai < shift - b : skhd -k "escape"; yabai -m display --layout bsp
+yabai < d : yabai -m window --toggle zoom-parent ; skhd -k "escape"
+yabai < f : yabai -m window --toggle zoom-fullscreen ; skhd -k "escape"
+yabai < s : yabai -m space --layout stack ; skhd -k "escape"
+yabai < b : yabai -m space --layout bsp ; skhd -k "escape"
+yabai < shift - s : yabai -m display --layout stack ; skhd -k "escape"
+yabai < shift - b : yabai -m display --layout bsp ; skhd -k "escape"
 
 # toggle window split type
 
