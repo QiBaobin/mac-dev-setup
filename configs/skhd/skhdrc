@@ -8,7 +8,7 @@ cmd + shift - v : alacritty -e zsh -i -c 'sk < ~/.pb_saved | pbcopy' && sleep 1 
 # defines a new mode 'yabai' with an on_enter command, that captures keypresses
 :: yabai @ : yabai -m config window_gap 20; yabai -m config top_padding 20
 :: passthrough @ : yabai -m config bottom_padding 20
-:: launch @ : open -a Alacritty.app
+:: launch @ : sleep 2 && skhd -k "escape"
 
 # default mode
 cmd - h : yabai -m window --focus west || yabai -m window --focus last
@@ -49,7 +49,7 @@ passthrough < escape  ; default
 
 # launch mode
 launch < escape ; default
-launch < return ; default
+launch < return : open -a Alacritty.app
 launch < w : open -a Firefox.app; skhd -k "escape"
 launch < o : open -a 'Microsoft Outlook.app'; skhd -k "escape"
 launch < t : open -a 'Microsoft Teams.app'; skhd -k "escape"

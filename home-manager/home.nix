@@ -6,6 +6,7 @@
 
       packages = with pkgs; [
         alacritty-theme
+        aspell
         gh
         nil
         skhd
@@ -49,6 +50,7 @@
 
     zsh = {
       enable = true;
+      dotDir = ".config/zsh";
       completionInit = "autoload -U compinit && compinit -i";
       autosuggestion.enable = true;
       syntaxHighlighting.enable = true;
@@ -64,6 +66,11 @@
         gp = "git push origin @:refs/heads/story/PAMPP-";
         "!!" = "fc -ln -1";
       };
+      initExtra = ''
+        for f in "$HOME/.config/zsh"/*.zsh 2>/dev/null; do
+          source "$f"
+        done
+      '';
     };
     eza.enable = true;
     starship.enable = true;
@@ -79,7 +86,7 @@
     alacritty = {
       enable = true;
       settings = {
-        import = [ "${pkgs.alacritty-theme}/alabaster.toml" ];
+        import = [ "${pkgs.alacritty-theme}/alabaster.toml" "local.toml" ];
         font = {
           size = 16.0;
           normal.family = "Cascadia Code";

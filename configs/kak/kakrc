@@ -8,7 +8,6 @@ add-highlighter global/ show-matching
 add-highlighter global/ regex \h+$ 0:Error
 add-highlighter global/ regex \t 0:Error
 add-highlighter global/ regex //\h*(TODO:)[^\n]* 0:cyan 1:yellow,red
-add-highlighter global/ dynregex '%reg{/}' 0:+i
 set-face global InsertCursor default,green+B
 
 # Options
