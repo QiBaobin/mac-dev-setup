@@ -101,6 +101,7 @@
 
         window = {
           dynamic_title = true;
+          decorations = "None";
           opacity = 0.9;
           option_as_alt = "OnlyLeft";
           startup_mode = "Maximized";
