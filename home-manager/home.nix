@@ -39,6 +39,7 @@
       terminal = "screen-256color";
       extraConfig = ''
         set -g renumber-windows on
+        set -g set-titles on
         bind '"' split-window -c "#{pane_current_path}"
         bind % split-window -hc "#{pane_current_path}"
         bind h select-pane -L

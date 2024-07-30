@@ -1,7 +1,7 @@
 # yank history
 cmd - c -> :  {cat ~/.pb_saved && sleep 1 && pbpaste && echo} | sort -u | tee ~/.pb_saved
 cmd + shift - v : alacritty -e zsh -i -c 'sk < ~/.pb_saved | pbcopy' && sleep 1 && skhd -k "cmd - v"
-cmd -  g: alacritty -T scratchpad -e zsh -i -c "yabai -m query --windows | jq --raw-output '.[] | [.id,.title,.app] | join(\" \")' | sk | awk '{print $1}' | xargs yabai -m window {} --focus"
+cmd -  g: alacritty -T scratchpad -e sk -c 'yabai -m query --windows | jq --raw-output ".[] | \"\(.id) \(.app) \(.title) space=\(.space) display=\(.display)\""' --bind 'enter:execute(yabai -m window {1} --focus)+accept'
 
 # add an on_enter command to the default mode
 :: default : rm /tmp/skhd_${USER}_MOD*; yabai  -m config external_bar all:0:0 || true
@@ -56,6 +56,7 @@ launch < o : open -a 'Microsoft Outlook.app'; skhd -k "escape"
 launch < t : open -a 'Microsoft Teams.app'; skhd -k "escape"
 launch < s : open "x-apple.systempreferences:"; skhd -k "escape"
 launch < shift - s : pmset displaysleepnow; skhd -k "escape"
+launch < space : alacritty -T scratchpad -e sk -c 'fd -d 1 ".app$" ~/.nix-profile/Applications /Applications ~/Applications' --bind 'enter:execute(open -a {})+accept'; skhd -k "escape"
 
 # yabai mode
 yabai < return  ; default
