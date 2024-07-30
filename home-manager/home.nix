@@ -46,7 +46,7 @@
         bind j select-pane -D
         bind k select-pane -U
         bind l select-pane -R
-        bind t choose-tree -Z
+        bind T choose-tree -Z
       '';
     };
 

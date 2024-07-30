@@ -50,7 +50,7 @@ passthrough < escape  ; default
 
 # launch mode
 launch < escape ; default
-launch < return : open -a Alacritty.app
+launch < return : open -a Alacritty.app --args -e tmux
 launch < w : open -a Firefox.app; skhd -k "escape"
 launch < o : open -a 'Microsoft Outlook.app'; skhd -k "escape"
 launch < t : open -a 'Microsoft Teams.app'; skhd -k "escape"

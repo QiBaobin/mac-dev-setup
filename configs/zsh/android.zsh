@@ -4,8 +4,7 @@ if [ -z "$JAVA_HOME" ]; then
   done
 fi
 [ -z "$ANDROID_SDK_ROOT" ] && export ANDROID_SDK_ROOT="$HOME/Library/Android/sdk"
-startavd() { "$ANDROID_SDK_ROOT/emulator/emulator" --no-skin --no-audio ${1-@Pixel_2_API_R} }
-alias listavd='"$ANDROID_SDK_ROOT/emulator/emulator" -list-avds'
+alias startavd='"$ANDROID_SDK_ROOT/emulator/emulator" -list-avds | rg -v INFO | sk | while read name; do "$ANDROID_SDK_ROOT/emulator/emulator" -avd "$name"; done'
 alias sdkmanager='"$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager"'
 alias avdmanager='"$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/avdmanager"'
 alias adb='"$ANDROID_SDK_ROOT/platform-tools/adb"'
