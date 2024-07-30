@@ -25,9 +25,7 @@
     kakoune = {
       enable = true;
       defaultEditor = true;
-      extraConfig = ''
-        source "%val{config}/realrc"
-      '';
+      extraConfig = builtins.readFile ./configs/kak/kakrc;
     };
     tmux = {
       enable = true;
