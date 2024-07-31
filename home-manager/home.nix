@@ -7,10 +7,11 @@
       packages = with pkgs; [
         alacritty-theme
         aspell
+        configs
         gh
         jq
         nil
-        skhd
+        skhd-config
         universal-ctags
         yabai
       ];

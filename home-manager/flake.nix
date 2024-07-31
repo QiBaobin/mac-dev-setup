@@ -9,11 +9,12 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    home-configs.url = "github:QiBaobin/mac-dev-setup?dir=configs";
   };
 
-  outputs = { nixpkgs, flake-utils, home-manager, ... }:
+  outputs = { nixpkgs, flake-utils, home-manager,home-configs, ... }:
     let
-      kakoune-overlay  = (self: super: {
+      overlays  = [(self: super: {
         kakoune-unwrapped = super.kakoune-unwrapped.overrideAttrs(old: {
           version = "master";
           src = super.fetchFromGitHub {
@@ -23,16 +24,17 @@
               sha256 = "sha256-FHhgi+7yRTQve1sfACgdR1YGLaZaGGT8CeHNo+FNaaU=";
           };
         });
-      });
+        configs = home-configs.default;
+      })];
     in
       flake-utils.lib.eachDefaultSystem (system:
         let
-          pkgs = import nixpkgs { inherit system; overlays = [ kakoune-overlay ]; };
+          pkgs = import nixpkgs { inherit system overlays; };
         in {
           packages.homeConfigurations."bob" = home-manager.lib.homeManagerConfiguration {
             inherit pkgs;
 
-            modules = [ ./home.nix ./user.nix ./proxy.nix ];
+            modules = with builtins; filter (name: baseNameOf name == ".nix") (attrNames  (readDir ./.));
           };
         }
       );
