@@ -69,6 +69,10 @@
         choose-theme = ''ls "${pkgs.alacritty-theme}" | sk | awk '{print "${pkgs.alacritty-theme}/" $0}' | xargs -J % ln -sf % ~/.config/alacritty/local.toml'';
       };
       initExtra = ''
+       autoload -z edit-command-line
+       zle -N edit-command-line
+       bindkey "^X^E" edit-command-line
+
         function set_win_title(){
             echo -ne "\033]0; ''${PWD##/*/} \007"
         }

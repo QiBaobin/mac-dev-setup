@@ -1,7 +1,0 @@
-keybinds {
-    locked clear-defaults=true {
-        bind "Ctrl b" { SwitchToMode "Normal"; }
-    }
-}
-
-default_mode "locked"
