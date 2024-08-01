@@ -9,7 +9,10 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    home-configs.url = "github:QiBaobin/mac-dev-setup?dir=configs";
+    home-configs = {
+      url = "github:QiBaobin/mac-dev-setup?dir=configs";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { self, nixpkgs, flake-utils, home-manager, home-configs, ... }:
@@ -49,13 +52,15 @@
         packages.default = pkgs.stdenv.mkDerivation {
           name = "switchHome";
           src = ./home-manager;
-          buildInputs = [ home-manager.${system}.default home-configs.${system}.default ];
-          builder = builtins.toFile "builder.sh" ''
+          buildInputs = [ home-manager.packages.${system}.default home-configs.packages.${system}.default ];
+          phases = [ "buildPhase" ];
+          buildPhase = ''
             mkdir -p "$out/bin"
             cp -R "$src/home-manager" "$out/"
 
-            bin=${builtins.toFile "$out/bin/switchHome" "#!/bin/sh"}
+            bin="$out/bin/switchHome"
             {
+              echo "#!/bin/sh"
               echo
               echo 'out="'$out'"'
               cat "${script}"

@@ -16,8 +16,9 @@
         packages.default = pkgs.stdenv.mkDerivation {
           inherit name;
           src = ./.;
-          builder = builtins.toFile "builder.sh" ''
-            mkdir -p "$out"
+          phases = [ "buildPhase" ];
+          buildPhase = ''
+            mkdir -p "$out/bin"
             cp -R "$src"/* "$out/"
 
             bin="$out/bin/${name}"
@@ -28,6 +29,7 @@
             find -type f | while read f; do
               install -D "\$f" "\$HOME/.config/\$f"
             done
+            EOF
             chmod +x "$bin"
           '';
         };

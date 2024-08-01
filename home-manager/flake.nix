@@ -9,7 +9,10 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    home-configs.url = "github:QiBaobin/mac-dev-setup?dir=configs";
+    home-configs = {
+      url = "github:QiBaobin/mac-dev-setup?dir=configs";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { nixpkgs, flake-utils, home-manager,home-configs, ... }:
@@ -24,7 +27,7 @@
               sha256 = "sha256-FHhgi+7yRTQve1sfACgdR1YGLaZaGGT8CeHNo+FNaaU=";
           };
         });
-        configs = home-configs.default;
+        configs = home-configs.packages.default;
       })];
     in
       flake-utils.lib.eachDefaultSystem (system:
