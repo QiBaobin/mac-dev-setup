@@ -11,26 +11,13 @@
     flake-utils.lib.eachDefaultSystem(system:
       let
         pkgs = import nixpkgs { inherit system; };
-        name = "link-configs";
       in {
         packages.default = pkgs.stdenv.mkDerivation {
-          inherit name;
           src = ./.;
           phases = [ "buildPhase" ];
           buildPhase = ''
-            mkdir -p "$out/bin"
+            mkdir -p "$out/config"
             cp -R "$src"/* "$out/"
-
-            bin="$out/bin/${name}"
-            cat <<EOF > "$bin"
-            #!/bin/sh
-
-            cd "$out"
-            find -type f | while read f; do
-              install -D "\$f" "\$HOME/.config/\$f"
-            done
-            EOF
-            chmod +x "$bin"
           '';
         };
       }

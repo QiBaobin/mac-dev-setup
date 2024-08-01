@@ -36,29 +36,6 @@
         "type": "github"
       }
     },
-    "home-configs": {
-      "inputs": {
-        "flake-utils": "flake-utils_2",
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "dir": "configs",
-        "lastModified": 1722426524,
-        "narHash": "sha256-N5HI6x+7CpKjGmhWOmVHWDnwFSE6EEUPHJpvu92cPH8=",
-        "owner": "QiBaobin",
-        "repo": "mac-dev-setup",
-        "rev": "a334db053f7771e686924a62a185db29661b9b2b",
-        "type": "github"
-      },
-      "original": {
-        "dir": "configs",
-        "owner": "QiBaobin",
-        "repo": "mac-dev-setup",
-        "type": "github"
-      }
-    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -98,7 +75,6 @@
     "root": {
       "inputs": {
         "flake-utils": "flake-utils",
-        "home-configs": "home-configs",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs"
       }
