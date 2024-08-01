@@ -78,6 +78,9 @@ hook global BufSetOption filetype=kotlin %{
     set-option buffer formatcmd 'java -jar ~/bin/ktfmt.jar -'
     set-option buffer lintcmd 'abt -s @ check'
 }
+hook global BufSetOption filetype=make %{
+    hook buffer NormalKey <ret> goto-file
+}
 hook global ModuleLoaded 'wezterm|tmux|zellij' %{
     set-option global windowing_placement horizontal
     alias global find sk
@@ -124,6 +127,7 @@ define-command -params 1.. -docstring "run a shell command" sh %{
     require-module fifo
     evaluate-commands -try-client %opt{toolsclient} %{
         fifo -scroll -name "*shell*" -script "%arg{@}"
+        hook buffer NormalKey <ret> goto-file
     }
 }
 complete-command sh shell
@@ -132,12 +136,14 @@ define-command -params 1.. -docstring "find files" fd %{
     require-module fifo
     evaluate-commands -try-client %opt{toolsclient} %{
         fifo -name "*fd*" fd -tf %arg{@}
-        require-module jump
-        set-option buffer jump_pattern '^([^\n]+)'
-        hook buffer NormalKey <ret> jump
+        hook buffer NormalKey <ret> goto-file
     }
 }
 alias global find fd
+define-command -override goto-file -docstring "jump to file:line:col at cursor" %{
+    execute-keys %{<semicolon><a-a><a-w>s(?:file://)?([^:]+)(?::(\d+))?(?::(\d+))?<ret>)}
+    edit "%reg{1}" %reg{2} %reg{3}
+}
 
 define-command -override -params .. -docstring "find files interactively" sk %{
     set local windowing_placement vertical
