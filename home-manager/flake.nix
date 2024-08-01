@@ -27,7 +27,7 @@
               sha256 = "sha256-FHhgi+7yRTQve1sfACgdR1YGLaZaGGT8CeHNo+FNaaU=";
           };
         });
-        configs = home-configs.packages.default;
+        configs = home-configs.packages.${super.system}.default;
       })];
     in
       flake-utils.lib.eachDefaultSystem (system:
@@ -37,7 +37,7 @@
           packages.homeConfigurations."bob" = home-manager.lib.homeManagerConfiguration {
             inherit pkgs;
 
-            modules = with builtins; filter (name: baseNameOf name == ".nix") (attrNames  (readDir ./.));
+            modules = [ ./home.nix ./user.nix ./proxy.nix ];
           };
         }
       );

@@ -20,7 +20,7 @@
             script = builtins.toFile "script" ''
               dir=$(mktemp -d "''${TMPDIR:-/tmp}"/XXXXXXX)
               dir=$(realpath $dir)
-              for f in "$out/*; do
+              for f in "$out"/*; do
                 install "$f" "$dir"
               done
 

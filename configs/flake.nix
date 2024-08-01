@@ -13,6 +13,7 @@
         pkgs = import nixpkgs { inherit system; };
       in {
         packages.default = pkgs.stdenv.mkDerivation {
+          name = "home-configs";
           src = ./.;
           phases = [ "buildPhase" ];
           buildPhase = ''

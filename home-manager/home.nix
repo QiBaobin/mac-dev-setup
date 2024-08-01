@@ -11,7 +11,7 @@
         gh
         jq
         nil
-        skhd-config
+        skhd
         universal-ctags
         yabai
       ];
