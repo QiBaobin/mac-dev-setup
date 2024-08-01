@@ -45,8 +45,9 @@
               rm -rf "$dir"
 
               cd "$HOME/.nix-profile/config" || exit 2
-              find . -type l | while read f; do
-                install -D "$f" "$HOME/.config/"
+              find . -type l -or -type f | while read f; do
+                mkdir -p "$HOME/.config/$(dirname "$f")"
+                ln -sf "$HOME/.nix-profile/config/$f" "$HOME/.config/$f"
               done
             '';
           in ''
