@@ -45,11 +45,11 @@
       },
       "locked": {
         "dir": "configs",
-        "lastModified": 1722493704,
-        "narHash": "sha256-9Z5+ZaMprYSO78g50oxOisoE1B1z0uXLl3NijTR2Y3k=",
+        "lastModified": 1722496132,
+        "narHash": "sha256-RAJoxuQiH3dOtPAVAkTxnFYlmDkBM6wMYYVRYVP8FaE=",
         "owner": "QiBaobin",
         "repo": "mac-dev-setup",
-        "rev": "8a2aa0958306bccbdd73df122c794a2810d7eb69",
+        "rev": "8a0cb4bd04874bead46f1e77010a39e557479309",
         "type": "github"
       },
       "original": {

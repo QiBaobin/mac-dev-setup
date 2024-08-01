@@ -18,7 +18,7 @@
           phases = [ "buildPhase" ];
           buildPhase = ''
             mkdir -p "$out/config"
-            cp -R "$src"/* "$out/"
+            cp -R "$src"/* "$out/config/"
           '';
         };
       }
