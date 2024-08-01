@@ -141,8 +141,10 @@ define-command -params 1.. -docstring "find files" fd %{
 }
 alias global find fd
 define-command -override goto-file -docstring "jump to file:line:col at cursor" %{
-    execute-keys %{<semicolon><a-a><a-w>s(?:file://)?([^:]+)(?::(\d+))?(?::(\d+))?<ret>)}
-    edit "%reg{1}" %reg{2} %reg{3}
+    evaluate-commands -save-regs / %{
+        execute-keys %{<a-b>h/(?:file://)?([^:]+)(?::(\d+))?(?::(\d+))?<ret>}
+        evaluate-commands -verbatim -- edit -existing -- %reg{1} %reg{2} %reg{3}
+    }
 }
 
 define-command -override -params .. -docstring "find files interactively" sk %{
