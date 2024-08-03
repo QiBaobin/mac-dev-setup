@@ -8,7 +8,9 @@
         alacritty-theme
         aspell
         configs
+        gawk
         gh
+        gnused
         jq
         nil
         skhd
