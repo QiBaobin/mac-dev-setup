@@ -125,8 +125,8 @@ complete-command delete-buffers-match buffer
 define-command -params 1.. -docstring "run a shell command" sh %{
     evaluate-commands -try-client %opt{toolsclient} %{
         set local makecmd "%val{client_env_SHELL}"
-        # set local make_error_pattern  %{(?:e: )?(?:file://)?([^\n:]+)(?::(\d+))?(?::(\d+))?}
-        set global make_error_pattern  %{(?:e: )?(?:file://)?([^\n:]+)(?::(\d+))?(?::(\d+))?}
+        # set local make_error_pattern  %{^(?:e: )?(?:file://)?([^\n:]+)(?::(\d+))?(?::(\d+))?}
+        set global make_error_pattern  %{^(?:e: )?(?:file://)?([^\n:]+)(?::(\d+))?(?::(\d+))?}
         make -c "%arg{@}"
         rename-buffer "%arg{@} %sh{date +'%T'}"
     }
