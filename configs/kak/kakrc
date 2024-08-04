@@ -42,7 +42,7 @@ map global user / %{:grep } -docstring "Grep"
 map global user s %{:ctags-search } -docstring "Search symbol"
 map global user w :write<ret> -docstring "write the buffer to its file"
 map global user : %{:sh } -docstring "Run a shell cmd"
-map global user m %{:make build<ret>} -docstring "Run make"
+map global user m %{:make -s @ build<ret>} -docstring "Run make"
 map global user i %{:info -- %sh{ 2>&1}<a-B><left> } -docstring "Show a shell cmd output"
 
 # Hooks
@@ -75,7 +75,7 @@ hook global BufSetOption filetype=zig %{
 }
 hook global BufSetOption filetype=kotlin %{
     set-option buffer formatcmd 'java -jar ~/bin/ktfmt.jar -'
-    set-option global makecmd 'abt -s @'
+    set-option global makecmd 'abt'
     set-option global lintcmd 'abt -s @ check'
     # set-option buffer make_error_pattern '(?:e: file://)([^:\n]+):(\d+):(\d+)([^\n]+)?'
     set-option global make_error_pattern '(?:e: file://)([^:\n]+):(\d+):(\d+)([^\n]+)?'
@@ -123,28 +123,20 @@ define-command delete-buffers-match -docstring "Delete all buffers matching givi
 complete-command delete-buffers-match buffer
 
 define-command -params 1.. -docstring "run a shell command" sh %{
-    require-module fifo
     evaluate-commands -try-client %opt{toolsclient} %{
-        fifo -scroll -name "*shell*" -script "%arg{@}"
-        hook buffer NormalKey <ret> goto-file
+        set local makecmd "%val{client_env_SHELL}"
+        # set local make_error_pattern  %{(?:e: )?(?:file://)?([^\n:]+)(?::(\d+))?(?::(\d+))?}
+        set global make_error_pattern  %{(?:e: )?(?:file://)?([^\n:]+)(?::(\d+))?(?::(\d+))?}
+        make -c "%arg{@}"
+        rename-buffer "%arg{@}"
     }
 }
 complete-command sh shell
 
 define-command -params 1.. -docstring "find files" fd %{
-    require-module fifo
-    evaluate-commands -try-client %opt{toolsclient} %{
-        fifo -name "*fd*" fd -tf %arg{@}
-        hook buffer NormalKey <ret> goto-file
-    }
+    sh fd -tf %arg{@}
 }
 alias global find fd
-define-command -override goto-file -docstring "jump to file:line:col at cursor" %{
-    evaluate-commands -save-regs / %{
-        execute-keys %{<a-b>h/(?:file://)?([^:]+)(?::(\d+))?(?::(\d+))?<ret>}
-        evaluate-commands -verbatim -- edit -existing -- %reg{1} %reg{2} %reg{3}
-    }
-}
 
 define-command -override -params .. -docstring "find files interactively" sk %{
     set local windowing_placement vertical
