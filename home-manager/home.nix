@@ -13,6 +13,7 @@
         gnused
         jq
         nil
+        parallel
         skhd
         universal-ctags
         yabai
