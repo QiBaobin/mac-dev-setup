@@ -41,6 +41,7 @@
               }
               EOF
 
+              rm "$HOME/.config/kak/kakrc"
               nix run home-manager/master -- switch --flake "$dir/#bob" -b backup || exit 1
               rm -rf "$dir"
 

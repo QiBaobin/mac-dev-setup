@@ -70,7 +70,7 @@
         gR = "git reset --hard origin/main";
         gp = "git push origin @:refs/heads/story/PAMPP-";
         "!!" = "fc -ln -1";
-        choose-theme = ''ls "${pkgs.alacritty-theme}" | sk | awk '{print "${pkgs.alacritty-theme}/" $0}' | xargs -J % ln -sf % ~/.config/alacritty/local.toml'';
+        choose-theme = ''ls "${pkgs.alacritty-theme}" | sk | awk '{system("ln -sf \"" "${pkgs.alacritty-theme}/" $0 "\" ~/.config/alacritty/local.toml")}' '';
       };
       initExtra = ''
        autoload -z edit-command-line
