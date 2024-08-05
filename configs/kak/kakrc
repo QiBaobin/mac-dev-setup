@@ -108,6 +108,9 @@ hook global BufSetOption filetype=(zig|rust|python|kotlin|nix) %{
     map buffer object d "<a-semicolon>lsp-diagnostic-object --include-warnings<ret>" -docstring "LSP errors and warnings"
     map buffer object D "<a-semicolon>lsp-diagnostic-object<ret>" -docstring "LSP errors"
 }
+hook global BufSetOption filetype=(zig|rust|python|kotlin) %{
+    set-option buffer indentwidth 4
+}
 
 # Commands
 # ─────────────────────────
