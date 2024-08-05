@@ -16,7 +16,7 @@ set-option global tabstop 4
 set-option global indentwidth 2
 set-option global grepcmd 'rg --vimgrep'
 set-option global toolsclient 'client1'
-set-option global ctagscmd 'ctags -R --fields=+S --exclude=.git --exclude=build --exclude=.gradle --exclude-exception=src/*/build'
+set-option global ctagscmd 'ctags -R --fields=+S --exclude=.git --exclude=build --exclude=.gradle --exclude=.direnv'
 
 # Keys
 # ─────────────────────────
