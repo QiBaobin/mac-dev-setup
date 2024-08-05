@@ -42,7 +42,7 @@ map global user / %{:grep } -docstring "Grep"
 map global user s %{:ctags-search } -docstring "Search symbol"
 map global user w :write<ret> -docstring "write the buffer to its file"
 map global user : %{:sh } -docstring "Run a shell cmd"
-map global user m %{:make -s @ build<ret>} -docstring "Run make"
+map global user m %{:make build<ret>} -docstring "Run make"
 map global user i %{:info -- %sh{ 2>&1}<a-B><left> } -docstring "Show a shell cmd output"
 
 # Hooks
@@ -75,7 +75,7 @@ hook global BufSetOption filetype=zig %{
 }
 hook global BufSetOption filetype=kotlin %{
     set-option buffer formatcmd 'java -jar ~/bin/ktfmt.jar -'
-    set-option global makecmd 'abt'
+    set-option global makecmd 'abt -s @'
     set-option global lintcmd 'abt -s @ check'
     # set-option buffer make_error_pattern '(?:e: file://)([^:\n]+):(\d+):(\d+)([^\n]+)?'
     set-option global make_error_pattern '(?:e: file://)([^:\n]+):(\d+):(\d+)([^\n]+)?'

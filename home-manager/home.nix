@@ -58,6 +58,7 @@
       syntaxHighlighting.enable = true;
       sessionVariables = {
         PATH = "$PATH:$HOME/homebrew/bin";
+        HOMEBREW_CASK_OPTS = "--appdir=$HOME/Applications";
       };
       shellAliases = {
         gs = "git status";
