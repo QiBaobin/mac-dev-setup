@@ -46,7 +46,9 @@
             '';
           in ''
             mkdir -p "$out/bin"
-            cp -R "$src"/* "$out/"
+            cd "$src"
+            nix flake update home-configs
+            cp -R ./* "$out/"
 
             bin="$out/bin/switchHome"
             {
