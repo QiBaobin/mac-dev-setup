@@ -11,6 +11,7 @@
         gawk
         gh
         gnused
+        nerdfonts
         jq
         nil
         parallel
@@ -29,6 +30,9 @@
     kakoune = {
       enable = true;
       defaultEditor = true;
+      extraConfig = ''
+        source "${pkgs.configs}/config/kak/kakrc"
+      '';
     };
     tmux = {
       enable = true;
@@ -72,9 +76,6 @@
         PATH = "$PATH:$HOME/homebrew/bin";
         HOMEBREW_CASK_OPTS = "--appdir=$HOME/Applications";
       };
-      profileExtra = ''
-        export XDG_CONFIG_HOME="$HOME/.nix-profile/config"
-      '';
       initExtra = ''
        autoload -z edit-command-line
        zle -N edit-command-line
@@ -91,7 +92,8 @@
       '';
     };
     eza.enable = true;
-    starship.enable = true;
+    # starship.enable = true;
+    oh-my-posh.enable = true;
     git = {
       enable = true;
       delta.enable = true;
@@ -106,7 +108,7 @@
       settings = {
         font = {
           size = 16.0;
-          normal.family = "Cascadia Code";
+          normal.family = "Hack Nerd Font Mono";
         };
 
         window = {
