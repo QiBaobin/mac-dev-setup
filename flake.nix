@@ -41,14 +41,13 @@
               }
               EOF
 
+              (cd "$dir"; nix flake update home-configs)
               nix run home-manager/master -- switch --flake "$dir/#bob" -b backup || exit 1
               rm -rf "$dir"
             '';
           in ''
             mkdir -p "$out/bin"
-            cd "$src"
-            nix flake update home-configs
-            cp -R ./* "$out/"
+            cp -Rv "$src"/* "$out/"
 
             bin="$out/bin/switchHome"
             {
