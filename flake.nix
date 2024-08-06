@@ -41,15 +41,8 @@
               }
               EOF
 
-              rm "$HOME/.config/kak/kakrc"
               nix run home-manager/master -- switch --flake "$dir/#bob" -b backup || exit 1
               rm -rf "$dir"
-
-              cd "$HOME/.nix-profile/config" || exit 2
-              find . -type l -or -type f | while read f; do
-                mkdir -p "$HOME/.config/$(dirname "$f")"
-                ln -sf "$HOME/.nix-profile/config/$f" "$HOME/.config/$f"
-              done
             '';
           in ''
             mkdir -p "$out/bin"

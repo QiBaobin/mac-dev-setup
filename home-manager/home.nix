@@ -57,10 +57,6 @@
       completionInit = "autoload -U compinit && compinit -i";
       autosuggestion.enable = true;
       syntaxHighlighting.enable = true;
-      sessionVariables = {
-        PATH = "$PATH:$HOME/homebrew/bin";
-        HOMEBREW_CASK_OPTS = "--appdir=$HOME/Applications";
-      };
       shellAliases = {
         gs = "git status";
         ga = "git add";
@@ -72,6 +68,13 @@
         "!!" = "fc -ln -1";
         choose-theme = ''ls "${pkgs.alacritty-theme}" | sk | awk '{system("ln -sf \"" "${pkgs.alacritty-theme}/" $0 "\" ~/.config/alacritty/local.toml")}' '';
       };
+      sessionVariables = {
+        PATH = "$PATH:$HOME/homebrew/bin";
+        HOMEBREW_CASK_OPTS = "--appdir=$HOME/Applications";
+      };
+      profileExtra = ''
+        export XDG_CONFIG_HOME="$HOME/.nix-profile/config"
+      '';
       initExtra = ''
        autoload -z edit-command-line
        zle -N edit-command-line
