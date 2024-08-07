@@ -78,18 +78,11 @@
         zle -N edit-command-line
         bindkey "^X^E" edit-command-line
 
-        for f in "$HOME/.config/zsh"/*.zsh; do
-          [[ -e "$f" ]] || continue
-          source "$f"
+        source "${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme"
+        for f in "$HOME/.config/zsh"/{,.}*.zsh; do
+          [[ -e "$f" ]] && source "$f"
         done
       '';
-      plugins = [
-        {
-          name = "p10k";
-          src = pkgs.zsh-powerlevel10k;
-          file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
-        }
-      ];
     };
     eza.enable = true;
     git = {
