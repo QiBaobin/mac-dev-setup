@@ -25,7 +25,6 @@
             #!/bin/sh
 
             dir=\$(mktemp -d "\''${TMPDIR:-/tmp}"/XXXXXXX)
-            dir=\$(realpath \$dir)
             cd "$out"
             find . -type f | while read f; do
               "${pkgs.coreutils}/bin/install" -D "\$f" "\$dir/\$f"
