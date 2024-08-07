@@ -74,29 +74,34 @@
       autosuggestion.enable = true;
       syntaxHighlighting.enable = true;
       initExtra = ''
-       autoload -z edit-command-line
-       zle -N edit-command-line
-       bindkey "^X^E" edit-command-line
+        autoload -z edit-command-line
+        zle -N edit-command-line
+        bindkey "^X^E" edit-command-line
 
-        function set_win_title(){
-            echo -ne "\033]0; ''${PWD##/*/} \007"
-        }
-        precmd_functions+=(set_win_title)
         for f in "$HOME/.config/zsh"/*.zsh; do
-        [[ -e "$f" ]] || continue
+          [[ -e "$f" ]] || continue
           source "$f"
         done
-        # Powerlevel10k Zsh theme
-        source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
-        test -f ~/.config/zsh/.p10k.zsh && source ~/.config/zsh/.p10k.zsh
       '';
+      plugins = [
+        {
+          name = "p10k";
+          src = pkgs.zsh-powerlevel10k;
+          file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
+        }
+      ];
     };
     eza.enable = true;
-    # starship.enable = true;
-    # oh-my-posh.enable = true;
     git = {
       enable = true;
       delta.enable = true;
+      userName = "Bob Qi";
+      userEmail = "devup@qq.com";
+      extraConfig = {
+        includeIf."gitdir:~/work/" = {
+          path = "~/work/.gitconfig";
+        };
+      };
     };
     skim.enable = true;
     ripgrep.enable = true;
