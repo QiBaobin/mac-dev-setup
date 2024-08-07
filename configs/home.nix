@@ -77,6 +77,9 @@
         autoload -z edit-command-line
         zle -N edit-command-line
         bindkey "^X^E" edit-command-line
+        bindkey "^p" history-search-backward
+        bindkey "^n" history-search-forward
+        bindkey "^Q" push-input
 
         source "${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme"
         for f in "$HOME/.config/zsh"/{,.}*.zsh; do
