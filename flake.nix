@@ -14,48 +14,45 @@
       in {
         packages.default = pkgs.stdenv.mkDerivation {
           name = "switchHome";
-          src = ./home-manager;
+          src = ./configs;
           phases = [ "buildPhase" ];
-          buildPhase = let
-            script = builtins.toFile "script" ''
-              dir=$(mktemp -d "''${TMPDIR:-/tmp}"/XXXXXXX)
-              dir=$(realpath $dir)
-              for f in "$out"/*; do
-                install "$f" "$dir"
-              done
-
-              cat <<EOF > "$dir/user.nix"
-              { ... }:
-              {
-                home.username = "$USER";
-                home.homeDirectory = "$HOME";
-                programs.alacritty.settings.import = [ "$HOME/.config/alacritty/local.toml" ];
-              }
-              EOF
-              cat <<EOF > "$dir/proxy.nix"
-              { ... }:
-              {
-                programs.zsh.sessionVariables.no_proxy = "$no_proxy";
-                programs.zsh.sessionVariables.http_proxy = "$http_proxy";
-                programs.zsh.sessionVariables.https_proxy = "$https_proxy";
-              }
-              EOF
-
-              (cd "$dir"; nix flake update home-configs)
-              nix run home-manager/master -- switch --flake "$dir/#bob" -b backup || exit 1
-              rm -rf "$dir"
-            '';
-          in ''
+          buildPhase = ''
             mkdir -p "$out/bin"
             cp -Rv "$src"/* "$out/"
 
             bin="$out/bin/switchHome"
+            cat <<BIN_DONE > "$bin"
+            #!/bin/sh
+
+            dir=\$(mktemp -d "\''${TMPDIR:-/tmp}"/XXXXXXX)
+            dir=\$(realpath \$dir)
+            cd "$out"
+            find . -type f | while read f; do
+              "${pkgs.coreutils}/bin/install" -D "\$f" "\$dir/\$f"
+            done
+
+            cd "\$dir"
+            cat <<EOF > "user.nix"
+            { ... }:
             {
-              echo "#!/bin/sh"
-              echo
-              echo 'out="'$out'"'
-              cat "${script}"
-            } >> "$bin"
+              home.username = "\$USER";
+              home.homeDirectory = "\$HOME";
+              programs.alacritty.settings.import = [ "\$HOME/.config/alacritty/local.toml" ];
+            }
+            EOF
+            cat <<EOF > "proxy.nix"
+            { ... }:
+            {
+              programs.zsh.sessionVariables.no_proxy = "\$no_proxy";
+              programs.zsh.sessionVariables.http_proxy = "\$http_proxy";
+              programs.zsh.sessionVariables.https_proxy = "\$https_proxy";
+            }
+            EOF
+
+            nix run home-manager/master -- switch --flake ".#bob" -b backup || exit 1
+            cd && rm -rf "\$dir"
+            BIN_DONE
+
             chmod +x "$bin"
           '';
         };
