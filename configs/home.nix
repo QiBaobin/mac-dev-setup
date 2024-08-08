@@ -123,12 +123,12 @@
     };
   };
 
-  xdg.configFile = with builtins; {
-    "skhd/skhdrc".text = readFile ./skhd/skhdrc;
-    "yabai/yabairc".text = readFile ./yabai/yabairc;
-    "kak/kakrc".text = readFile ./kak/kakrc;
-    "nix/nix.conf".text = readFile ./nix/nix.conf;
-    "zsh/android.zsh".text = readFile ./zsh/android.zsh;
-    "zsh/.p10k.zsh".text = readFile ./zsh/.p10k.zsh;
-  };
+  xdg.configFile = with builtins; listToAttrs (map (name: { name = name; value = { text = readFile (./. + "/${name}"); }; }) [
+    "skhd/skhdrc"
+    "yabai/yabairc"
+    "kak/kakrc"
+    "nix/nix.conf"
+    "zsh/android.zsh"
+    "zsh/.p10k.zsh"
+  ]);
 }

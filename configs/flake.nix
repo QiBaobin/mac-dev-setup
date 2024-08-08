@@ -28,11 +28,12 @@
       flake-utils.lib.eachDefaultSystem (system:
         let
           pkgs = import nixpkgs { inherit system overlays; };
+          files = builtins.readDir ./.;
         in {
           packages.homeConfigurations."bob" = home-manager.lib.homeManagerConfiguration {
             inherit pkgs;
 
-            modules = [ ./home.nix ./user.nix ./proxy.nix ];
+            modules = with builtins; map (path: ./. + "/${path}") (filter (name: (getAttr name files) == "regular" &&  match "^.*\.nix$" name != null &&  match "^flake\.nix$" name == null) (attrNames files));
           };
         }
       );
