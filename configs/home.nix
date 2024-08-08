@@ -122,13 +122,4 @@
       };
     };
   };
-
-  xdg.configFile = with builtins; listToAttrs (map (name: { name = name; value = { text = readFile (./. + "/${name}"); }; }) [
-    "skhd/skhdrc"
-    "yabai/yabairc"
-    "kak/kakrc"
-    "nix/nix.conf"
-    "zsh/android.zsh"
-    "zsh/.p10k.zsh"
-  ]);
 }

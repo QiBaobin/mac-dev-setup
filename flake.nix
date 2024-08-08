@@ -27,7 +27,7 @@
             dir=\$(mktemp -d "\''${TMPDIR:-/tmp}"/XXXXXXX)
             cd "$out"
             find . -type f | while read f; do
-              "${pkgs.coreutils}/bin/install" -D "\$f" "\$dir/\$f"
+              [[ \$f == *"bin/"* ]] || "${pkgs.coreutils}/bin/install" -D "\$f" "\$dir/\$f"
             done
 
             cd "\$dir"
@@ -45,6 +45,14 @@
               programs.zsh.sessionVariables.no_proxy = "\$no_proxy";
               programs.zsh.sessionVariables.http_proxy = "\$http_proxy";
               programs.zsh.sessionVariables.https_proxy = "\$https_proxy";
+            }
+            EOF
+            cat <<EOF > "config.nix"
+            { ... }:
+            {
+              xdg.configFile = with builtins; listToAttrs (map (name: { name = name; value = { text = readFile (./. + "/\\\''${name}"); }; }) [
+                \$(find . -type f -not -name '*.nix' -not -name '*.lock' | sed -E 's#./(.*)#"\1"#')
+              ]);
             }
             EOF
 
