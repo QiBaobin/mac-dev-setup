@@ -93,12 +93,15 @@
       delta.enable = true;
       userName = "Bob Qi";
       userEmail = "devup@qq.com";
-      extraConfig = {
-        includeIf."gitdir:~/work/" = {
+      ignores = [ "tags" ".direnv" ".kak*" ];
+      includes = [
+        {
+          condition = "gitdir:~/work/";
           path = "~/work/.gitconfig";
-        };
-      };
+        }
+      ];
     };
+    gh.enable = true;
     skim.enable = true;
     ripgrep.enable = true;
     fd.enable = true;
