@@ -45,6 +45,22 @@ map global user w :write<ret> -docstring "write the buffer to its file"
 map global user : %{:sh } -docstring "Run a shell cmd"
 map global user m %{:make build<ret>} -docstring "Run make"
 map global user i %{:info -- %sh{ 2>&1}<a-B><left> } -docstring "Show a shell cmd output"
+declare-user-mode git
+map global user g %{:enter-user-mode git<ret>} -docstring "Enter git mode"
+map global git a %{:git add } -docstring "git add"
+map global git b %{:git blame<ret>} -docstring "git blame"
+map global git c %{:git commit } -docstring "git commit"
+map global git d %{:git diff<ret>} -docstring "git diff"
+map global git g %{:git grep } -docstring "git grep"
+map global git l %{:git log } -docstring "git log"
+map global git n %{:git next-hunk<ret>} -docstring "git next-hunk"
+map global git p %{:git prev-hunk<ret>} -docstring "git prev-hunk"
+map global git r %{:git reset } -docstring "git reset"
+map global git s %{:git status<ret>} -docstring "git status"
+map global git : %{:sh git } -docstring "git command"
+map global git f %{:sh git fetch origin main} -docstring "git fetch"
+map global git F %{:sh git pull<ret>} -docstring "git pull"
+map global git P %{:sh git push origin @:refs/heads/} -docstring "git push"
 
 # Hooks
 # ─────────────────────────
