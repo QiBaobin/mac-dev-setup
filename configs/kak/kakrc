@@ -58,7 +58,7 @@ map global git p %{:git prev-hunk<ret>} -docstring "git prev-hunk"
 map global git r %{:git reset } -docstring "git reset"
 map global git s %{:git status<ret>} -docstring "git status"
 map global git : %{:sh git } -docstring "git command"
-map global git f %{:sh git fetch origin main} -docstring "git fetch"
+map global git f %{:sh git fetch origin %sh{git branch --show-current}<a-!>} -docstring "git fetch"
 map global git F %{:sh git pull<ret>} -docstring "git pull"
 map global git P %{:sh git push origin @:refs/heads/%sh{git branch --show-current}<a-!>} -docstring "git push"
 
