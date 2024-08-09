@@ -60,7 +60,7 @@ map global git s %{:git status<ret>} -docstring "git status"
 map global git : %{:sh git } -docstring "git command"
 map global git f %{:sh git fetch origin main} -docstring "git fetch"
 map global git F %{:sh git pull<ret>} -docstring "git pull"
-map global git P %{:sh git push origin @:refs/heads/} -docstring "git push"
+map global git P %{:sh git push origin @:refs/heads/%sh{git branch --show-current}<a-!>} -docstring "git push"
 
 # Hooks
 # ─────────────────────────
