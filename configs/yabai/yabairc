@@ -3,11 +3,10 @@
 yabai -m config layout stack
 yabai -m space 2 --layout bsp
 
-yabai -m rule --add app="^(Microsoft Outlook|Microsoft Teams)$" space=1
-yabai -m rule --add app="^(Android Studio|Alacritty|Wezterm)$" space=2
-yabai -m rule --add app="^(zoom.us)$" space=3
-yabai -m rule --add app="^Firefox$" space=4
-yabai -m rule --add app="^Google Chrome$" space=5
+yabai -m rule --add app="^(.*)$" space=3
+yabai -m rule --add app="^(Microsoft Outlook|Microsoft Teams|zoom.us)$" space=1
+yabai -m rule --add app="^(Alacritty|Wezterm)$" space=2
+yabai -m rule --add app="^(Firefox|Google Chrome$" space=4
 yabai -m rule --add title="^(scratchpad)$" scratchpad=scratchpad grid=11:11:2:2:7:7
 
 echo "yabai configuration loaded.."
