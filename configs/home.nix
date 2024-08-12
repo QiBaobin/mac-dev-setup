@@ -19,7 +19,7 @@
       parallel
       universal-ctags
       zsh-powerlevel10k
-    ];
+    ] ++ (if stdenv.isDarwin then [ skhd yabai ] else  []);
 
     shellAliases = {
       gs = "git status";

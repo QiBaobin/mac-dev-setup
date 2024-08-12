@@ -57,14 +57,6 @@
               ]);
             }
             EOF
-            if [[ $OSTYPE == 'darwin'* ]]; then
-            cat <<EOF > "mac.nix"
-            { pkgs, ... }:
-            {
-              home.packages = [ pkgs.skhd pkgs.yabai ];
-            }
-            EOF
-            fi
 
             nix run home-manager/master -- switch --flake ".#bob" -b backup || exit 1
             cd && rm -rf "\$dir"
