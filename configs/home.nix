@@ -7,6 +7,8 @@
     packages = with pkgs; [
       alacritty-theme
       aspell
+      aspellDicts.en
+      aspellDicts.en-computers
       gawk
       gh
       gnused
@@ -15,9 +17,7 @@
       kakoune
       nil
       parallel
-      skhd
       universal-ctags
-      yabai
       zsh-powerlevel10k
     ];
 
