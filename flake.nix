@@ -42,9 +42,11 @@
             cat <<EOF > "proxy.nix"
             { ... }:
             {
-              programs.zsh.sessionVariables.no_proxy = "\$no_proxy";
-              programs.zsh.sessionVariables.http_proxy = "\$http_proxy";
-              programs.zsh.sessionVariables.https_proxy = "\$https_proxy";
+              programs.zsh.sessionVariables = {
+                no_proxy = "\$no_proxy";
+                http_proxy = "\$http_proxy";
+                https_proxy = "\$https_proxy";
+              };
             }
             EOF
             cat <<EOF > "config.nix"
@@ -55,6 +57,14 @@
               ]);
             }
             EOF
+            if [[ $OSTYPE == 'darwin'* ]]; then
+            cat <<EOF > "mac.nix"
+            { pkgs, ... }:
+            {
+              home.packages = [ pkgs.skhd pkgs.yabai ];
+            }
+            EOF
+            fi
 
             nix run home-manager/master -- switch --flake ".#bob" -b backup || exit 1
             cd && rm -rf "\$dir"

@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
-yabai -m config layout bsp
-yabai -m space 1 --layout stack
+yabai -m config layout stack
+yabai -m space 2 --layout bsp
 
 yabai -m rule --add app="^(Microsoft Outlook|Microsoft Teams)$" space=1
 yabai -m rule --add app="^(Android Studio|Alacritty|Wezterm)$" space=2
