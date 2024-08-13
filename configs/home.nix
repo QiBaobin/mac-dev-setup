@@ -15,6 +15,7 @@
       nerdfonts
       jq
       kakoune
+      kakoune-lsp
       nil
       parallel
       universal-ctags
