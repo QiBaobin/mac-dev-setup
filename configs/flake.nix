@@ -19,8 +19,8 @@
           src = super.fetchFromGitHub {
               owner = "mawww";
               repo = "kakoune";
-              rev = "10ed78fe8a580b3558348746ee53f81c5b0aeae1";
-              sha256 = "sha256-FHhgi+7yRTQve1sfACgdR1YGLaZaGGT8CeHNo+FNaaU=";
+              rev = "a250b96c18659d34d50e13de8d5126ca7fed6814";
+              sha256 = "sha256-j3WCa2+47dX6zkuTjU6Nv4wqZHbw0V6vJ+2ZD517Q5Y=";
           };
         });
       })];
