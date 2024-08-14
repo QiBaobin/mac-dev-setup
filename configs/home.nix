@@ -52,7 +52,7 @@
       sensibleOnTop = false;
       escapeTime = 0;
       keyMode = "vi";
-      shortcut = "g";
+      shortcut = "space";
       shell = "${pkgs.zsh}/bin/zsh";
       terminal = "screen-256color";
       extraConfig = ''
