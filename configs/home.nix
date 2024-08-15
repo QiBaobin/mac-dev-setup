@@ -65,6 +65,8 @@
         bind k select-pane -U
         bind l select-pane -R
         bind T choose-tree -Z
+        new -d -s tools
+        bind-key b command-prompt "new-window -t tools %%"
       '';
     };
 

@@ -102,6 +102,15 @@ hook global ModuleLoaded 'wezterm|tmux|zellij' %{
     set-option global windowing_placement horizontal
     alias global find sk
 }
+hook global ModuleLoaded tmux %{
+    define-command -params 0..1 -docstring "Create a new client in the tools tmux session" tmux-new %{
+      nop %sh{
+        session="${1-tools}"
+        tmux has -t "$session" || tmux -d -s "$session"
+        tmux new-window -t "$session" kak -c "$kak_session"
+      }
+    }
+}
 # lsp
 declare-option -hidden int lsp_status 0
 hook global WinSetOption filetype=(zig|rust|python|kotlin|nix) %{
