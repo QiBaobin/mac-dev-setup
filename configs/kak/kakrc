@@ -149,7 +149,7 @@ define-command -params 1.. -docstring "run a shell command" sh %{
         # set local make_error_pattern  %{^(?:e: )?(?:file://)?([^\n:]+)(?::(\d+))?(?::(\d+))?}
         set global make_error_pattern  %{^(?:e: )?(?:file://)?([^\n:]+)(?::(\d+))?(?::(\d+))?}
         make -c 'eval "$@"' -- %arg{@}
-        rename-buffer "%arg{@} %sh{date +'%T'}"
+        rename-buffer "*shell* %arg{@} %sh{date +'%T'}"
     }
 }
 complete-command sh shell
