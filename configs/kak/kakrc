@@ -8,6 +8,7 @@ add-highlighter global/ show-matching
 add-highlighter global/ regex \h+$ 0:Error
 add-highlighter global/ regex \t 0:Error
 add-highlighter global/ regex //\h*(TODO:)[^\n]* 0:cyan 1:yellow,red
+add-highlighter global/ dynregex '%reg{/}' 0:+u
 set-face global InsertCursor default,green+B
 
 # Options
@@ -45,6 +46,8 @@ map global user w :write<ret> -docstring "write the buffer to its file"
 map global user : %{:sh } -docstring "Run a shell cmd"
 map global user m %{:make build<ret>} -docstring "Run make"
 map global user i %{:info -- %sh{ 2>&1}<a-B><left> } -docstring "Show a shell cmd output"
+map global object t %{c<lt>([\w.]+)\b[^>]*?(?<lt>!/)>,<lt>/([\w.]+)\b[^>]*?(?<lt>!/)><ret>} -docstring "xml tag objet"
+
 declare-user-mode git
 map global user g %{:enter-user-mode git<ret>} -docstring "Enter git mode"
 map global git a %{:git add } -docstring "git add"
@@ -170,7 +173,7 @@ alias global find fd
 
 define-command -override -params .. -docstring "find files interactively" sk %{
     set local windowing_placement vertical
-    try-terminal %val{client_env_SHELL} -c %exp{ cd %val{client_env_PWD} && sk -m  -c 'fd -tf %arg{@}' | rg -r 'eval -verbatim -try-client %val{client} edit "$0"' '.*' | kak -p %val{session} }
+    terminal %val{client_env_SHELL} -c %exp{ cd %val{client_env_PWD} && sk -m  -c 'fd -tf %arg{@}' | rg -r 'eval -verbatim -try-client %val{client} edit "$0"' '.*' | kak -p %val{session} }
 }
 
 define-command -params 1..2 -docstring "expr <operator> [number]" expr %{ execute-keys %sh{
@@ -180,9 +183,5 @@ define-command -params 1..2 -docstring "expr <operator> [number]" expr %{ execut
 }}
 
 define-command -params 2 -docstring "countdown <title> <time>" countdown %{
-    try-terminal sh -c %sh{ printf 'termdown -T "%s" %s && say Time is up' "$1" "$2" }
-}
-
-define-command -params 2.. -docstring "try terminal with <windowing_placement> <cmd>" try-terminal %{
-    try %{ terminal %arg{@} } catch %{ set local windowing_placement window; terminal %arg{@} }
+    terminal sh -c %sh{ printf 'termdown -T "%s" %s && say Time is up' "$1" "$2" }
 }
