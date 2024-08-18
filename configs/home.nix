@@ -12,6 +12,7 @@
       gawk
       gh
       gnused
+      neovim
       nerdfonts
       jq
       kakoune
