@@ -42,7 +42,7 @@
             cat <<EOF > "proxy.nix"
             { ... }:
             {
-              programs.zsh.sessionVariables = {
+              home.sessionVariables = {
                 no_proxy = "\$no_proxy";
                 http_proxy = "\$http_proxy";
                 https_proxy = "\$https_proxy";
