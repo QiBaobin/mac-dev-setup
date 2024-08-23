@@ -114,6 +114,18 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     vim.highlight.on_yank()
   end,
 })
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { 'kt', 'kts', 'gradle' },
+  callback = function()
+    vim.opt_local.makeprg = 'abt -s @'
+  end,
+})
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'nix',
+  callback = function()
+    vim.opt_local.makeprg = 'nix'
+  end,
+})
 
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
