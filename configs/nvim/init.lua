@@ -733,8 +733,8 @@ require('lazy').setup({
         return '%2l:%-2v'
       end
 
-      -- ... and there is more!
-      --  Check out: https://github.com/echasnovski/mini.nvim
+      require('mini.cursorword').setup()
+      require('mini.indentscope').setup()
     end,
   },
   { -- Highlight, edit, and navigate code
@@ -810,7 +810,7 @@ require('lazy').setup({
       --   If not available, we use `mini` as the fallback
       "rcarriga/nvim-notify",
       },
-    config = function(_, opts)
+    config = function()
       require("noice").setup({
         lsp = {
           -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
@@ -831,6 +831,14 @@ require('lazy').setup({
       })
     end
   },
+  {
+    "lukas-reineke/indent-blankline.nvim",
+    main = "ibl",
+    opts = {},
+    config = function(_, opts)
+      require("ibl").setup(opts)
+    end
+  }
 }, {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
