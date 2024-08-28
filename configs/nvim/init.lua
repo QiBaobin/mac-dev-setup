@@ -58,7 +58,7 @@ vim.opt.inccommand = 'split'
 vim.opt.cursorline = true
 
 -- Minimal number of screen lines to keep above and below the cursor.
-vim.opt.scrolloff = 10
+vim.opt.scrolloff = 1
 
 -- expand tab
 vim.opt.shiftwidth = 2
@@ -79,6 +79,12 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 -- Diagnostic keymaps
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
+-- register related bindings
+vim.keymap.set('n', '<M-d>', '"_d', { desc = 'Delete without yanking' })
+vim.keymap.set('v', '<M-d>', '"_d', { desc = 'Delete without yanking' })
+vim.keymap.set('n', '<M-c>', '"_c', { desc = 'Change without yanking' })
+vim.keymap.set('v', '<M-c>', '"_c', { desc = 'Change without yanking' })
+
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
 -- is not what someone will guess without a bit more experience.
@@ -97,9 +103,7 @@ vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower win
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
 -- command mode bindings
-vim.keymap.set('c', '<C-r>H', '<C-R>=expand("%:h") . "/" <CR>', { desc = 'Expand head of path of current file' })
-vim.keymap.set('c', '<C-r>P', '<C-R>=expand("%:p") <CR>', { desc = 'Expand full path of current file' })
-vim.keymap.set('c', '<C-r>D', '<C-R>=expand("%:p:h") <CR>', { desc = 'Expand head of full path of current file' })
+vim.keymap.set('c', '<C-k>', '<Up>')
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
