@@ -55,10 +55,12 @@
       keyMode = "vi";
       shortcut = "space";
       shell = "${pkgs.zsh}/bin/zsh";
-      terminal = "screen-256color";
+      terminal = "tmux-256color";
       extraConfig = ''
+        set-option -a terminal-features 'xterm-256color:RGB'
         set -g renumber-windows on
         set -g set-titles on
+        set-option -g focus-events on
         bind '"' split-window -c "#{pane_current_path}"
         bind % split-window -hc "#{pane_current_path}"
         bind h select-pane -L
