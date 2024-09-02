@@ -98,9 +98,6 @@ vim.opt.path = vim.opt.path + '**'
 --  See `:help hlsearch`
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
--- Diagnostic keymaps
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
-
 -- register related bindings
 vim.keymap.set('n', '<M-d>', '"_d', { desc = 'Delete without yanking' })
 vim.keymap.set('v', '<M-d>', '"_d', { desc = 'Delete without yanking' })
@@ -130,6 +127,20 @@ vim.keymap.set('n', '<leader>bd', '<cmd>bdelete<CR>', { desc = 'Delete buffer' }
 vim.keymap.set('n', '<leader>bn', '<cmd>bnext<CR>', { desc = 'Next buffer' })
 vim.keymap.set('n', '<leader>bp', '<cmd>bprevious<CR>', { desc = 'Previous buffer' })
 vim.keymap.set('n', '<leader><leader>', ':buffer <C-d>', { desc = 'switch buffer' })
+
+-- quickfix
+vim.keymap.set('n', '<leader>qo', '<cmd>copen<CR>', { desc = 'Open quickfix list' })
+vim.keymap.set('n', '<leader>qc', '<cmd>cclose<CR>', { desc = 'Close quickfix list' })
+vim.keymap.set('n', '<leader>qn', '<cmd>cnext<CR>', { desc = 'Next quickfix item' })
+vim.keymap.set('n', '<leader>qp', '<cmd>cprevious<CR>', { desc = 'Previous quickfix item' })
+vim.keymap.set('n', '<leader>qd', vim.diagnostic.setqflist, { desc = 'Open diagnostic quickfix list' })
+
+-- location list
+vim.keymap.set('n', '<leader>lo', '<cmd>lopen<CR>', { desc = 'Open location list' })
+vim.keymap.set('n', '<leader>lc', '<cmd>lclose<CR>', { desc = 'Close location list' })
+vim.keymap.set('n', '<leader>ln', '<cmd>lnext<CR>', { desc = 'Next location item' })
+vim.keymap.set('n', '<leader>lp', '<cmd>lprevious<CR>', { desc = 'Previous location item' })
+vim.keymap.set('n', '<leader>ld', vim.diagnostic.setloclist, { desc = 'Open diagnostic location list' })
 
 -- command mode bindings
 vim.keymap.set('c', '<C-k>', '<Up>')
