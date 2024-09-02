@@ -88,6 +88,9 @@ vim.opt.expandtab = true
 -- wildmode
 vim.opt.wildmode = 'longest:full,full'
 
+-- find all files in the working directory
+vim.opt.path = vim.opt.path + '**'
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
@@ -111,7 +114,7 @@ vim.keymap.set('v', '<M-c>', '"_c', { desc = 'Change without yanking' })
 -- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
 -- or just use <C-\><C-n> to exit terminal mode
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
-vim.keymap.set('n', '<leader>t', ':terminal ', { desc = 'Open terminal' })
+vim.keymap.set('n', '<leader>T', ':terminal ', { desc = 'Open terminal' })
 
 -- Keybinds to make split navigation easier.
 --  Use CTRL+<hjkl> to switch between windows
