@@ -72,6 +72,7 @@ vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
 -- Preview substitutions live, as you type!
 vim.opt.inccommand = 'split'
+vim.opt.cmdheight = 0
 
 -- Show which line your cursor is on
 vim.opt.cursorline = true
@@ -91,11 +92,11 @@ vim.opt.wildmode = 'longest:full,full'
 -- find all files in the working directory
 vim.opt.path = vim.opt.path + '**'
 
--- [[ Basic Keymaps ]]
---  See `:help vim.keymap.set()`
+-- grep
+vim.opt.grepformat = "%f:%l:%c:%m,%f"
 
+-- [[ Basic Keymaps ]]
 -- Clear highlights on search when pressing <Esc> in normal mode
---  See `:help hlsearch`
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 -- register related bindings
@@ -142,11 +143,14 @@ vim.keymap.set('n', '<leader>ln', '<cmd>lnext<CR>', { desc = 'Next location item
 vim.keymap.set('n', '<leader>lp', '<cmd>lprevious<CR>', { desc = 'Previous location item' })
 vim.keymap.set('n', '<leader>ld', vim.diagnostic.setloclist, { desc = 'Open diagnostic location list' })
 
+-- search
+vim.keymap.set('n', '<leader>/', ':grep ', { desc = 'Grep in files' })
+vim.keymap.set('n', '<leader>sf', ":grep --no-line-number --no-column --no-filename '.*' <<< $(fd --type f )<Left>", { desc = 'Find files' })
+
 -- command mode bindings
 vim.keymap.set('c', '<C-k>', '<Up>')
 
 -- [[ Basic Autocommands ]]
---  See `:help lua-guide-autocommands`
 
 -- Highlight when yanking (copying) text
 --  Try it with `yap` in normal mode
@@ -168,6 +172,15 @@ vim.api.nvim_create_autocmd('FileType', {
   pattern = 'nix',
   callback = function()
     vim.opt_local.makeprg = 'nix'
+  end,
+})
+-- jump to last position
+vim.api.nvim_create_autocmd("BufReadPost", {
+  callback = function()
+    local mark = vim.api.nvim_buf_get_mark(0, '"')
+    if mark[1] > 1 and mark[1] <= vim.api.nvim_buf_line_count(0) then
+      vim.api.nvim_win_set_cursor(0, mark)
+    end
   end,
 })
 
