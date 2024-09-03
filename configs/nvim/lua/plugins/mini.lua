@@ -22,7 +22,7 @@ return { -- Collection of various small independent plugins/modules
     --  and try some other statusline plugin
     local statusline = require 'mini.statusline'
     -- set use_icons to true if you have a Nerd Font
-    statusline.setup { use_icons = vim.g.have_nerd_font }
+    statusline.setup { use_icons = true }
 
     -- You can configure sections in the statusline by overriding their
     -- default behavior. For example, here we set the section for
@@ -34,6 +34,11 @@ return { -- Collection of various small independent plugins/modules
 
     require('mini.cursorword').setup()
     require('mini.indentscope').setup()
+
+    local notify = require('mini.notify')
+    notify.setup()
+    vim.notify = notify.make_notify()
+
     require('mini.git').setup()
     vim.keymap.set({ 'n', 'v' }, '<leader>g<space>', '<cmd>lua MiniGit.show_at_cursor()<CR>', { desc = 'Show at cursor' })
     vim.keymap.set({ 'n', 'v' }, '<leader>gC', '<cmd>Git checkout', { desc = 'Checkout' })
