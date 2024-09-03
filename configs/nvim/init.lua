@@ -26,9 +26,6 @@ vim.g.loaded_tutor_mode_plugin = 1
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ','
 
--- Set to true if you have a Nerd Font installed and selected in the terminal
-vim.g.have_nerd_font = true
-
 -- [[ Setting options ]]
 -- See `:help vim.opt`
 -- NOTE: You can change these options as you wish!
@@ -123,6 +120,8 @@ vim.keymap.set({ 'n', 'v' }, '<leader>bd', '<cmd>bdelete<CR>', { desc = 'Delete 
 vim.keymap.set({ 'n', 'v' }, '<leader>bn', '<cmd>bnext<CR>', { desc = 'Next buffer' })
 vim.keymap.set({ 'n', 'v' }, '<leader>bp', '<cmd>bprevious<CR>', { desc = 'Previous buffer' })
 vim.keymap.set({ 'n', 'v' }, '<leader><leader>', ':buffer <C-d>', { desc = 'switch buffer' })
+vim.keymap.set({ 'n', 'v' }, ']b', '<cmd>bnext<CR>', { desc = 'Next buffer' })
+vim.keymap.set({ 'n', 'v' }, '[b', '<cmd>bprevious<CR>', { desc = 'Previous buffer' })
 
 -- quickfix
 vim.keymap.set({ 'n', 'v' }, '<leader>qo', '<cmd>copen<CR>', { desc = 'Open quickfix list' })
@@ -141,7 +140,7 @@ vim.keymap.set({ 'n', 'v' }, '<leader>ld', vim.diagnostic.setloclist, { desc = '
 -- search
 vim.keymap.set({ 'n', 'v' }, '<leader>/', ':grep ', { desc = 'Grep in files' })
 vim.keymap.set({ 'n', 'v' }, '<leader>f', ':find **/', { desc = 'Find a file' })
-vim.keymap.set({ 'n', 'v' }, '<leader>sf', ":grep --no-line-number --no-column --no-filename '.*' <<< $(fd --type f )<Left>", { desc = 'Find files' })
+vim.keymap.set({ 'n', 'v' }, '<leader>s', ":grep --no-line-number --no-column --no-filename '.*' <<< $(fd --type f )<Left>", { desc = 'Find files' })
 
 -- command mode bindings
 vim.keymap.set('c', '<C-k>', '<Up>')
@@ -192,39 +191,12 @@ if not vim.uv.fs_stat(lazypath) then
 end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
--- [[ Configure and install plugins ]]
---
---  To check the current status of your plugins, run
---    :Lazy
---
---  You can press `?` in this menu for help. Use `:q` to close the window
---
---  To update plugins you can run
---    :Lazy update
---
--- NOTE: Here is where you install your plugins.
 require('lazy').setup({
   'folke/lazy.nvim',
    { import = "plugins" },
 }, {
   ui = {
-    -- If you are using a Nerd Font: set icons to an empty table which will use the
-    -- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
-    icons = vim.g.have_nerd_font and {} or {
-      cmd = '⌘',
-      config = '🛠',
-      event = '📅',
-      ft = '📂',
-      init = '⚙',
-      keys = '🗝',
-      plugin = '🔌',
-      runtime = '💻',
-      require = '🌙',
-      source = '📄',
-      start = '🚀',
-      task = '📌',
-      lazy = '💤 ',
-    },
+    icons = {},
   },
 })
 
