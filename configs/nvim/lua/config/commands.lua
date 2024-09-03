@@ -1,3 +1,15 @@
+-- Execute a shell command and notify the output
+vim.api.nvim_create_user_command('System', function(opts)
+  vim.system(opts.fargs, { text = true }, function(data)
+    local output = opts.args .. '\n\n' .. '' .. data.stdout
+    if data.code ~= 0 then
+      vim.notify(output .. '\nFinished with errors! code: ' .. data.code .. '\n' .. data.stderr, vim.log.levels.ERROR)
+    else
+      vim.notify(output, vim.log.levels.INFO)
+    end
+  end)
+end, { bang = false, nargs = '+', complete = 'shellcmd' })
+
 -- Highlight when yanking (copying) text
 --  Try it with `yap` in normal mode
 --  See `:help vim.highlight.on_yank()`

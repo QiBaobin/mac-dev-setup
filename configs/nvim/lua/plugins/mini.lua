@@ -39,21 +39,6 @@ return { -- Collection of various small independent plugins/modules
     notify.setup()
     vim.notify = notify.make_notify()
 
-    require('mini.git').setup()
-    vim.keymap.set({ 'n', 'v' }, '<leader>g<space>', '<cmd>lua MiniGit.show_at_cursor()<CR>', { desc = 'Show at cursor' })
-    vim.keymap.set({ 'n', 'v' }, '<leader>gC', '<cmd>Git checkout', { desc = 'Checkout' })
-    vim.keymap.set({ 'n', 'v' }, '<leader>gP', ':Git pull ', { desc = 'Pull' })
-    vim.keymap.set({ 'n', 'v' }, '<leader>gR', ':Git reset ', { desc = 'Reset' })
-    vim.keymap.set({ 'n', 'v' }, '<leader>gS', ':Git show ', { desc = 'Show' })
-    vim.keymap.set({ 'n', 'v' }, '<leader>ga', '<cmd>Git add .<CR>', { desc = 'Add all' })
-    vim.keymap.set({ 'n', 'v' }, '<leader>gb', '<cmd>Git blame %<CR>', { desc = 'Blame' })
-    vim.keymap.set({ 'n', 'v' }, '<leader>gc', ':Git commit ', { desc = 'Commit' })
-    vim.keymap.set({ 'n', 'v' }, '<leader>gd', '<cmd>Git diff<CR>', { desc = 'Diff' })
-    vim.keymap.set({ 'n', 'v' }, '<leader>gf', '<cmd>Git fetch<CR>', { desc = 'Fetch' })
-    vim.keymap.set({ 'n', 'v' }, '<leader>go', ':Git log ', { desc = 'Log' })
-    vim.keymap.set({ 'n', 'v' }, '<leader>gp', ':Git push ', { desc = 'Push' })
-    vim.keymap.set({ 'n', 'v' }, '<leader>gs', '<cmd>Git status<CR>', { desc = 'Status' })
-
     local miniclue = require('mini.clue')
     miniclue.setup({
       triggers = {
