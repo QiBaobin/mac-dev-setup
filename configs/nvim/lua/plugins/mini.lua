@@ -34,5 +34,6 @@ return { -- Collection of various small independent plugins/modules
 
     require('mini.cursorword').setup()
     require('mini.indentscope').setup()
+    require('mini.git').setup()
   end,
 }
