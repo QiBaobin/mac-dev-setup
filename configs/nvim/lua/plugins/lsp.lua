@@ -68,7 +68,6 @@ return {
       gradle_ls = {},
       zls = {},
       rust_analyzer = {},
-      kotlin_language_server = {},
       nil_ls = {},
       lua_ls = {
         settings = {

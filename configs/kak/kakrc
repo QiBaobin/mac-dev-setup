@@ -123,7 +123,7 @@ hook global BufCreate '.*' %{ git show-diff }
 hook global BufWritePost '.*' %{ git update-diff }
 # lsp
 declare-option -hidden int lsp_status 0
-hook global WinSetOption filetype=(zig|rust|python|kotlin|nix) %{
+hook global WinSetOption filetype=(zig|rust|python|nix) %{
     evaluate-commands %sh{
         if [ "$kak_opt_lsp_status" == "0" ] ; then
             if which kak-lsp > /dev/null 2>&1 ; then
@@ -137,16 +137,13 @@ hook global WinSetOption filetype=(zig|rust|python|kotlin|nix) %{
     }
     lsp-enable-window
 }
-hook global BufSetOption filetype=(zig|rust|python|kotlin|nix) %{
+hook global BufSetOption filetype=(zig|rust|python|nix) %{
     map buffer user l %{:enter-user-mode lsp<ret>} -docstring "LSP mode"
     map buffer insert <tab> '<a-;>:lsp-snippets-select-next-placeholders<ret>' -docstring 'Select next snippet placeholder'
     map buffer object f "<a-semicolon>lsp-object Function Method<ret>" -docstring "LSP function or method"
     map buffer object t "<a-semicolon>lsp-object Class Interface Struct<ret>" -docstring "LSP class interface or struct"
     map buffer object d "<a-semicolon>lsp-diagnostic-object --include-warnings<ret>" -docstring "LSP errors and warnings"
     map buffer object D "<a-semicolon>lsp-diagnostic-object<ret>" -docstring "LSP errors"
-}
-hook global BufSetOption filetype=(zig|rust|python|kotlin) %{
-    set-option buffer indentwidth 4
 }
 
 # Commands
