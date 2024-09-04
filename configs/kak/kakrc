@@ -39,7 +39,7 @@ map global user q %{:write-all-quit<ret>} -docstring "Save and quit"
 map global user b %{:buffer } -docstring "Buffer"
 map global user d %{:delete-buffer<ret>} -docstring "Delete buffer"
 map global user D %{:delete-buffers-match } -docstring "Delete buffers"
-map global user f %{:find } -docstring "Find a file"
+map global user f %{:open } -docstring "Find a file"
 map global user / %{:grep } -docstring "Grep"
 map global user s %{:ctags-search } -docstring "Search symbol"
 map global user w :write<ret> -docstring "write the buffer to its file"
@@ -104,7 +104,6 @@ hook global BufSetOption filetype=kotlin %{
 }
 hook global ModuleLoaded 'wezterm|tmux|zellij' %{
     set-option global windowing_placement horizontal
-    alias global find sk
 }
 hook global ModuleLoaded tmux %{
     define-command -params 0..1 -docstring "Create a new client in the tools tmux session" tmux-new %{
@@ -174,12 +173,10 @@ define-command -params 1.. -docstring "run a shell command" sh %{
 }
 complete-command sh shell
 
-define-command -params 1.. -docstring "find files" fd %{
-    sh fd -tf %arg{@}
-}
-alias global find fd
-
-define-command -override -params .. -docstring "find files interactively" sk %{
+define-command -params 1.. -docstring "open the given file" open %{ edit %arg{@} }
+complete-command open shell-script-candidates %{ fd -tf }
+define-command -params 1.. -docstring "find files" fd %{ sh fd -tf %arg{@} }
+define-command -params .. -docstring "find files interactively" sk %{
     set local windowing_placement vertical
     terminal %val{client_env_SHELL} -c %exp{ cd %val{client_env_PWD} && sk -m  -c 'fd -tf %arg{@}' | rg -r 'eval -verbatim -try-client %val{client} edit "$0"' '.*' | kak -p %val{session} }
 }
