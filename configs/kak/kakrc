@@ -50,21 +50,22 @@ map global object t %{c<lt>([\w.]+)\b[^>]*?(?<lt>!/)>,<lt>/([\w.]+)\b[^>]*?(?<lt
 
 declare-user-mode git
 map global user g %{:enter-user-mode git<ret>} -docstring "Enter git mode"
+map global git : %{:sh git } -docstring "git command"
+map global git F %{:sh git pull origin %sh{git branch --show-current}<a-!>} -docstring "git pull"
+map global git P %{:sh git push origin @:refs/heads/%sh{git branch --show-current}<a-!>} -docstring "git push"
+map global git S %{:git show } -docstring "git show"
 map global git a %{:git add } -docstring "git add"
 map global git b %{:git blame<ret>} -docstring "git blame"
 map global git c %{:git commit } -docstring "git commit"
 map global git d %{:git diff } -docstring "git diff"
+map global git f %{:sh git fetch origin %sh{git branch --show-current}<a-!>} -docstring "git fetch"
 map global git g %{:git grep } -docstring "git grep"
 map global git l %{:git log } -docstring "git log"
 map global git n %{:git next-hunk<ret>} -docstring "git next-hunk"
 map global git p %{:git prev-hunk<ret>} -docstring "git prev-hunk"
 map global git r %{:git reset --hard origin/%sh{git branch --show-current}<a-!>} -docstring "git reset"
 map global git s %{:git status<ret>} -docstring "git status"
-map global git S %{:git show } -docstring "git show"
-map global git : %{:sh git } -docstring "git command"
-map global git f %{:sh git fetch origin %sh{git branch --show-current}<a-!>} -docstring "git fetch"
-map global git F %{:sh git pull origin %sh{git branch --show-current}<a-!>} -docstring "git pull"
-map global git P %{:sh git push origin @:refs/heads/%sh{git branch --show-current}<a-!>} -docstring "git push"
+map global git u %{:git update-diff<ret>} -docstring "git update-diff"
 
 # Hooks
 # ─────────────────────────
@@ -114,10 +115,17 @@ hook global ModuleLoaded tmux %{
       }
     }
 }
+hook global WinCreate '.*' %{ evaluate-commands %sh{
+  if [ -f "$kak_opt_ctagsfiles" ] && which readtags > /dev/null 2>&1 ; then
+    printf ctags-enable-autocomplete
+  fi
+}}
+hook global BufCreate '.*' %{ git show-diff }
+hook global BufWritePost '.*' %{ git update-diff }
 # lsp
 declare-option -hidden int lsp_status 0
 hook global WinSetOption filetype=(zig|rust|python|kotlin|nix) %{
-    eval %sh{
+    evaluate-commands %sh{
         if [ "$kak_opt_lsp_status" == "0" ] ; then
             if which kak-lsp > /dev/null 2>&1 ; then
                 printf '%s;' 'set global lsp_status 1'
