@@ -36,8 +36,8 @@ vim.keymap.set({ 'n', 'v' }, '[b', '<Cmd>bprevious<CR>', { desc = 'Previous buff
 vim.keymap.set({ 'n', 'v' }, ']q', '<Cmd>cnext<CR>', { desc = 'Next quickfix item' })
 vim.keymap.set({ 'n', 'v' }, '[q', '<Cmd>cprevious<CR>', { desc = 'Previous quickfix item' })
 -- location list
-vim.keymap.set({ 'n', 'v' }, ']q', '<Cmd>lnext<CR>', { desc = 'Next location list item' })
-vim.keymap.set({ 'n', 'v' }, '[q', '<Cmd>lprevious<CR>', { desc = 'Previous location list item' })
+vim.keymap.set({ 'n', 'v' }, ']l', '<Cmd>lnext<CR>', { desc = 'Next location list item' })
+vim.keymap.set({ 'n', 'v' }, '[l', '<Cmd>lprevious<CR>', { desc = 'Previous location list item' })
 
 -- search
 vim.keymap.set({ 'n', 'v' }, '<Leader>/', ':grep ', { desc = 'Grep in files' })
