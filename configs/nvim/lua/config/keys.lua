@@ -19,9 +19,11 @@ vim.keymap.set({ 'n', 'v' }, '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the 
 
 -- buffer management
 vim.keymap.set({ 'n', 'v' }, '<Leader>bd', '<Cmd>bdelete<CR>', { desc = 'Delete buffer' })
-vim.keymap.set({ 'n', 'v' }, '<Leader>bq', '<Cmd>copen<CR>', { desc = 'Open quickfix' })
-vim.keymap.set({ 'n', 'v' }, '<Leader>bl', '<Cmd>lopen<CR>', { desc = 'Open location list' })
-vim.keymap.set({ 'n', 'v' }, '<Leader>bn', function ()
+vim.keymap.set({ 'n', 'v' }, '<Leader>bf', '<Cmd>bfirst<CR>', { desc = 'First buffer' })
+vim.keymap.set({ 'n', 'v' }, '<Leader>bl', '<Cmd>blast<CR>', { desc = 'Last buffer' })
+vim.keymap.set({ 'n', 'v' }, '<Leader>bQ', '<Cmd>copen<CR>', { desc = 'Open quickfix' })
+vim.keymap.set({ 'n', 'v' }, '<Leader>bL', '<Cmd>lopen<CR>', { desc = 'Open location list' })
+vim.keymap.set({ 'n', 'v' }, '<Leader>bN', function ()
   require('mini.notify').show_history()
   vim.api.nvim_command('$')
 end, { desc = 'Open notification history' })

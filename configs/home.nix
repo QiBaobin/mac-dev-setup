@@ -106,6 +106,9 @@
           path = "~/work/.gitconfig";
         }
       ];
+      extraConfig = {
+        init.defaultBranch = "main";
+      };
     };
     gh.enable = true;
     skim.enable = true;

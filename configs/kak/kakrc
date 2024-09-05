@@ -114,16 +114,11 @@ hook global ModuleLoaded tmux %{
       }
     }
 }
-hook global WinCreate '.*' %{ evaluate-commands %sh{
-  if [ -f "$kak_opt_ctagsfiles" ] && which readtags > /dev/null 2>&1 ; then
-    printf ctags-enable-autocomplete
-  fi
-}}
 hook global BufCreate '.*' %{ git show-diff }
 hook global BufWritePost '.*' %{ git update-diff }
 # lsp
 declare-option -hidden int lsp_status 0
-hook global WinSetOption filetype=(zig|rust|python|nix) %{
+hook global WinSetOption filetype=(zig|rust|python|nix|kotlin) %{
     evaluate-commands %sh{
         if [ "$kak_opt_lsp_status" == "0" ] ; then
             if which kak-lsp > /dev/null 2>&1 ; then
@@ -137,7 +132,7 @@ hook global WinSetOption filetype=(zig|rust|python|nix) %{
     }
     lsp-enable-window
 }
-hook global BufSetOption filetype=(zig|rust|python|nix) %{
+hook global BufSetOption filetype=(zig|rust|python|nix|kotlin) %{
     map buffer user l %{:enter-user-mode lsp<ret>} -docstring "LSP mode"
     map buffer insert <tab> '<a-;>:lsp-snippets-select-next-placeholders<ret>' -docstring 'Select next snippet placeholder'
     map buffer object f "<a-semicolon>lsp-object Function Method<ret>" -docstring "LSP function or method"
@@ -161,11 +156,13 @@ complete-command delete-buffers-match buffer
 
 define-command -params 1.. -docstring "run a shell command" sh %{
     evaluate-commands -try-client %opt{toolsclient} %{
-        set local makecmd "%val{client_env_SHELL}"
-        # set local make_error_pattern  %{^(?:e: )?(?:file://)?([^\n:]+)(?::(\d+))?(?::(\d+))?}
-        set global make_error_pattern  %{^(?:e: )?(?:file://)?([^\n:]+)(?::(\d+))?(?::(\d+))?}
-        make -c 'eval "$@"' -- %arg{@}
+        fifo -scroll -name "*shell*" -script %{
+            trap - INT QUIT
+            $kak_client_env_SHELL -c "eval $@"
+        } -- %arg{@}
         rename-buffer "*shell* %arg{@} %sh{date +'%T'}"
+        set-option buffer filetype make
+        set-option buffer jump_current_line 0
     }
 }
 complete-command sh shell
@@ -184,6 +181,3 @@ define-command -params 1..2 -docstring "expr <operator> [number]" expr %{ execut
     printf '|expr `cat` %s %s<ret>' "$1" "${count-1}"
 }}
 
-define-command -params 2 -docstring "countdown <title> <time>" countdown %{
-    terminal sh -c %sh{ printf 'termdown -T "%s" %s && say Time is up' "$1" "$2" }
-}
