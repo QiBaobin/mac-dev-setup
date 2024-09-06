@@ -20,6 +20,7 @@
       nil
       parallel
       universal-ctags
+      util-linuxMinimal
       zsh-powerlevel10k
     ] ++ (if stdenv.isDarwin then [ skhd yabai ] else  []);
 
@@ -33,6 +34,8 @@
       gp = "git push origin @:refs/heads/story/PAMPP-";
       "!!" = "fc -ln -1";
       choose-theme = ''ls "${pkgs.alacritty-theme}" | sk | awk '{system("ln -sf \"" "${pkgs.alacritty-theme}/" $0 "\" ~/.config/alacritty/local.toml")}' '';
+      nix-locate = "nix run github:nix-community/nix-index-database bin/";
+      devenv-init = "nix flake init --template github:cachix/devenv#flake-parts";
     };
 
     sessionVariables = {
