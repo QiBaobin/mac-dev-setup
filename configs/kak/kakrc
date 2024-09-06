@@ -34,7 +34,6 @@ map global goto p '<esc>:bp<ret>' -docstring 'previous buffer'
 map global goto x '<esc><a-|>open `cat`<ret>' -docstring "Open selection with external program"
 map global goto F '<esc>s(?:file://)?([^:\n]+)(?::)?(\d+)(?::)?(\d+)?<ret>:e %reg{1} %reg{2} %reg{3}<ret>' -docstring "Open file in selection"
 map global goto D %{<esc>:ctags-search<ret>} -docstring "Goto symbol"
-map global goto ` %{<esc>:evaluate-commands "try 'buffer scratchpad' catch 'edit -scratch scratchpad'"<ret>} -docstring "Open the scratchpad"
 map global user q %{:write-all-quit<ret>} -docstring "Save and quit"
 map global user b %{:buffer } -docstring "Buffer"
 map global user d %{:delete-buffer<ret>} -docstring "Delete buffer"
@@ -43,16 +42,16 @@ map global user f %{:open } -docstring "Find a file"
 map global user / %{:grep } -docstring "Grep"
 map global user s %{:ctags-search } -docstring "Search symbol"
 map global user w :write<ret> -docstring "write the buffer to its file"
-map global user : %{:sh } -docstring "Run a shell cmd"
+map global user : %{:prompt 'sh: ' %{repl-send-text %exp{%val{text} <c-v><ret>} }<ret>} -docstring "Run a shell cmd"
 map global user m %{:make build<ret>} -docstring "Run make"
 map global user i %{:info -- %sh{ 2>&1}<a-B><left> } -docstring "Show a shell cmd output"
 map global object t %{c<lt>([\w.]+)\b[^>]*?(?<lt>!/)>,<lt>/([\w.]+)\b[^>]*?(?<lt>!/)><ret>} -docstring "xml tag objet"
 
 declare-user-mode git
 map global user g %{:enter-user-mode git<ret>} -docstring "Enter git mode"
-map global git : %{:sh git } -docstring "git command"
-map global git F %{:sh git pull origin %sh{git branch --show-current}<a-!>} -docstring "git pull"
-map global git P %{:sh git push origin @:refs/heads/%sh{git branch --show-current}<a-!>} -docstring "git push"
+map global git : %{:prompt 'git: ' %{repl-send-text %exp{git %val{text} <c-v><ret>}}<ret>} -docstring "git command"
+map global git F %{:prompt -init %exp{origin %sh{git branch --show-current}} 'git pull: ' %{repl-send-text %exp{git pull %val{text} <c-v><ret>}}<ret>} -docstring "git pull"
+map global git P %{:prompt -init %exp{origin @:refs/heads/%sh{git branch --show-current}} 'git push: ' %{repl-send-text %exp{git push %val{text} <c-v><ret>}}<ret>} -docstring "git push"
 map global git S %{:git show } -docstring "git show"
 map global git a %{:git add } -docstring "git add"
 map global git b %{:git blame<ret>} -docstring "git blame"
@@ -102,18 +101,6 @@ hook global BufSetOption filetype=kotlin %{
     # set-option buffer make_error_pattern '(?:e: file://)([^:\n]+):(\d+):(\d+)([^\n]+)?'
     set-option global make_error_pattern '(?:e: file://)([^:\n]+):(\d+):(\d+)([^\n]+)?'
 }
-hook global ModuleLoaded 'wezterm|tmux|zellij' %{
-    set-option global windowing_placement horizontal
-}
-hook global ModuleLoaded tmux %{
-    define-command -params 0..1 -docstring "Create a new client in the tools tmux session" tmux-new %{
-      nop %sh{
-        session="${1-tools}"
-        tmux has -t "$session" || tmux -d -s "$session"
-        tmux new-window -t "$session" kak -c "$kak_session"
-      }
-    }
-}
 hook global BufCreate '.*' %{ git show-diff }
 hook global BufWritePost '.*' %{ git update-diff }
 # lsp
@@ -153,19 +140,6 @@ define-command delete-buffers-match -docstring "Delete all buffers matching givi
     } delete-buffer
 }
 complete-command delete-buffers-match buffer
-
-define-command -params 1.. -docstring "run a shell command" sh %{
-    evaluate-commands -try-client %opt{toolsclient} %{
-        fifo -scroll -name "*shell*" -script %{
-            trap - INT QUIT
-            $kak_client_env_SHELL -c "eval $@"
-        } -- %arg{@}
-        rename-buffer "*shell* %arg{@} %sh{date +'%T'}"
-        set-option buffer filetype make
-        set-option buffer jump_current_line 0
-    }
-}
-complete-command sh shell
 
 define-command -params 1.. -docstring "open the given file" open %{ edit %arg{@} }
 complete-command open shell-script-candidates %{ fd -tf }
