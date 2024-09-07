@@ -134,6 +134,17 @@
           option_as_alt = "OnlyLeft";
           startup_mode = "Maximized";
         };
+        hints.enabled = [
+          {
+            action = "Copy";
+            hyperlinks = true;
+            post_processing = true;
+            persist = false;
+            mouse.enabled = true;
+            binding = { key = "U"; mods = "Control|Shift"; };
+            regex = ''(ipfs:|ipns:|magnet:|mailto:|gemini://|gopher://|https://|http://|news:|file:|git://|ssh:|ftp://)[^\u0000-\u001F\u007F-\u009F<>"\\s{-}\\^⟨⟩`]+'';
+          }
+        ];
       };
     };
   };
