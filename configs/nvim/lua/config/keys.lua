@@ -6,9 +6,8 @@ vim.keymap.set({ 'n', 'v' }, '<M-d>', '"_d', { desc = 'Delete without yanking' }
 vim.keymap.set({ 'n', 'v' }, '<M-c>', '"_c', { desc = 'Change without yanking' })
 
 -- terminal
-vim.keymap.set({ 'n', 'v' }, '<Leader>!', ':System ', { desc = 'Run a shell command' })
-vim.keymap.set({ 'n', 'v' }, '<Leader>::', ':terminal ', { desc = 'Run a shell command in terminal' })
-vim.keymap.set({ 'n', 'v' }, '<Leader>:n', '<Cmd>terminal nix run .<CR>', { desc = 'Nix run current directory' })
+vim.keymap.set({ 'n', 'v' }, '<Leader>:', ':System ', { desc = 'Run a shell command' })
+vim.keymap.set({ 'n', 'v' }, '<Leader>!', ':terminal ', { desc = 'Run a shell command in terminal' })
 
 -- Keybinds to make split navigation easier.
 --  Use CTRL+<hjkl> to switch between windows
@@ -18,17 +17,8 @@ vim.keymap.set({ 'n', 'v' }, '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the 
 vim.keymap.set({ 'n', 'v' }, '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
 -- buffer management
-vim.keymap.set({ 'n', 'v' }, '<Leader>bd', '<Cmd>bdelete<CR>', { desc = 'Delete buffer' })
-vim.keymap.set({ 'n', 'v' }, '<Leader>bf', '<Cmd>bfirst<CR>', { desc = 'First buffer' })
-vim.keymap.set({ 'n', 'v' }, '<Leader>bl', '<Cmd>blast<CR>', { desc = 'Last buffer' })
-vim.keymap.set({ 'n', 'v' }, '<Leader>bQ', '<Cmd>copen<CR>', { desc = 'Open quickfix' })
-vim.keymap.set({ 'n', 'v' }, '<Leader>bL', '<Cmd>lopen<CR>', { desc = 'Open location list' })
-vim.keymap.set({ 'n', 'v' }, '<Leader>bN', function ()
-  require('mini.notify').show_history()
-  vim.api.nvim_command('$')
-end, { desc = 'Open notification history' })
-vim.keymap.set({ 'n', 'v' }, '<Leader>b!', ':buffer term://*:<C-r>=getenv("SHELL")<CR><CR>', { desc = 'Goto the interactive terminal buffer' })
-vim.keymap.set({ 'n', 'v' }, '<Leader><Leader>', '<Cmd>buffers<CR>:buffer ', { desc = 'switch buffer' })
+vim.keymap.set({ 'n', 'v' }, '<Leader>d', '<Cmd>bdelete<CR>', { desc = 'Delete buffer' })
+vim.keymap.set({ 'n', 'v' }, '<Leader>b', '<Cmd>buffers<CR>:buffer ', { desc = 'switch buffer' })
 vim.keymap.set({ 'n', 'v' }, ']b', '<Cmd>bnext<CR>', { desc = 'Next buffer' })
 vim.keymap.set({ 'n', 'v' }, '[b', '<Cmd>bprevious<CR>', { desc = 'Previous buffer' })
 
@@ -41,7 +31,7 @@ vim.keymap.set({ 'n', 'v' }, '[l', '<Cmd>lprevious<CR>', { desc = 'Previous loca
 
 -- search
 vim.keymap.set({ 'n', 'v' }, '<Leader>/', ':grep ', { desc = 'Grep in files' })
-vim.keymap.set({ 'n', 'v' }, '<Leader>f', ':edit **/', { desc = 'Find a file' })
+vim.keymap.set({ 'n', 'v' }, '<Leader>f', ':Edit ', { desc = 'Find a file' })
 vim.keymap.set({ 'n', 'v' }, '<Leader>s', ":grep --no-line-number --no-column --no-filename '.*' <<< $(fd --type f )<Left>", { desc = 'Find files' })
 
 -- git

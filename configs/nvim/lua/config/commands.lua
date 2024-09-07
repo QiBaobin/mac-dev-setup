@@ -10,6 +10,19 @@ vim.api.nvim_create_user_command('System', function(opts)
   end)
 end, { bang = false, nargs = '+', complete = 'shellcmd' })
 
+-- edit with completion
+vim.api.nvim_create_user_command('Edit', function(opts)
+    vim.cmd.edit(vim.fn.expand(opts.args))
+  end,
+  {
+    nargs = 1,
+    complete = function(ArgLead)
+      -- list all files using fd
+      return vim.split(vim.system({"fd", "-tf", ArgLead}):wait().stdout, '\n')
+    end
+  }
+)
+
 -- Highlight when yanking (copying) text
 --  Try it with `yap` in normal mode
 --  See `:help vim.highlight.on_yank()`
