@@ -38,20 +38,21 @@ map global user q %{:write-all-quit<ret>} -docstring "Save and quit"
 map global user b %{:buffer } -docstring "Buffer"
 map global user d %{:delete-buffer<ret>} -docstring "Delete buffer"
 map global user D %{:delete-buffers-match } -docstring "Delete buffers"
-map global user f %{:open } -docstring "Find a file"
+map global user f %{:prompt -shell-script-candidates %{ fd -tf } 'edit ' %{ edit %val{text} }<ret>} -docstring "Find a file to edit"
 map global user / %{:grep } -docstring "Grep"
 map global user s %{:ctags-search } -docstring "Search symbol"
+map global user r %{:repl-send-text %exp{<c-v><ret>}<c-b><c-b>} -docstring "Send text to repl"
 map global user w :write<ret> -docstring "write the buffer to its file"
-map global user : %{:prompt 'sh: ' %{repl-send-text %exp{%val{text} <c-v><ret>} }<ret>} -docstring "Run a shell cmd"
+map global user : %{:fifo -name %exp{*sh*%sh{date +'%T'}} -scroll } -docstring "Run a shell cmd"
 map global user m %{:make build<ret>} -docstring "Run make"
 map global user i %{:info -- %sh{ 2>&1}<a-B><left> } -docstring "Show a shell cmd output"
 map global object t %{c<lt>([\w.]+)\b[^>]*?(?<lt>!/)>,<lt>/([\w.]+)\b[^>]*?(?<lt>!/)><ret>} -docstring "xml tag objet"
 
 declare-user-mode git
 map global user g %{:enter-user-mode git<ret>} -docstring "Enter git mode"
-map global git : %{:prompt 'git: ' %{repl-send-text %exp{git %val{text} <c-v><ret>}}<ret>} -docstring "git command"
-map global git F %{:prompt -init %exp{origin %sh{git branch --show-current}} 'git pull: ' %{repl-send-text %exp{git pull %val{text} <c-v><ret>}}<ret>} -docstring "git pull"
-map global git P %{:prompt -init %exp{origin @:refs/heads/%sh{git branch --show-current}} 'git push: ' %{repl-send-text %exp{git push %val{text} <c-v><ret>}}<ret>} -docstring "git push"
+map global git : %{:fifo -name *git* git } -docstring "git command"
+map global git F %{:fifo -name *git* git pull origin %sh{git branch --show-current}<a-!>} -docstring "git pull"
+map global git P %{:fifo -name *git* git push origin @:refs/heads/%sh{git branch --show-current}<a-!>} -docstring "git push"
 map global git S %{:git show } -docstring "git show"
 map global git a %{:git add } -docstring "git add"
 map global git b %{:git blame<ret>} -docstring "git blame"
@@ -92,14 +93,9 @@ hook global BufSetOption filetype=zig %{
     # use global options to simpify workflow, don't use one session for mulitple projects
     set-option global makecmd 'zig'
     set-option global lintcmd 'zig fmt --check'
-    set-option global make_error_pattern "^(?:\w:)?([^:\n]+):(\d+):(?:(\d+):)? (?:fatal )?error:([^\n]+)?"
 }
 hook global BufSetOption filetype=kotlin %{
     set-option buffer formatcmd 'java -jar ~/bin/ktfmt.jar -'
-    set-option global makecmd 'abt -s @'
-    set-option global lintcmd 'abt -s @ check'
-    # set-option buffer make_error_pattern '(?:e: file://)([^:\n]+):(\d+):(\d+)([^\n]+)?'
-    set-option global make_error_pattern '(?:e: file://)([^:\n]+):(\d+):(\d+)([^\n]+)?'
 }
 hook global BufCreate '.*' %{ git show-diff }
 hook global BufWritePost '.*' %{ git update-diff }
@@ -127,6 +123,8 @@ hook global BufSetOption filetype=(zig|rust|python|nix|kotlin) %{
     map buffer object d "<a-semicolon>lsp-diagnostic-object --include-warnings<ret>" -docstring "LSP errors and warnings"
     map buffer object D "<a-semicolon>lsp-diagnostic-object<ret>" -docstring "LSP errors"
 }
+# use fifo for repl before a terminal setup
+alias global repl-send-text fifo
 
 # Commands
 # ─────────────────────────
@@ -141,9 +139,6 @@ define-command delete-buffers-match -docstring "Delete all buffers matching givi
 }
 complete-command delete-buffers-match buffer
 
-define-command -params 1.. -docstring "open the given file" open %{ edit %arg{@} }
-complete-command open shell-script-candidates %{ fd -tf }
-define-command -params 1.. -docstring "find files" fd %{ sh fd -tf %arg{@} }
 define-command -params .. -docstring "find files interactively" sk %{
     set local windowing_placement vertical
     terminal %val{client_env_SHELL} -c %exp{ cd %val{client_env_PWD} && sk -m  -c 'fd -tf %arg{@}' | rg -r 'eval -verbatim -try-client %val{client} edit "$0"' '.*' | kak -p %val{session} }
