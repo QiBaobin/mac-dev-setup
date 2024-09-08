@@ -94,6 +94,11 @@ return { -- Collection of various small independent plugins/modules
         miniclue.gen_clues.windows(),
         miniclue.gen_clues.z(),
       },
+      window = {
+        config = {
+          width = 'auto',
+        },
+      };
     })
   end,
 }
