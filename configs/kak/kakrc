@@ -38,7 +38,7 @@ map global user q %{:write-all-quit<ret>} -docstring "Save and quit"
 map global user b %{:buffer } -docstring "Buffer"
 map global user d %{:delete-buffer<ret>} -docstring "Delete buffer"
 map global user D %{:delete-buffers-match } -docstring "Delete buffers"
-map global user f %{:prompt -shell-script-candidates %{ fd -tf } 'edit ' %{ edit %val{text} }<ret>} -docstring "Find a file to edit"
+map global user f %{:fd -tf } -docstring "Find a file to edit"
 map global user / %{:grep } -docstring "Grep"
 map global user s %{:ctags-search } -docstring "Search symbol"
 map global user r %{:repl-send-text %exp{<c-v><ret>}<c-b><c-b>} -docstring "Send text to repl"
@@ -128,6 +128,12 @@ hook global BufSetOption filetype=(zig|rust|python|nix|kotlin) %{
 # ─────────────────────────
 define-command mkdir -docstring "" -params .. %{ echo %sh{ mkdir -pv ${@-$(dirname $kak_buffile)} } }
 complete-command mkdir file
+
+define-command fd -docstring "Find a file to edit" -params 1.. %{
+  edit %sh{ printf %s "${@: -1}" }
+}
+complete-command fd shell-script-candidates %{ fd $@ }
+
 define-command delete-buffers-match -docstring "Delete all buffers matching giving pattern" -params 1 %{
     evaluate-commands -buffer %sh{
         pattern="$1"; eval set -- "$kak_quoted_buflist"
