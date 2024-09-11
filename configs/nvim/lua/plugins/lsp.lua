@@ -69,6 +69,7 @@ return {
       zls = {},
       rust_analyzer = {},
       nil_ls = {},
+      pyright = {},
       lua_ls = {
         settings = {
           Lua = {
