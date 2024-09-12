@@ -97,8 +97,8 @@ hook global BufSetOption filetype=zig %{
 hook global BufSetOption filetype=kotlin %{
     set-option buffer formatcmd 'java -jar ~/bin/ktfmt.jar -'
 }
-hook global BufCreate '.*' %{ git show-diff }
-hook global BufWritePost '.*' %{ git update-diff }
+hook global BufCreate '^[^*].*[^*]$' %{ git show-diff }
+hook global BufWritePost '^[^*].*[^*]$' %{ git update-diff }
 # lsp
 declare-option -hidden int lsp_status 0
 hook global WinSetOption filetype=(zig|rust|python|nix|kotlin) %{

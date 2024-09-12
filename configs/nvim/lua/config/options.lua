@@ -83,7 +83,7 @@ vim.opt.tabstop = 2
 vim.opt.expandtab = true
 
 -- wildmode
-vim.opt.wildmode = 'longest:full,full'
+vim.opt.wildmode = 'list:longest,full'
 
 -- grep, support only file names
 vim.opt.grepformat = "%f:%l:%c:%m,%f"
