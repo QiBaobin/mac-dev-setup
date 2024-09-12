@@ -30,7 +30,7 @@ vim.keymap.set({ 'n', 'v' }, ']l', '<Cmd>lnext<CR>', { desc = 'Next location lis
 vim.keymap.set({ 'n', 'v' }, '[l', '<Cmd>lprevious<CR>', { desc = 'Previous location list item' })
 
 -- search
-vim.keymap.set({ 'n', 'v' }, '<Leader>/', ':grep ', { desc = 'Grep in files' })
+vim.keymap.set({ 'n', 'v' }, '<Leader>/', ':System! rg --vimgrep -uu ', { desc = 'Grep in files' })
 vim.keymap.set({ 'n', 'v' }, '<Leader>f', ':Edit ', { desc = 'Find a file' })
 vim.keymap.set({ 'n', 'v' }, '<Leader>s', ":grep --no-line-number --no-column --no-filename '.*' <<< $(fd --type f )<Left>", { desc = 'Find files' })
 

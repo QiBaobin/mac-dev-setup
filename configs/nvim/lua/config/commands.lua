@@ -2,13 +2,20 @@
 vim.api.nvim_create_user_command('System', function(opts)
   vim.system(opts.fargs, { text = true }, function(data)
     local output = opts.args .. '\n\n' .. '' .. data.stdout
-    if data.code ~= 0 then
-      vim.notify(output .. '\nFinished with errors! code: ' .. data.code .. '\n' .. data.stderr, vim.log.levels.ERROR)
+    if opts.bang then
+      vim.schedule(function()
+        vim.fn.setqflist({}, 'r', { title = opts.args, lines = vim.split(data.stdout .. data.stderr, '\n') })
+        vim.cmd.copen()
+      end)
     else
-      vim.notify(output, vim.log.levels.INFO)
+      if data.code ~= 0 then
+        vim.notify(output .. '\nFinished with errors! code: ' .. data.code .. '\n' .. data.stderr, vim.log.levels.ERROR)
+      else
+        vim.notify(output, vim.log.levels.INFO)
+      end
     end
   end)
-end, { bang = false, nargs = '+', complete = 'shellcmd' })
+end, { bang = true, nargs = '+', complete = 'shellcmd' })
 
 -- edit with completion
 vim.api.nvim_create_user_command('Edit', function(opts)
