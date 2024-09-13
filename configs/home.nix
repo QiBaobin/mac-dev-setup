@@ -35,6 +35,7 @@
       "!!" = "fc -ln -1";
       choose-theme = ''ls "${pkgs.alacritty-theme}" | sk | awk '{system("ln -sf \"" "${pkgs.alacritty-theme}/" $0 "\" ~/.config/alacritty/local.toml")}' '';
       nix-locate = "nix run github:nix-community/nix-index-database bin/";
+      direnv-init = "nix flake init --template github:nix-community/nix-direnv";
       devenv-init = "nix flake init --template github:cachix/devenv#flake-parts";
     };
 
