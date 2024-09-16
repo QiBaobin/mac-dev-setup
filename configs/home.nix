@@ -22,7 +22,7 @@
       universal-ctags
       util-linuxMinimal
       zsh-powerlevel10k
-    ] ++ (if stdenv.isDarwin then [ skhd yabai ] else  []);
+    ] ++ (if stdenv.isDarwin then [] else  []);
 
     shellAliases = {
       gs = "git status";
