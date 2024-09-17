@@ -40,6 +40,7 @@
     };
 
     sessionVariables = {
+      LANG = "en_US.UTF-8";
       PATH = "$PATH:$HOME/homebrew/bin";
       EDITOR = "kak";
       HOMEBREW_CASK_OPTS = "--appdir=$HOME/Applications";
