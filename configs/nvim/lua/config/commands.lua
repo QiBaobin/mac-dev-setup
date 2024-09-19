@@ -63,3 +63,9 @@ vim.api.nvim_create_autocmd("BufReadPost", {
     end
   end,
 })
+-- put cursor on the last line
+vim.api.nvim_create_autocmd("TermOpen", {
+  callback = function()
+    vim.api.nvim_win_set_cursor(0, {vim.api.nvim_buf_line_count(0), 0})
+  end
+})
