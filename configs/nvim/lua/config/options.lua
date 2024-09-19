@@ -88,3 +88,5 @@ vim.opt.wildmode = 'list:longest,full'
 -- grep, support only file names
 vim.opt.grepformat = "%f:%l:%c:%m,%f"
 
+-- completeopt, support fuzzy match in insert mode
+vim.opt.completeopt = 'fuzzy,menu,preview'
