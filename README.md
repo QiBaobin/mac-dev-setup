@@ -4,6 +4,7 @@ scripts to setup my mac development enviroment
 ## List
 
 ### Text Editor
+[Neovim](https://github.com/neovim/neovim)
 [kakoune](https://github.com/mawww/kakoune)
 [config](https://github.com/QiBaobin/mac-dev-setup/blob/master/configs/kak/kakrc)
 [Philosophy](http://kakoune.org/why-kakoune/why-kakoune.html)
@@ -51,9 +52,9 @@ scripts to setup my mac development enviroment
 - [Fira Code](https://github.com/tonsky/FiraCode)
 
 ### Web browser extensions
-- Chrome keyborad enhencement [Surfingkeys](https://github.com/brookhong/Surfingkeys)
+- Chrome keyborad enhencement [vimium-c](https://github.com/gdh1995/vimium-c)
 - Firefox vim interface [tridactyl](https://github.com/tridactyl/tridactyl)
-- Ad blocker [adblock plus](https://adblockplus.org/)
+- Ad blocker [uBlock](https://github.com/gorhill/uBlock)
 
 ## Development enviroments
 ### Nix
@@ -66,12 +67,6 @@ curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix 
 ```
 #### Setup proxy [optional]
 Add http_proxy and https_proxy in /Library/LaunchDaemons/org.nixos.nix-daemon.plist
-
-### Hermit
-[hermit](https://github.com/cashapp/hermit)
-```sh
-curl -fsSL https://github.com/cashapp/hermit/releases/download/stable/install.sh | /bin/bash
-```
 
 ## Install
 
