@@ -1,25 +1,3 @@
--- Execute a shell command and notify the output
-vim.api.nvim_create_user_command('System', function(opts)
-  vim.system(opts.fargs, { text = true }, function(data)
-    local output = '' .. data.stdout
-    if data.code ~= 0 then
-      output = output .. '\nFinished with errors! code: ' .. data.code .. '\n' .. data.stderr
-    end
-    if opts.bang then
-      vim.schedule(function()
-        vim.fn.setqflist({}, 'r', { title = opts.args, lines = vim.split(output, '\n', {trimempty = true}) })
-        vim.cmd.copen()
-      end)
-    else
-      if data.code ~= 0 then
-        vim.notify(opts.args .. '\n\n' .. '' .. output, vim.log.levels.ERROR)
-      else
-        vim.notify(output, vim.log.levels.INFO)
-      end
-    end
-  end)
-end, { bang = true, nargs = '+', complete = 'shellcmd' })
-
 -- edit with completion
 vim.api.nvim_create_user_command('Edit', function(opts)
     vim.cmd.edit(vim.fn.expand(opts.args))

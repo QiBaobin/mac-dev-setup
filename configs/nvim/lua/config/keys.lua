@@ -1,12 +1,7 @@
 -- Clear highlights on search when pressing <Esc> in normal mode
 vim.keymap.set('n', '<Esc>', '<Cmd>nohlsearch<CR>')
 
--- register related bindings
-vim.keymap.set({ 'n', 'v' }, '<M-d>', '"_d', { desc = 'Delete without yanking' })
-vim.keymap.set({ 'n', 'v' }, '<M-c>', '"_c', { desc = 'Change without yanking' })
-
 -- terminal
-vim.keymap.set({ 'n', 'v' }, '<Leader>:', ':System ', { desc = 'Run a shell command' })
 vim.keymap.set({ 'n', 'v' }, '<Leader>!', ':terminal ', { desc = 'Run a shell command in terminal' })
 
 -- Keybinds to make split navigation easier.
@@ -31,21 +26,9 @@ vim.keymap.set({ 'n', 'v' }, '[l', '<Cmd>lprevious<CR>', { desc = 'Previous loca
 
 -- search
 vim.keymap.set({ 'n', 'v' }, '<Leader>/', ':terminal rg --vimgrep -uu ', { desc = 'Grep in files' })
-vim.keymap.set({ 'n', 'v' }, '<Leader>q', '<Cmd>cexpr getline("0", "$")<CR>:copen<CR>', { desc = 'Create quickfix list using current buffer' })
+vim.keymap.set({ 'n', 'v' }, '<Leader>q', '<Cmd>cexpr getline("\'<", "\'>")<CR>:copen<CR>', { desc = 'Create quickfix list using current range' })
 vim.keymap.set({ 'n', 'v' }, '<Leader>f', ':Edit ', { desc = 'Find a file' })
 vim.keymap.set({ 'n', 'v' }, '<Leader>s', ":grep --no-line-number --no-column --no-filename '.*' <<< $(fd --type f )<Left>", { desc = 'Find files' })
-
--- git
-vim.keymap.set({ 'n', 'v' }, '<Leader>gs', '<Cmd>System git status<CR>', { desc = 'Git status' })
-vim.keymap.set({ 'n', 'v' }, '<Leader>ga', '<Cmd>System git add -A<CR>', { desc = 'Git add' })
-vim.keymap.set({ 'n', 'v' }, '<Leader>gc', ':<C-u>System git commit ', { desc = 'Git commit' })
-vim.keymap.set({ 'n', 'v' }, '<Leader>gC', ':<C-u>System git checkout ', { desc = 'Git checkout' })
-vim.keymap.set({ 'n', 'v' }, '<Leader>gr', ':<C-u>System git reset --hard ', { desc = 'Git reset' })
-vim.keymap.set({ 'n', 'v' }, '<Leader>gf', ':<C-u>System git fetch origin ', { desc = 'Git fetch' })
-vim.keymap.set({ 'n', 'v' }, '<Leader>gp', ':<C-u>System git push origin ', { desc = 'Git push' })
-vim.keymap.set({ 'n', 'v' }, '<Leader>gP', ':<C-u>System git pull origin ', { desc = 'Git pull' })
-vim.keymap.set({ 'n', 'v' }, '<Leader>g:', ':<C-u>System git ', { desc = 'Git command' })
-vim.keymap.set({ 'n', 'v' }, '<Leader>g!', ':<C-u>terminal git ', { desc = 'Git command in a new buffer' })
 
 -- command mode bindings
 vim.keymap.set('c', '<C-k>', '<Up>')
