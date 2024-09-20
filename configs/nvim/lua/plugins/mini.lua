@@ -2,6 +2,11 @@ return { -- Collection of various small independent plugins/modules
   'echasnovski/mini.nvim',
   event = 'VimEnter',
   config = function()
+    require('mini.cursorword').setup()
+    require('mini.indentscope').setup()
+    require('mini.icons').setup()
+    require('mini.completion').setup({ set_vim_settings = false })
+
     -- Better Around/Inside textobjects
     --
     -- Examples:
@@ -31,11 +36,6 @@ return { -- Collection of various small independent plugins/modules
     statusline.section_location = function()
       return '%2l:%-2v'
     end
-
-    require('mini.cursorword').setup()
-    require('mini.indentscope').setup()
-    require('mini.icons').setup()
-    require('mini.completion').setup({ set_vim_settings = false })
 
     local notify = require('mini.notify')
     notify.setup()

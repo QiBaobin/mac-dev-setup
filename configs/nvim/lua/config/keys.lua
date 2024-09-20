@@ -28,6 +28,10 @@ vim.keymap.set({ 'n', 'v' }, '[q', '<Cmd>cprevious<CR>', { desc = 'Previous quic
 vim.keymap.set({ 'n', 'v' }, ']l', '<Cmd>lnext<CR>', { desc = 'Next location list item' })
 vim.keymap.set({ 'n', 'v' }, '[l', '<Cmd>lprevious<CR>', { desc = 'Previous location list item' })
 
+-- space line
+vim.keymap.set({ 'n' }, '] ', "<Cmd>call append(line('.'), repeat([''], v:count1))<CR>", { desc = 'Add a space line below' })
+vim.keymap.set({ 'n' }, '[ ', "<Cmd>call append(line('.') - 1, repeat([''], v:count1))<CR>", { desc = 'Add a space line above' })
+
 -- search
 vim.keymap.set({ 'n', 'v' }, '<Leader>/', ':terminal rg --vimgrep -uu ', { desc = 'Grep in files' })
 vim.keymap.set({ 'n', 'v' }, '<Leader>q', '<Cmd>cexpr getline("\'<", "\'>")<CR>:copen<CR>', { desc = 'Create quickfix list using current range' })

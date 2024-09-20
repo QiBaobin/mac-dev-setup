@@ -20,18 +20,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     vim.highlight.on_yank()
   end,
 })
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = { 'kt', 'kts', 'gradle' },
-  callback = function()
-    vim.opt_local.makeprg = 'abt -s @'
-  end,
-})
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'nix',
-  callback = function()
-    vim.opt_local.makeprg = 'nix'
-  end,
-})
+
 -- jump to last position
 vim.api.nvim_create_autocmd("BufReadPost", {
   callback = function()
