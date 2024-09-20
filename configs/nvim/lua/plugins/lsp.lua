@@ -4,7 +4,6 @@ return {
   dependencies = {
     -- Automatically install LSPs and related tools to stdpath for Neovim
     { 'williamboman/mason.nvim', config = true }, -- NOTE: Must be loaded before dependants
-    'williamboman/mason-lspconfig.nvim',
   },
   config = function()
     --  This function gets run when an LSP attaches to a particular buffer.
