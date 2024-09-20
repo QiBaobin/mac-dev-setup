@@ -34,6 +34,8 @@ return { -- Collection of various small independent plugins/modules
 
     require('mini.cursorword').setup()
     require('mini.indentscope').setup()
+    require('mini.icons').setup()
+    require('mini.completion').setup({ set_vim_settings = false })
 
     local notify = require('mini.notify')
     notify.setup()

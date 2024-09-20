@@ -21,7 +21,7 @@ return {
         local client = vim.lsp.get_client_by_id(args.data.client_id)
         if client and client.supports_method('textDocument/completion') and vim.lsp.completion then
           -- Enable auto-completion
-          vim.lsp.completion.enable(true, client.id, args.buf, {autotrigger = true})
+          vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = false })
         end
 
         map('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
