@@ -24,38 +24,16 @@ return {
           vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = false })
         end
 
-        map('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
-        if client and client.supports_method('textDocument/references') then
-          map('gr', vim.lsp.buf.references, '[G]oto [R]eferences')
-        end
         if client and client.supports_method('textDocument/implementation') then
           map('gI', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
         end
         if client and client.supports_method('textDocument/declaration') then
           map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
         end
-        if client and client.supports_method('textDocument/hover') then
-          map('K', vim.lsp.buf.hover, 'Hover Documentation')
-        end
         if client and client.supports_method('textDocument/codeLens') then
-          map('<Leader>cl', vim.lsp.buf.code_lens, 'Code[l]ens')
+          map('grl', vim.lsp.buf.code_lens, 'Code[l]ens')
         end
         map('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
-        map('<Leader>cr', vim.lsp.buf.rename, '[R]ename')
-        map('<Leader>ca', vim.lsp.buf.code_action, 'Code [A]ction')
-        if client and client.supports_method('textDocument/formatting') then
-          map('<Leader>cf', vim.lsp.buf.format, '[F]ormat [F]ile')
-        end
-
-        -- The following code creates a keymap to toggle inlay hints in your
-        -- code, if the language server you are using supports them
-        --
-        -- This may be unwanted, since they displace some of your code
-        if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
-          map('<leader>th', function()
-            vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = args.buf })
-          end, '[T]oggle Inlay [H]ints')
-        end
       end,
     })
 

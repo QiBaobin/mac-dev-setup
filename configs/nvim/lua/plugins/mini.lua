@@ -3,7 +3,9 @@ return { -- Collection of various small independent plugins/modules
   event = 'VimEnter',
   config = function()
     require('mini.cursorword').setup()
-    require('mini.indentscope').setup()
+    require('mini.indentscope').setup({
+      mappings = {}
+    })
     require('mini.icons').setup()
     require('mini.completion').setup({ set_vim_settings = false })
 
