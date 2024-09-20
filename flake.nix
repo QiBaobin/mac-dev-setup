@@ -39,13 +39,11 @@
               programs.alacritty.settings.import = [ "\$HOME/.config/alacritty/local.toml" ];
             }
             EOF
-            cat <<EOF > "proxy.nix"
+            cat <<EOF > "env.nix"
             { ... }:
             {
               home.sessionVariables = {
-                no_proxy = "\$no_proxy";
-                http_proxy = "\$http_proxy";
-                https_proxy = "\$https_proxy";
+                \$(env | grep -i 'proxy\|api_key' | sed -e 's/=\(.*\)/ = "\1";/')
               };
             }
             EOF

@@ -104,7 +104,7 @@
       delta.enable = true;
       userName = "Bob Qi";
       userEmail = "devup@qq.com";
-      ignores = [ "tags" ".direnv" ".kak*" ".envrc" ];
+      ignores = [ "tags" ".direnv" ".kak*" ".envrc" ".aider*" ];
       includes = [
         {
           condition = "gitdir:~/work/";
