@@ -17,6 +17,10 @@ vim.keymap.set({ 'n', 'v' }, '<Leader>b', '<Cmd>buffers<CR>:buffer ', { desc = '
 vim.keymap.set({ 'n', 'v' }, ']b', '<Cmd>bnext<CR>', { desc = 'Next buffer' })
 vim.keymap.set({ 'n', 'v' }, '[b', '<Cmd>bprevious<CR>', { desc = 'Previous buffer' })
 
+-- tab management
+vim.keymap.set({ 'n', 'v' }, ']t', '<Cmd>tabnext<CR>', { desc = 'Next tab' })
+vim.keymap.set({ 'n', 'v' }, '[t', '<Cmd>tabprevious<CR>', { desc = 'Previous tab' })
+
 -- quickfix
 vim.keymap.set({ 'n', 'v' }, ']q', '<Cmd>cnext<CR>', { desc = 'Next quickfix item' })
 vim.keymap.set({ 'n', 'v' }, '[q', '<Cmd>cprevious<CR>', { desc = 'Previous quickfix item' })
