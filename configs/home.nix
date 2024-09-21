@@ -61,8 +61,9 @@
       keyMode = "vi";
       shortcut = "space";
       shell = "${pkgs.zsh}/bin/zsh";
-      terminal = "tmux-256color";
       extraConfig = ''
+        # Undercurl
+        set -g default-terminal "$TERM"
         set-option -a terminal-features 'xterm-256color:RGB'
         set -g renumber-windows on
         set -g set-titles on
