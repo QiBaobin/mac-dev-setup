@@ -25,6 +25,7 @@
     ] ++ (if stdenv.isDarwin then [] else  []);
 
     shellAliases = {
+      v = "nvim";
       gs = "git status";
       ga = "git add";
       gc = "git commit";
