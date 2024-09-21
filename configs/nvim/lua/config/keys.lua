@@ -4,6 +4,11 @@ vim.keymap.set('n', '<Esc>', '<Cmd>nohlsearch<CR>')
 -- terminal
 vim.keymap.set({ 'n', 'v' }, '<Leader>!', ':terminal ', { desc = 'Run a shell command in terminal' })
 
+-- common shortcuts
+vim.keymap.set({ 'n', 'v' }, '<Leader>w', '<Cmd>write<CR>', { desc = 'Save to file' })
+vim.keymap.set({ 'n', 'v' }, '<Leader>q', '<Cmd>quit<CR>', { desc = 'Quit' })
+vim.keymap.set({ 'n', 'v' }, '<Leader>Q', '<Cmd>quit!<CR>', { desc = 'Force quit' })
+
 -- Keybinds to make split navigation easier.
 --  Use CTRL+<hjkl> to switch between windows
 vim.keymap.set({ 'n', 'v' }, '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
@@ -16,10 +21,6 @@ vim.keymap.set({ 'n', 'v' }, '<Leader>d', '<Cmd>bdelete<CR>', { desc = 'Delete b
 vim.keymap.set({ 'n', 'v' }, '<Leader>b', '<Cmd>buffers<CR>:buffer ', { desc = 'switch buffer' })
 vim.keymap.set({ 'n', 'v' }, ']b', '<Cmd>bnext<CR>', { desc = 'Next buffer' })
 vim.keymap.set({ 'n', 'v' }, '[b', '<Cmd>bprevious<CR>', { desc = 'Previous buffer' })
-
--- tab management
-vim.keymap.set({ 'n', 'v' }, ']t', '<Cmd>tabnext<CR>', { desc = 'Next tab' })
-vim.keymap.set({ 'n', 'v' }, '[t', '<Cmd>tabprevious<CR>', { desc = 'Previous tab' })
 
 -- quickfix
 vim.keymap.set({ 'n', 'v' }, ']q', '<Cmd>cnext<CR>', { desc = 'Next quickfix item' })
@@ -34,7 +35,6 @@ vim.keymap.set({ 'n' }, '[ ', "<Cmd>call append(line('.') - 1, repeat([''], v:co
 
 -- search
 vim.keymap.set({ 'n', 'v' }, '<Leader>/', ':terminal rg --vimgrep -uu ', { desc = 'Grep in files' })
-vim.keymap.set({ 'n', 'v' }, '<Leader>q', '<Cmd>cexpr getline("\'<", "\'>")<CR>:copen<CR>', { desc = 'Create quickfix list using current range' })
 vim.keymap.set({ 'n', 'v' }, '<Leader>f', ':Edit ', { desc = 'Find a file' })
 vim.keymap.set({ 'n', 'v' }, '<Leader>s', ":grep --no-line-number --no-column --no-filename '.*' <<< $(fd --type f )<Left>", { desc = 'Find files' })
 

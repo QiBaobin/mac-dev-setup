@@ -10,7 +10,6 @@
       aspellDicts.en
       aspellDicts.en-computers
       gawk
-      gh
       gnused
       neovim
       nerdfonts
@@ -18,7 +17,6 @@
       kakoune
       kakoune-lsp
       nil
-      parallel
       universal-ctags
       util-linuxMinimal
       zsh-powerlevel10k
