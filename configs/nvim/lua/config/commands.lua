@@ -1,12 +1,12 @@
 -- edit with completion
 vim.api.nvim_create_user_command('Edit', function(opts)
-    vim.cmd.edit(vim.fn.expand(opts.args))
+    vim.cmd.edit(vim.fn.expand(opts.fargs[#opts.fargs]))
   end,
   {
-    nargs = 1,
-    complete = function(ArgLead)
+    nargs = '+',
+    complete = function(_, CmdLine)
       -- list all files using fd
-      return vim.split(vim.system({"fd", "-tf", ArgLead}):wait().stdout, '\n')
+      return vim.split(vim.system({"sh", "-c", string.gsub(CmdLine, 'Edit', 'fd -tf', 1)}):wait().stdout, '\n')
     end
   }
 )
