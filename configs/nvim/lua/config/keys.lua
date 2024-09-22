@@ -4,11 +4,6 @@ vim.keymap.set('n', '<Esc>', '<Cmd>nohlsearch<CR>')
 -- terminal
 vim.keymap.set({ 'n', 'v' }, '<Leader>!', ':terminal ', { desc = 'Run a shell command in terminal' })
 
--- common shortcuts
-vim.keymap.set({ 'n', 'v' }, '<Leader>w', '<Cmd>write<CR>', { desc = 'Save to file' })
-vim.keymap.set({ 'n', 'v' }, '<Leader>q', '<Cmd>quit<CR>', { desc = 'Quit' })
-vim.keymap.set({ 'n', 'v' }, '<Leader>Q', '<Cmd>quit!<CR>', { desc = 'Force quit' })
-
 -- Keybinds to make split navigation easier.
 --  Use CTRL+<hjkl> to switch between windows
 vim.keymap.set({ 'n', 'v' }, '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
