@@ -60,7 +60,6 @@
       shortcut = "space";
       shell = "${pkgs.zsh}/bin/zsh";
       extraConfig = ''
-        # Undercurl
         set -g default-terminal "$TERM"
         set-option -a terminal-features 'xterm-256color:RGB'
         set -g renumber-windows on

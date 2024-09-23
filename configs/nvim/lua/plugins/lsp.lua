@@ -61,8 +61,5 @@ return {
       server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
       lspconfig[name].setup(server)
     end
-
-    -- setup mason so that we can use it later
-    require('mason').setup()
   end,
 }
