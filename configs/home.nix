@@ -9,13 +9,12 @@
       aspell
       aspellDicts.en
       aspellDicts.en-computers
+      btop
       gawk
       gnused
       neovim
       nerdfonts
       jq
-      kakoune
-      kakoune-lsp
       nil
       universal-ctags
       util-linuxMinimal

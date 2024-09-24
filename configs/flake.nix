@@ -17,17 +17,7 @@
 
   outputs = { nixpkgs, flake-utils, home-manager, neovim-nightly-overlay, ... }:
     let
-      overlays  = [(self: super: {
-        kakoune-unwrapped = super.kakoune-unwrapped.overrideAttrs(old: {
-          version = "master";
-          src = super.fetchFromGitHub {
-            owner = "mawww";
-            repo = "kakoune";
-            rev = "c1ce1d70146dd4b3cda76adc98bfac90da55d18c";
-            sha256 = "sha256-BrS59vWXJggmr3Nq4ZZ/ngssnxxUgjUjQfdTxxR5eKo=";
-          };
-        });
-      }) neovim-nightly-overlay.overlays.default];
+      overlays  = [ neovim-nightly-overlay.overlays.default ];
     in
       flake-utils.lib.eachDefaultSystem (system:
         let
