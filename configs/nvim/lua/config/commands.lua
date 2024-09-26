@@ -11,26 +11,6 @@ vim.api.nvim_create_user_command('Edit', function(opts)
   }
 )
 
--- buffer switch
-vim.api.nvim_create_user_command('Buffer', function(opts)
-    vim.cmd.edit(vim.fn.expand(opts.fargs[#opts.fargs]))
-  end,
-  {
-    nargs = '+',
-    complete = function(ArgLead)
-      local buffers = vim.api.nvim_list_bufs()
-      local buffer_names = {}
-      for _, buf in ipairs(buffers) do
-        local name = buf .. ' ' .. vim.api.nvim_buf_get_name(buf)
-        if name:match(ArgLead) then
-          table.insert(buffer_names, name)
-        end
-      end
-      return buffer_names
-    end
-  }
-)
-
 -- Highlight when yanking (copying) text
 --  Try it with `yap` in normal mode
 --  See `:help vim.highlight.on_yank()`
