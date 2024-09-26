@@ -13,10 +13,10 @@ vim.api.nvim_create_user_command('Edit', function(opts)
 
 -- buffer switch
 vim.api.nvim_create_user_command('Buffer', function(opts)
-    vim.cmd.edit(opts.args)
+    vim.cmd.edit(vim.fn.expand(opts.fargs[#opts.fargs]))
   end,
   {
-    nargs = 1,
+    nargs = '+',
     complete = function(ArgLead)
       local buffers = vim.api.nvim_list_bufs()
       local buffer_names = {}
