@@ -92,8 +92,6 @@
         bindkey "^n" history-search-forward
         bindkey "^Q" push-input
         zstyle ':completion:*' completer _expand_alias _complete _ignored
-        autoload -Uz compinit; compinit;
-        bindkey "^Xa" _expand_alias
 
         source "${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme"
         for f in "$HOME/.config/zsh"/{,.}*.zsh; do
