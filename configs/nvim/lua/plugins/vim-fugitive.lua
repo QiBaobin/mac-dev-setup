@@ -1,6 +1,6 @@
 return {
   "tpope/vim-fugitive",
-  command = { "Git", "G" },
+  cmd = { "Git", "G" },
   keys = {
     { "<leader>gs", "<Cmd>Git<CR>", desc = "Git status" },
     { "<leader>ga", "<Cmd>Git add -A<CR>", desc = "Git add all files" },
