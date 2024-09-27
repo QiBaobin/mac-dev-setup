@@ -2,7 +2,7 @@ return {
   {
     'akinsho/toggleterm.nvim',
     version = "*",
-    opts = {},
+    opts = { direction = 'tab', },
     cmd = { "ToggleTerm", "ToggleTermToggleAll" },
     keys = {
       { "<Leader>t", "<Cmd>ToggleTerm<CR>", desc = "Toggle terminal" },
