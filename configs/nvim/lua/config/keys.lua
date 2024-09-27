@@ -12,6 +12,8 @@ vim.keymap.set({ 'n', 'v' }, '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the 
 vim.keymap.set({ 'n', 'v' }, '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
 -- buffer management
+vim.keymap.set({ 'n', 'v' }, '<Leader>b', '<Cmd>ls<CR>:buffer ', { desc = 'Goto buffer' })
+vim.keymap.set({ 'n', 'v' }, '<Leader>B', '<Cmd>ls!<CR>:buffer ', { desc = 'Goto buffer' })
 vim.keymap.set({ 'n', 'v' }, '<Leader>d', '<Cmd>bdelete<CR>', { desc = 'Delete buffer' })
 vim.keymap.set({ 'n', 'v' }, ']b', '<Cmd>bnext<CR>', { desc = 'Next buffer' })
 vim.keymap.set({ 'n', 'v' }, '[b', '<Cmd>bprevious<CR>', { desc = 'Previous buffer' })
