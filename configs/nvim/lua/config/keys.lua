@@ -15,15 +15,6 @@ vim.keymap.set({ 'n', 'v' }, '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the 
 vim.keymap.set({ 'n', 'v' }, '<Leader>b', '<Cmd>ls<CR>:buffer ', { desc = 'Goto buffer' })
 vim.keymap.set({ 'n', 'v' }, '<Leader>B', '<Cmd>ls!<CR>:buffer ', { desc = 'Goto buffer' })
 vim.keymap.set({ 'n', 'v' }, '<Leader>d', '<Cmd>bdelete<CR>', { desc = 'Delete buffer' })
-vim.keymap.set({ 'n', 'v' }, ']b', '<Cmd>bnext<CR>', { desc = 'Next buffer' })
-vim.keymap.set({ 'n', 'v' }, '[b', '<Cmd>bprevious<CR>', { desc = 'Previous buffer' })
-
--- quickfix
-vim.keymap.set({ 'n', 'v' }, ']q', '<Cmd>cnext<CR>', { desc = 'Next quickfix item' })
-vim.keymap.set({ 'n', 'v' }, '[q', '<Cmd>cprevious<CR>', { desc = 'Previous quickfix item' })
--- location list
-vim.keymap.set({ 'n', 'v' }, ']l', '<Cmd>lnext<CR>', { desc = 'Next location list item' })
-vim.keymap.set({ 'n', 'v' }, '[l', '<Cmd>lprevious<CR>', { desc = 'Previous location list item' })
 
 -- space line
 vim.keymap.set({ 'n' }, '] ', "<Cmd>call append(line('.'), repeat([''], v:count1))<CR>", { desc = 'Add a space line below' })
