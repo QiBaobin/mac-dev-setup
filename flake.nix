@@ -56,7 +56,7 @@
             }
             EOF
 
-            nix run home-manager/master -- switch --flake ".#bob" -b backup || rm flake.lock && nix run home-manager/master -- switch --flake ".#bob" -b backup || exit 1
+            nix run home-manager/master -- switch --flake ".#bob" -b backup || exit 1
             cd && rm -rf "\$dir"
             BIN_DONE
 
