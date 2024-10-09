@@ -70,3 +70,7 @@ vim.opt.grepformat = "%f:%l:%c:%m,%f"
 -- completeopt, support fuzzy match in insert mode
 vim.opt.completeopt = { 'menu', 'fuzzy', 'noinsert', 'preview' }
 
+-- fold
+vim.opt.foldmethod = 'expr'
+vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
+vim.opt.foldlevel = 99
