@@ -4,7 +4,6 @@ return { -- Collection of various small independent plugins/modules
   config = function()
     require('mini.cursorword').setup()
     require('mini.icons').setup()
-    require('mini.completion').setup({ set_vim_settings = false })
 
     -- Better Around/Inside textobjects
     --
