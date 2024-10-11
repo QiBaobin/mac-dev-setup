@@ -129,6 +129,16 @@
           size = 16.0;
           normal.family = "Hack Nerd Font Mono";
         };
+        cursor = {
+          style = {
+            shape = "Beam";
+            blinking = "On";
+          };
+          vi_mode_style = {
+            shape = "Underline";
+            blinking = "On";
+          };
+        };
 
         window = {
           dynamic_title = true;
