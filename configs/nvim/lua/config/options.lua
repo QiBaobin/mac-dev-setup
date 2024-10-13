@@ -8,6 +8,7 @@ vim.g.maplocalleader = '\\'
 
 -- Make line numbers default
 vim.opt.number = true
+vim.opt.relativenumber = true
 
 -- Don't show the mode, since it's already in the status line
 vim.opt.showmode = false

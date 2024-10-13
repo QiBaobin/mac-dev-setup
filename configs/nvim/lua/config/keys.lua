@@ -35,3 +35,5 @@ vim.keymap.set('c', '<C-k>', '<Up>')
 -- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
 -- or just use <C-\><C-n> to exit terminal mode
 vim.keymap.set('t', '<C-]>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
+vim.keymap.set('t', '<C-\\><C-R>', "<C-\\><C-o>:put " , { desc = 'put a register content' })
+
