@@ -42,6 +42,7 @@
       PATH = "$PATH:$HOME/homebrew/bin";
       EDITOR = "nvim";
       HOMEBREW_CASK_OPTS = "--appdir=$HOME/Applications";
+      SKIM_CTRL_T_COMMAND = "fd";
     };
   };
 
@@ -117,7 +118,10 @@
       };
     };
     gh.enable = true;
-    skim.enable = true;
+    skim = {
+      enable = true;
+      defaultCommand = "fd --type f || git ls-tree -r --name-only HEAD || rg --files || find .";
+    };
     ripgrep.enable = true;
     fd.enable = true;
     zoxide.enable = true;
