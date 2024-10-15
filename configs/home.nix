@@ -39,11 +39,16 @@
 
     sessionVariables = {
       LANG = "en_US.UTF-8";
-      PATH = "$PATH:$HOME/homebrew/bin";
       EDITOR = "nvim";
       HOMEBREW_CASK_OPTS = "--appdir=$HOME/Applications";
       SKIM_CTRL_T_COMMAND = "fd";
     };
+    sessionPath = [ "$HOME/homebrew/bin" "$HOME/.local/bin" ];
+    sessionVariablesExtra = ''
+      if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then 
+        . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
+      fi
+    '';
   };
 
   programs = {
