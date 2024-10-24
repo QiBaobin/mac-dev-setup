@@ -4,10 +4,6 @@ return { -- Collection of various small independent plugins/modules
   config = function()
     require('mini.cursorword').setup()
 
-    local notify = require('mini.notify')
-    notify.setup()
-    vim.notify = notify.make_notify()
-
     local miniclue = require('mini.clue')
     miniclue.setup({
       triggers = {
