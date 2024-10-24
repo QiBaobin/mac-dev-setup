@@ -9,17 +9,18 @@
       aspell
       aspellDicts.en
       aspellDicts.en-computers
-      btop
-      gawk
-      gnused
       neovim
-      nerdfonts
       jq
       nil
       universal-ctags
-      util-linuxMinimal
       zsh-powerlevel10k
-    ] ++ (if stdenv.isDarwin then [] else  []);
+    ] ++ (if stdenv.isDarwin then [
+      btop
+      gawk
+      gnused
+      nerdfonts
+      util-linuxMinimal
+    ] else  []);
 
     shellAliases = {
       v = "nvim";
