@@ -15,6 +15,7 @@
       universal-ctags
       zsh-powerlevel10k
     ] ++ (if stdenv.isDarwin then [
+      alacritty
       btop
       gawk
       gnused
@@ -132,43 +133,5 @@
     fd.enable = true;
     zoxide.enable = true;
     bat.enable = true;
-    alacritty = {
-      enable = true;
-      settings = {
-        font = {
-          size = 16.0;
-          normal.family = "Hack Nerd Font Mono";
-        };
-        cursor = {
-          style = {
-            shape = "Beam";
-            blinking = "On";
-          };
-          vi_mode_style = {
-            shape = "Underline";
-            blinking = "On";
-          };
-        };
-
-        window = {
-          dynamic_title = true;
-          decorations = "None";
-          opacity = 0.9;
-          option_as_alt = "OnlyLeft";
-          startup_mode = "Maximized";
-        };
-        hints.enabled = [
-          {
-            action = "Copy";
-            hyperlinks = true;
-            post_processing = true;
-            persist = false;
-            mouse.enabled = true;
-            binding = { key = "U"; mods = "Control|Shift"; };
-            regex = ''(ipfs:|ipns:|magnet:|mailto:|gemini://|gopher://|https://|http://|news:|file:|git://|ssh:|ftp://)[^\u0000-\u001F\u007F-\u009F<>"\\s{-}\\^⟨⟩`]+'';
-          }
-        ];
-      };
-    };
   };
 }

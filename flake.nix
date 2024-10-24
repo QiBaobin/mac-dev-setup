@@ -36,7 +36,6 @@
             {
               home.username = "\$USER";
               home.homeDirectory = "\$HOME";
-              programs.alacritty.settings.import = [ "\$HOME/.config/alacritty/local.toml" ];
             }
             EOF
             cat <<EOF > "env.nix"
