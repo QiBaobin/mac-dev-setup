@@ -21,7 +21,8 @@
     in
       flake-utils.lib.eachDefaultSystem (system:
         let
-          pkgs = import nixpkgs { inherit system overlays; };
+          #pkgs = import nixpkgs { inherit system overlays; };
+          pkgs = import nixpkgs { inherit system; };
           files = builtins.readDir ./.;
         in {
           packages.homeConfigurations."bob" = home-manager.lib.homeManagerConfiguration {
