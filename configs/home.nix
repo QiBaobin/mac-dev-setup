@@ -64,7 +64,7 @@
       sensibleOnTop = false;
       escapeTime = 0;
       keyMode = "vi";
-      shortcut = "space";
+      shortcut = "q";
       shell = "${pkgs.zsh}/bin/zsh";
       extraConfig = ''
         set -a terminal-features 'xterm-256color:RGB'
