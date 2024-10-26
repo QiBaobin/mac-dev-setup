@@ -1,5 +1,5 @@
 # mac-dev-setup
-scripts to setup my mac development enviroment
+scripts to setup my development enviroment
 
 ## List
 

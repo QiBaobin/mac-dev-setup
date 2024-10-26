@@ -1,5 +1,6 @@
 return { -- Collection of various small independent plugins/modules
   'echasnovski/mini.nvim',
+  dependencies = { 'echasnovski/mini.clue' },
   event = 'VimEnter',
   config = function()
     require('mini.cursorword').setup()
