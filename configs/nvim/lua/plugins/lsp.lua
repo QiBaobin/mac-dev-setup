@@ -46,7 +46,15 @@ return {
       zls = {},
       rust_analyzer = {},
       nil_ls = {},
-      pyright = {},
+      pylsp = {
+        settings = {
+          pylsp = {
+            plugins = {
+              black = { enabled = true, },
+            },
+          },
+        },
+      },
       lua_ls = {
         settings = {
           Lua = {
