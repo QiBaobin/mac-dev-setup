@@ -49,12 +49,6 @@ vim.opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 1
 
--- expand tab
-vim.opt.shiftwidth = 2
-vim.opt.softtabstop = 2
-vim.opt.tabstop = 2
-vim.opt.expandtab = true
-
 -- wildmode
 vim.opt.wildmode = 'longest,full'
 -- vim.opt.wildoptions = 'pum,tagfile,fuzzy'
