@@ -50,6 +50,9 @@
       if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then 
         . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
       fi
+      if [ -z "$DISPLAY" ] && [ "$XDG_VTNR" = 1 ]; then
+        exec prime-run Hyprland
+      fi
     '';
   };
 
